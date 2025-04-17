@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Products List</title>
+    </head>
+
+    <body>
+        <header>
+            <h1>Your Store's Products</h1>
+            <nav>
+                <a href="/product/add">Add New</a>
+                <a href="/logout">Logout</a>
+            </nav>
+        </header>
+
+        <main>
+            <div id="productContainer">
+                <% if (products && products.length > 0) { %>
+                    <div id="productsList">
+                        <% products.forEach(product => { %>
+                            <div class="product-card">
+                                <h3><%= product.name %></h3>
+                                <p class="description"><%= product.description %></p>
+                                <p class="price"><%= Number.parseFloat(product.price).toFixed(2) %></p>
+                                <p class="category"><%= product.category %></p>
+                                <p class="installment"><%= product.pay_by_installment ? 'Available for Installment' : 'No Installment Available' %></p>
+                                <div class="product-actions">
+                                    <a class="edit-button">Edit</a>
+                                    <form action="/api/stores/product/delete/<%=product.id%>" method="post" class="delete-form">
+                                        <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this product?')">Delete</button>
+                                    </form>
+                                </div>
+
+                            </div>
+                        <% }); %>
+                    </div>
+                    <% } else { %>
+                        <div id="emptyMessage">No products found.</div>
+                    <% } %>
+            </div>
+        </main>
+    </body>
+</html>

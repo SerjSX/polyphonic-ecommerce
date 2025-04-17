@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Add a New Product</title>
+    </head>
+
+    <body>
+        <header>
+            <h1>Add New Product</h1>
+            <nav>
+                <a>View Products</a>
+                <a>Logout</a>
+            </nav>
+        </header>
+
+        <main>
+            <form action="/api/stores/product/add" method="POST">
+                <div class="form-group">
+                    <label for="name">Product Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea rows="4" id="description" name="description" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Price</label>
+                    <input type="number" id="price" name="price" step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="pay_by_installment">
+                        <input type="checkbox" id="pay_by_installment" name="pay_by_installment">
+                        Available for Installment Payment
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <input type="text" id="category" name="category" required>
+                </div>
+
+                <button type="submit">Add Product</button>
+            </form>
+        </main>
+    </body>
+</html>
