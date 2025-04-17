@@ -10,8 +10,10 @@
         <header>
             <h1>Add New Product</h1>
             <nav>
-                <a>View Products</a>
-                <a>Logout</a>
+                <a href="/api/stores/product/limited/0/10/">Go Back</a>
+                <form action="/api/stores/logout" method="post" class="logout-button">
+                    <button type="submit" class="logout-button" onclick="return confirm('Are you sure you want to logout?')">Logout</button>
+                </form>
             </nav>
         </header>
 

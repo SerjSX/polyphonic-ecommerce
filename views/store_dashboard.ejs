@@ -11,7 +11,9 @@
             <h1>Your Store's Products</h1>
             <nav>
                 <a href="/product/add">Add New</a>
-                <a href="/logout">Logout</a>
+                <form action="/api/stores/logout" method="post" class="logout-button">
+                    <button type="submit" class="logout-button" onclick="return confirm('Are you sure you want to logout?')">Logout</button>
+                </form>
             </nav>
         </header>
 
@@ -41,5 +43,15 @@
                     <% } %>
             </div>
         </main>
+
+        <footer>
+            <form action="/api/stores/product/delete/" method="post" class="back-button">
+                <button type="submit" class="back-button">Previous Page</button>
+            </form>
+
+            <form action="/api/store/product/limited/0/10/" method="post" class="next-button">
+                <button type="submit" class="next-button">Next Page</button>
+            </form>
+        </footer>
     </body>
 </html>

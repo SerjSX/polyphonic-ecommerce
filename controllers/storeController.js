@@ -71,7 +71,7 @@ const loginStore = asyncHandler(async (req,res) => {
 
         //stores the access token as a cookie!
         res.cookie('store_access_token', storeAccessToken, {httpOnly: true, secure: process.env.NODE_ENV === "production"})
-        res.status(200).json({message: "logged in successfuly"});
+        res.status(200).redirect("/api/stores/product/limited/0/10/");
     } else {
         res.status(401);
         throw new Error("Email or password is incorrect");
@@ -83,7 +83,7 @@ const loginStore = asyncHandler(async (req,res) => {
 //@access private
 const logoutStore = asyncHandler(async (req,res) => {
     res.clearCookie('store_access_token');
-    res.status(200).json({message: "loggout out successfully"});
+    res.status(200).redirect("/store/login");
 });
 
 module.exports = {registerStore, loginStore, logoutStore};
