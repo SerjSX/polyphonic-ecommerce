@@ -13,8 +13,8 @@ const storeSchema = mongoose.Schema({
         type: String,
     },
     founded_date: {
-        type: Date,
-        required: [true, "Please include the founded date of your store"]
+        type: String,
+        required: [true, "Please include the founded date of your store"],
     },
     location: {
         type: String,

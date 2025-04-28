@@ -1,0 +1,23 @@
+<header>
+    <h1>You are browsing... <%= store_name %>!</h1>
+    <h4>Which category would you like to browse?</h4>
+            
+    <%- include('nav') %>
+
+</header>
+
+<main>
+    <div class="itemContainer">
+        <% if (categories && categories.length > 0) { %>
+            <div class="item-list">
+                <% categories.forEach(category => { %>
+                    <div class="item-card-container"><a href="/api/category/get-products/<%= store_name %>-<%= store_id %>-<%= category.name %>-<%= category.id %>/0" class="item-card">
+                        <h3><%= category.name %></h3>
+                    </a></div>
+                <% }); %>
+            </div>
+            <% } else { %>
+                <div id="emptyMessage">No categories found for this store.</div>
+            <% } %>
+    </div>
+</main>

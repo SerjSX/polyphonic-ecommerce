@@ -9,23 +9,20 @@ const Product = require("../models/productsModel");
 const addProduct = asyncHandler(async (req,res) => {
     const {name,description,price,pay_by_installment,category} = req.body;
 
-    if (!name || !description || !price || !pay_by_installment || !category) {
-        res.status(400);
-        throw new Error("All fields are mandatory for adding a new product.")
+    if (!name || !description || !price || !category) {
+        res.send("All fields are mandatory for adding a new product.")
     }
 
     const product = await Product.findOne({name});
 
     if (product) {
-        res.status(400);
-        throw new Error("There is already a product with this name. Please make the name unique.");
+        return res.send("Product Exists");
     }
 
     const category_search = await Category.findOne({name: category, store_id: req.storeID})
 
     if (!category_search) {
-        res.status(400);
-        throw new Error("This category does not exist, please create it beforehand");
+        return res.send("No Category");
     }
 
     const productCreated = await Product.create({
@@ -38,10 +35,9 @@ const addProduct = asyncHandler(async (req,res) => {
     })
 
     if (productCreated) {
-        res.status(201).redirect("/product/add");
+        return res.status(201).send("Success");
     } else {
-        res.status(400);
-        throw new Error("An error occured and the product was not added");
+        return res.status(400).send("An error occured and the product was not added");
     }
 })
 
@@ -62,7 +58,7 @@ const deleteProduct = asyncHandler(async (req,res) => {
     }
 
     await Product.deleteOne({_id: req.params.id});
-    res.status(200).redirect("/api/stores/product/limited/0/10");
+    res.status(200).send("Successfully deleted the product! Page will now reload.");
 
 })
 
@@ -88,7 +84,7 @@ const getProductInfo = asyncHandler(async (req,res) => {
 })
 
 //@desc Get limited product count
-//@route GET /api/store/product/limited/:skip/:limit/:storeID
+//@route GET /api/store/product/limited/:skip/:limit/
 //@access private
 const getLimitedProducts = asyncHandler(async (req,res) => {
     const skip = req.params.skip;
@@ -96,23 +92,19 @@ const getLimitedProducts = asyncHandler(async (req,res) => {
 
     let products;
 
-    /*
-    if (!store_id) {
-        if (!limit) {
-            products = await Product.find().skip(skip);
-        } else {
-            products = await Product.find().skip(skip).limit(limit);
-        }
-    } else {*/
     if (!limit) {
         products = await Product.find({store_id: req.storeID}).skip(skip);
     } else {
         products = await Product.find({store_id: req.storeID}).skip(skip).limit(limit);
     }
-    //}
 
-    res.render("store_dashboard", {products});
-    //res.status(200).json(await getInfo(products));
+    const products_left = (await Product.countDocuments({store_id: req.storeID})) - skip - 2;
+
+    if (!products) {
+        res.status(404).json({message: "You don't have products!"})
+    } else {
+        res.render("store/store_dashboard", {products: await getInfo(products), skip_val: skip, products_left});
+    }
 
 })
 
@@ -120,16 +112,16 @@ const getLimitedProducts = asyncHandler(async (req,res) => {
 async function getInfo(products) {
     let return_arr = []
     for (let i = 0; i < products.length; i++) {
-        product = products[i];
+        let product = products[i];
 
         const category = await Category.findById(product.category_id);
         const store = await Store.findById(product.store_id);
 
-        return_arr.push({name: product.name, description: product.description, price: product.price, 
+        return_arr.push({id: product.id, name: product.name, description: product.description, price: product.price, 
             pay_by_installment: product.pay_by_installment, category: category.name, store: store.name})
     }
 
     return return_arr;
 }
 
-module.exports = {addProduct, deleteProduct, getProductInfo, getLimitedProducts};
+module.exports = {addProduct, deleteProduct, getProductInfo, getLimitedProducts, getInfo};

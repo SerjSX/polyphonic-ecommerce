@@ -6,23 +6,23 @@ const transactionSchema = mongoose.Schema({
         required: true,
         ref: "Products"
     },
-    user_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: "Users"
-    },
     store_id: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: "Stores"
     },
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: "Users"
+    },
     purchase_date: {
         type: Date,
         required: true
     },
-    quantity: {
-        type: Int32Array,
-        required: true
+    order_status: {
+        type: String,
+        default: "pending", //can be pending, accepted, rejected, or completed
     }
 })
 

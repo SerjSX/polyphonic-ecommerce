@@ -1,29 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= type_user %> Login</title>
-</head>
-<body>
-    <div class="login-container">
-        <h1><%= type_user %> Login</h1>
-        
-        <form action="/api/stores/login" method="POST">
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            
-            <button type="submit">Login</button>
-        </form>
-        
-        <p>Don't have an account? <a href="/store/register">Register</a></p>
-    </div>
-</body>
-</html>
+<div class="enter-container" class="bg-amber-300">
+    <h1>
+        <%= type_user %> Login
+    </h1>
+
+    <% if (error !="none" ) { %>
+        <div class="error-message">
+            <p>
+                <%= error %>
+            </p>
+        </div>
+        <% } %>
+
+            <form action="/api/<%= type_user.toLowerCase() %>/login" method="POST">
+                <table class="form-group">
+                    <tr>
+                        <th><label for="email">Email</label></th>
+                        <td><input type="email" id="email" name="email" required></td>
+                    </tr>
+
+                    <tr>
+                        <th><label for="password">Password</label></th>
+                        <td><input type="password" id="password" name="password" required></td>
+                    </tr>
+                </table>
+
+                <button type="submit" class="door-button">Login</button>
+            </form>
+
+            <p>Don't have an account? <a href="/<%= type_user.toLowerCase() %>/register">Register</a></p>
+</div>

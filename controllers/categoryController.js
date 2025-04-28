@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Category = require("../models/categoriesModel");
+const Product = require("../models/productsModel");
 
 //@desc Add a category
 //@route POST /api/stores/category/add
@@ -59,23 +60,49 @@ const deleteCategory = asyncHandler(async (req,res) => {
 })
 
 //@desc Get all categories of a store
-//@route DELETE /api/stores/category/:id
+//@route GET /api/category/get/:id @desc for users
+//@route2 GET /api/store/category/get/:id @desc for stores
 //@access private
 const getCategories = asyncHandler(async (req,res) => {
     let store_id_passed;
     if (!req.params.id) {
         store_id_passed = req.storeID;
     } else {
-        store_id_passed = req.params.id;
+        [store_name,store_id_passed] = (req.params.id).split("-");
     }
 
     const categories = await Category.find({store_id: store_id_passed})
 
     if (!categories) {
-        res.status(200).json({message: "No categories for your store."})
+        res.status(200).json({message: "No categories for this store."})
     } else {
-        res.status(200).json(categories)
+        //if the paramether id exists then this means this was requested from the 
+        // user to see the categories of a specific store, or else it would already give
+        // the results of the current store if it was requested from the store.
+        // This will take the results and send it to the category dashboard to display the 
+        // categories of the store chosen.
+        if (req.params.id) {
+            res.status(200).render("user/store/see_store", {store_id: store_id_passed, store_name, categories})
+        } else {
+            res.status(200).json(categories)
+        }
     }
 })
 
-module.exports = {addCategory, deleteCategory, getCategories};
+//@desc Get the products of a certain category
+//@route GET /api/category/get-products/:information/:skip
+//@access private
+const getCategoryProducts = asyncHandler(async (req,res) => {
+    const [store_name,store_id,category_name,category_id] = req.params.information.split("-");
+
+    const products = await Product.find({category_id}).skip(req.params.skip).limit(2).lean();
+    const products_left = (await Product.countDocuments({category_id})) - req.params.skip - 2;
+
+    if (!products) {
+        res.status(404).json({message: "No products found on this page"});
+    } else {
+        res.status(200).render("user/store/category_products", {store_name, store_id, category_name, category_id, products, skip_val: req.params.skip, products_left});
+    }
+})
+
+module.exports = {addCategory, deleteCategory, getCategories, getCategoryProducts};

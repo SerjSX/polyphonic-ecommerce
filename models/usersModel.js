@@ -16,6 +16,14 @@ const userSchema = mongoose.Schema({
     age: {
         type: Number,
         required: [true, "You have to include your age to access the online store"]
+    },
+    address: {
+        type: String,
+        required: [true, "You have to include your address"]
+    },
+    phone_number: {
+        type: String,
+        required: [true, "You have to include your phone number"]
     }
 })
 

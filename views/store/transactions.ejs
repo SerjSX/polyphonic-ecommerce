@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions</title>
+    <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+    <header>
+        <h1>Transactions</h1>
+    </header>
+    <main>
+        <% if (transactions && transactions.length > 0) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Price</th>
+                        <th>Added Date</th>
+                        <th>Current Status</th>
+                        <th>Change Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% transactions.forEach(transaction => { %>
+                        <tr>
+                            <td><%= transaction.name %></td>
+                            <td><%= transaction.price %></td>
+                            <td><%= transaction.purchase_date %></td>
+                            <td><%= transaction.status %></td>
+                            <td>
+                                <form action="" method="post" class="status-button">
+                                    <button type="submit" class="status-button">Accept</button>
+                                    <button type="submit" class="status-button">Reject</button>
+                                    <button type="submit" class="status-button">Complete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+
+        <% } else { %>
+            <p>No user transactions.</p>
+        <% } %>
+    </main>
+
+</body>
+</html>

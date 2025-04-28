@@ -1,0 +1,48 @@
+<body>
+    <section class="overlay">
+
+        <div class="overlay-header">
+            <button id="close-orders-button" class="door-button">Close</button>
+            <h2>My Orders</h2>
+        </div>
+
+        <% if (orders && orders.length> 0) { %>
+            <div class="overlay-item-list">
+                <% orders.forEach(order=> { %>
+                    <div class="overlay-item-card">
+                        <div>
+                            <h3>
+                                <%= order.name %>
+                            </h3>
+                            <h5>
+                                $<%= order.price %>
+                            </h5>
+                        </div>
+
+                        <p><em>
+                            <%= order.status %>
+                        </em></p>
+
+                        <p>
+                            <%= order.purchase_date %>
+                        </p>
+                        <div>
+                            <form action="/api/user/order/<%=order.id%>" method="post" class="delete-button" id="delete-order-button">
+                                <% if (order.status=="pending" ) { %>
+                                    <button type="submit" class="delete-button">Cancel Order</button>
+                                    <% } else {%>
+                                        <button type="submit" class="delete-button" disabled>Cancel Order</button>
+                                        <% } %>
+                            </form>
+                        </div>
+                    </div>
+
+                    <% }); %>
+            </div>
+
+            <% } else { %>
+                <p>No orders ==> <a href="/user">Continue shopping</a>.</p>
+                <% } %>
+    </section>
+
+</body>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" class="door-page">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <link href="/css/output.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="enter-container">
+        <div class="enter-header">
+            <a href="/user/login"><button>Back</button></a>
+            <h1>User Registration</h1>
+        </div>
+
+        <form action="/api/user/register" method="POST">
+            
+            <table class="form-group">
+                <tr>
+                    <th><label for="name">User Name</label></th>
+                    <td><input type="text" id="name" name="name" required></td>
+                </tr>
+                <tr>
+                    <th><label for="email">Email</label></th>
+                    <td><input type="email" id="email" name="email" required></td>
+                </tr>
+                <tr>
+                    <th><label for="password">Password</label></th>
+                    <td><input type="password" id="password" name="password" required></td>
+                </tr>
+                <tr>
+                    <th><label for="age">Age</label></th>
+                    <td><input type="number" id="age" name="age" required></td>
+                </tr>
+                <tr>
+                    <th><label for="address">Address</label></th>
+                    <td><input type="text" id="address" name="address" required></td>
+                </tr>
+                <tr>
+                    <th><label for="phone_number">Phone Number</label></th>
+                    <td><input type="text" id="phone_number" name="phone_number" required></td>
+                </tr>
+            </table>
+
+
+            <button type="submit">Register</button>
+        </form>
+    </div>
+</body>
+
+</html>
