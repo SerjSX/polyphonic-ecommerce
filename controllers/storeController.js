@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const Store = require("../models/storesModel");
 const Transaction = require("../models/transactionsModel");
 const Product = require("../models/productsModel");
+const User = require("../models/usersModel");
 const { getInfo } = require("./productController");
 
 //@desc Register a Store
@@ -88,30 +89,29 @@ const logoutStore = asyncHandler(async (req,res) => {
     res.status(200).redirect("/");
 });
 
-//@desc get current transactions
-//@route GET /api/store/transactions
-//@access private
-const getTransactions = asyncHandler(async (req,res) => {
-    const transactions = await Transaction.find({store_id: req.storeID});
-    const return_arr = []
-
-    if (!transactions) {
-        res.status(404);
-        throw new Error("No transactions found for this store!");
-    }
-
-    for (let i = 0; i < transactions.length; i++) {
-        const product = await Product.findById(transactions[i].product_id, {name: 1, price: 1});
-        return_arr.push({transactions_id: transactions[i]._id, name: product.name, price: product.price, status: transactions[i].order_status, purchase_date: transactions[i].purchase_date});    
-    }
-
-    res.status(200).render("store/transactions", {transactions: return_arr});
-});
-
 //@desc getting a list of all stores
 async function getStores() {
     return await Store.find({}, { _id: 1, name: 1, location: 1, founded_date: 1 })
 }
 
+//@desc Get a customer's information
+//@route GET /api/store/get-client/:id
+//@access PRIVATE
+const getClientInfo = (async (req,res) => {
+    const transaction = await Transaction.findOne({_id: req.params.id}, {user_id:1});
+    const customer = await User.findOne({_id: transaction.user_id}, {name:1, email:1, address:1, phone_number:1});
+    
+    //this most likely will NOT be needed as the store interface shows the available list of transactions.
+    //additionally when people try to access the api link separately they will fail to do so since 
+    //the design was later changed for the interaction between backend and frontend. 
+    //Keeping it anyways, same goes with the other conditions.
+    if (!customer) {
+        res.status(404);
+        throw new Error("Make sure the ID passed is correct.")
+    }
+    
+    res.status(200).send(customer);
+})
 
-module.exports = {registerStore, loginStore, logoutStore, getStores, getTransactions};
+
+module.exports = {registerStore, loginStore, logoutStore, getStores, getClientInfo};

@@ -22,7 +22,7 @@
     <main>
         <div class="itemContainer">
             <% if (products && products.length> 0) { %>
-                <div id="productsList">
+                <div class="productsList">
                     <% products.forEach(product=> { %>
                         <div class="no-js-item-card product-card">
                             <div class="item-card-part product-card-part">
@@ -50,8 +50,8 @@
                                         <% } %>
                             </div>
 
-                            <div class="item-card-part product-card-part-last product-card-part">
-                                <p class="description">
+                            <div class="fit-text item-card-part product-card-part-last product-card-part">
+                                <p id="description">
                                     <%= product.description %>
                                 </p>
                             </div>

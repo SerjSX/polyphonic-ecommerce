@@ -1,50 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transactions</title>
-    <link rel="stylesheet" href="/styles/main.css">
-</head>
 <body>
-    <header>
-        <h1>Transactions</h1>
-    </header>
-    <main>
-        <% if (transactions && transactions.length > 0) { %>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Product Name</th>
-                        <th>Price</th>
-                        <th>Added Date</th>
-                        <th>Current Status</th>
-                        <th>Change Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% transactions.forEach(transaction => { %>
-                        <tr>
-                            <td><%= transaction.name %></td>
-                            <td><%= transaction.price %></td>
-                            <td><%= transaction.purchase_date %></td>
-                            <td><%= transaction.status %></td>
-                            <td>
-                                <form action="" method="post" class="status-button">
-                                    <button type="submit" class="status-button">Accept</button>
-                                    <button type="submit" class="status-button">Reject</button>
-                                    <button type="submit" class="status-button">Complete</button>
-                                </form>
-                            </td>
-                        </tr>
-                    <% }); %>
-                </tbody>
-            </table>
+    <section class="overlay">
 
+        <div class="overlay-header">
+            <button id="close-transactions-button" class="door-button">Close</button>
+            <h2>Transactions</h2>
+        </div>
+
+        <% if (transactions.length > 0) { %>
+            <div class="overlay-item-list">
+                <% transactions.forEach(transaction => { 
+                    if (transaction.status != "completed") {%>
+                    <div class="overlay-item-card">
+                        <h2><%= transaction.name %></h2>
+                        <h4>$<%= transaction.price %></h4>
+                        <p><%= transaction.purchase_date %></p>
+                        <h5>Status: <%= transaction.status %></h5>
+                        <button data-transactionid="/api/store/get-client/<%=transaction.id%>" class="customer-info-button">Get Customer Info</button>
+                        <form action="/api/store/transaction/set-status/<%= transaction.id %>-" method="post" class="status-buttons">
+                            <button type="submit" name="status" value="accepted" class="status-button">Accept</button>
+                            <button type="submit" name="status" value="rejected" class="status-button">Reject</button>
+                            <button type="submit" name="status" value="completed" class="status-button" onclick="return confirm('Please note that once you confirm, this transaction will be completed and archived. You will not be able to see it anymore. Are you sure you want to mark it as complete?')">Complete</button>
+                        </form>
+                    </div>
+                    <% }
+                  }); %>
+            </div>
         <% } else { %>
-            <p>No user transactions.</p>
+            <div class="overlay-item-list">
+                <p>No user transactions.</p>
+            </div>
         <% } %>
-    </main>
 
+    </section>
 </body>
-</html>

@@ -1,6 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const Category = require("../models/categoriesModel");
 const Product = require("../models/productsModel");
+const Transaction = require("../models/transactionsModel");
+const Cart = require("../models/cartModel");
 
 //@desc Add a category
 //@route POST /api/stores/category/add
@@ -46,22 +48,37 @@ const deleteCategory = asyncHandler(async (req,res) => {
 
     if (!category) {
         res.status(404);
-        throw new Error("Contact not found");
+        throw new Error("Category not found");
     }
 
     if(category.store_id.toString() !== req.storeID) {
-        res.status(403);//not authorized to update the contact of another store
-        throw new Error("Store does not have permission to update other store's categories");
+        res.status(403);//not authorized to update the category of another store
+        throw new Error("Store does not have permission to delete other store's categories");
     }
+
+    //Finding the products of the category to delete
+    const products = await Product.find({category_id: category._id});
+
+    for (let i = 0; i < products.length; i++) {
+        const product_id = products[i].id;
+
+        //deleting all cart and transactions that fall under the items of the category deleting
+        await Cart.deleteMany({product_id: product_id});
+        await Transaction.deleteMany({product_id: product_id});
+    }
+    
+    //deleting the products
+    const product_del = await Product.deleteMany({category_id: category._id});
+    console.log(product_del);
 
     await Category.deleteOne({_id: req.params.id});//function to delete a record
     //first sending success status then sending in JSON format a message
-    res.status(200).json(category); 
+    res.status(200).send("Successfully deleted the category"); 
 })
 
 //@desc Get all categories of a store
 //@route GET /api/category/get/:id @desc for users
-//@route2 GET /api/store/category/get/:id @desc for stores
+//@route2 GET /api/store/category/get/ @desc for stores
 //@access private
 const getCategories = asyncHandler(async (req,res) => {
     let store_id_passed;
@@ -84,7 +101,7 @@ const getCategories = asyncHandler(async (req,res) => {
         if (req.params.id) {
             res.status(200).render("user/store/see_store", {store_id: store_id_passed, store_name, categories})
         } else {
-            res.status(200).json(categories)
+            res.status(200).render("store/category", {categories});
         }
     }
 })

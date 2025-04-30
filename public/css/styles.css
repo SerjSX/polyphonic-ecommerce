@@ -137,6 +137,10 @@ h4 {
     @apply decoration-0 text-black no-underline;
 }
 
+.no-js-item-card {
+    @apply w-80;
+}
+
 .item-card-container {
     @apply hover:bg-indigo-200 cursor-pointer;
     @apply transition ease-in-out duration-300;
@@ -144,7 +148,7 @@ h4 {
 }
 
 .product-card {
-    @apply flex flex-col gap-2;
+    @apply flex flex-col gap-2 items-center;
     @apply border-l-0 border-r-0 border-t-0 border-b-gray-200 border-dashed;
     @apply mb-5 pb-5;
 }
@@ -221,11 +225,12 @@ button.delete-button > svg {
     @apply grid grid-cols-2;
 }
 
+
 .store-product-card {
     @apply m-2 w-72;
 }
 
-div.store-product-card * {
+div.product-card * {
     @apply m-1;
 }
 
@@ -238,10 +243,29 @@ div.store-product-card * {
 
 }
 
-.category {
+#category {
     @apply text-sm border-gray-600 border-1 border-dashed p-0.5 rounded-md;
+}
+
+div.fit-text {
+    @apply max-w-max break-words;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 .store-form-group {
     @apply mt-5;
+}
+
+footer > a {
+    @apply no-underline;
+}
+
+/*Used in transactions.ejs*/
+.status-buttons {
+    @apply flex flex-row;
+}
+
+button.customer-info-button {
+    @apply bg-emerald-400 hover:bg-emerald-200;
 }
