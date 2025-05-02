@@ -54,12 +54,14 @@
     <br><br><br><br>
 
     <main>
+        <section class="overlay hidden"></section>
+
         <div class="itemContainer">
             <% const stores=stores_list%>
                 <% if (stores && stores.length> 0) { %>
                     <div class="item-list">
                         <% stores.forEach(store=> { %>
-                            <a href="/api/category/get/<%= store.name %>-<%= store.id %>" class="item-card">
+                            <a href="/api/category/get/<%= store.name %>-<%= store.id %>" class="product-click item-card">
                                 <div class="item-card-container">
                                     <h3>
                                         <%= store.name %>

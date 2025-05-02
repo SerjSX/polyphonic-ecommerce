@@ -287,7 +287,6 @@ nav {
   display: flex;
 }
 h1 {
-  font-family: var(--font-mono);
   text-decoration-line: underline;
   text-decoration-style: dashed;
   text-decoration-thickness: 2px;
@@ -338,7 +337,7 @@ h4 {
 .no-js-item-card {
   width: calc(var(--spacing) * 80);
 }
-.item-card-container {
+.item-card-container,.overlay-item-card {
   cursor: pointer;
   &:hover {
     @media (hover: hover) {

@@ -1,23 +1,26 @@
-<header>
-    <h1>You are browsing... <%= store_name %>!</h1>
-    <h4>Which category would you like to browse?</h4>
-            
-    <%- include('nav') %>
+<body>
+    <section class="overlay">
 
-</header>
+        <div class="overlay-header">
+            <button id="close-button" class="door-button">Close</button>
+            <h3><%= store_name %>'s Categories</h3>
+        </div>
 
-<main>
-    <div class="itemContainer">
         <% if (categories && categories.length > 0) { %>
-            <div class="item-list">
+            <div class="overlay-item-list">
                 <% categories.forEach(category => { %>
-                    <div class="item-card-container"><a href="/api/category/get-products/<%= store_name %>-<%= store_id %>-<%= category.name %>-<%= category.id %>/0" class="item-card">
-                        <h3><%= category.name %></h3>
-                    </a></div>
+                    <div class="overlay-item-card">
+                        <a href="/api/category/get-products/<%= store_name %>-<%= store_id %>-<%= category.name %>-<%= category.id %>/0" class="item-card">
+                            <h3><%= category.name %></h3>
+                        </a>
+                    </div>
                 <% }); %>
             </div>
-            <% } else { %>
-                <div id="emptyMessage">No categories found for this store.</div>
-            <% } %>
-    </div>
-</main>
+        <% } else { %>
+            <div class="overlay-item-list">
+                <p>No categories found for this store.</p>
+            </div>
+        <% } %>
+
+    </section>
+</body>

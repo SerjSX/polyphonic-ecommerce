@@ -5,28 +5,23 @@ let goBackLink = ""; // Global variable to store the back link
 let link = "";
 export function clickItemCard(e) {
     e.preventDefault();
-    link = $(e.currentTarget).attr("href");
+
+    if (link == "") {
+        link = $(e.currentTarget).attr("href");
+    }
     console.log("Link clicked: " + link);
     $.get(link, function (data) {
-        // Handle back button logic
-        if (link.includes("/api/category/get-products")) {
-            const splitted = link.split("/api/category/get-products/")[1].split("-");
-            const merged = splitted[0] + "-" + splitted[1];
-            goBackLink = "/api/category/get/" + merged;
-        } else if (link.includes("/api/category/get/")) {
-            goBackLink = "/api/user/dashboard";
-        } else {
-            goBackLink = "/api/user/dashboard";
-        }
+        goBackLink = "/api/user/dashboard";
+        updateHTML(data, true);
 
-        $("body").html(data);
-        $("main").fadeIn(1000);
+        applyCategoryButtonClick(link);
+
 
         backButtonApply();
 
         buttonClicks();
 
-    }).fail(function() {
+    }).fail(function () {
         alert("Your session is expired. Please login again.")
         location.reload();
     });
@@ -57,8 +52,8 @@ function clickShowOrderButton(e) {
                         //Informs the user on the message returned from the DELETE route, and then 
                         //refreshes the order menu
                         alert(data);
-                        $(".overlay").fadeOut(300, function () { 
-                            $(this).remove(); 
+                        $(".overlay").fadeOut(300, function () {
+                            $(this).remove();
                             clickShowOrderButton(e);
                         });
                     },
@@ -72,7 +67,7 @@ function clickShowOrderButton(e) {
         }
 
 
-    }).fail(function() {
+    }).fail(function () {
         alert("Your session is expired. Please login again.")
         location.reload();
     })
@@ -103,7 +98,7 @@ function clickShowCartButton(e) {
                         //Informs the user on the message returned from the DELETE route, and then 
                         //refreshes the order menu
                         alert(data);
-                        $(".overlay").fadeOut(300, function () { 
+                        $(".overlay").fadeOut(300, function () {
                             $(".overlay").remove();
                             clickShowCartButton(e);
                         });
@@ -124,7 +119,7 @@ function clickShowCartButton(e) {
                         //Informs the user on the message returned from the DELETE route, and then 
                         //refreshes the order menu
                         alert(data);
-                        $(".overlay").fadeOut(300, function(){$(this).remove();})
+                        $(".overlay").fadeOut(300, function () { $(this).remove(); })
                     },
                     error: function (err) {
                         alert('Session or connection timeout. Reloading the page, please login again.');
@@ -135,7 +130,7 @@ function clickShowCartButton(e) {
         } else {
             alert("Your cart is now empty.");
         }
-    }).fail(function() {
+    }).fail(function () {
         alert('Session or connection timeout. Reloading the page, please login again.')
         location.reload();
     })
@@ -153,21 +148,18 @@ function clickAddToCartButton(e) {
             alert("Successfully added item to your cart.")
             $(".cart-ping").fadeIn(300).delay(5000).fadeOut("slow");
 
-            },
+        },
         error: function (err) {
             console.error('Error:', err);
             alert('Error occured when trying to add this item to your cart. Check logs for more info.');
         }
-    }).fail(function() {
+    }).fail(function () {
         alert('Session or connection timeout. Reloading the page, please login again.')
         location.reload();
     })
 }
 
 
-// This function updates the body of the html page, and takes into consideration replacing 
-// the back link to whatever that is needed. If/else condition checks if we need to change
-// any link, if so it replaces
 export function updateHTML(data, overlay, replace_this, replace_to) {
     if (replace_this && replace_to) {
         data = data.replace(replace_this, replace_to);
@@ -187,32 +179,40 @@ export function updateHTML(data, overlay, replace_this, replace_to) {
     // Extract the header and main content depends if it's an overlay or no. Overlay is something like seeing
     // user cart, since it's a popup on the page.
     if (overlay == true) {
-        contentOne = "section";
+        $(".overlay").fadeOut(300);
+        $(".overlay").html("");//clearing the content in the .overlay section element
+
+        let overlayHeaderContent = tempBody.querySelector(".overlay-header");
+        let overlayBodyContent = tempBody.querySelector(".overlay-item-list");
+        $(".overlay").append(overlayHeaderContent);
+        $(".overlay").append(overlayBodyContent);
+
+        $(".overlay").fadeIn(300);
     } else {
         //clearing the body of the current page to insert the new page 
+        overlay = $("body").find(".overlay");
         $("body").html("");
         contentOne = "header";
         contentTwo = "main";
 
         let mainContent = tempBody.querySelector(contentTwo);
+        let headerContent = tempBody.querySelector(contentOne);
         $("body").append(mainContent);
+        $("body").prepend(headerContent);
+        $("main").prepend(overlay);
+
+        $("main").fadeIn(1000);
     }
-
-    let headerContent = tempBody.querySelector(contentOne);
-    $("body").prepend(headerContent);
-
-    // empty the body and append the header first, then the main.
-
-    $("main").fadeIn(1000);
 }
 
-function backButtonApply() {
+function backButtonApply(link) {
     $("#back-button").off("click").on("click", function (e) {
         e.preventDefault();
-        console.log("Link: ", link)
-        console.log("Go back link: " + goBackLink);
         $.get(goBackLink, function (data) {
             applyButtonClicks(data);
+            link = link;
+
+            clickItemCard(e);
 
             //if the gobacklink is currently at /api/category/get, that means the user was browsing the 
             //store's category so it sets the new goBackLink to the dashboard. That way, after the new page
@@ -221,7 +221,7 @@ function backButtonApply() {
                 goBackLink = "/api/user/dashboard";
                 backButtonApply();
             }
-        }).fail(function() {
+        }).fail(function () {
             alert('Session or connection timeout. Reloading the page, please login again.')
             location.reload();
         });
@@ -237,10 +237,23 @@ export function applyButtonClicks(data) {
 //special function because I can't use applyButtonClicks in clickItemCard due to a different way of
 // updating data on the html file
 function buttonClicks() {
-    $(".item-card").off("click").on("click", clickItemCard);
+    $(".product-click").off("click").on("click", clickItemCard);
     $("#order-button").off("submit").on("submit", clickShowOrderButton);
     $("#cart-button").off("submit").on("submit", clickShowCartButton);
     $(".add-to-cart").off("submit").on("submit", clickAddToCartButton);
     $(".page-switch-buttons").off("click").on("click", clickItemCard);
 
+}
+
+function applyCategoryButtonClick(back_link) {
+    $(".item-card").off("click").on("click", function (e) {
+        e.preventDefault();
+        const category_products_api_link = $(e.currentTarget).attr("href");
+        $.get(category_products_api_link, function (data) {
+            updateHTML(data);
+            buttonClicks();
+            applyCategoryButtonClick(back_link);
+            backButtonApply(back_link);
+        })
+    })
 }
