@@ -5,17 +5,19 @@ let goBackLink = ""; // Global variable to store the back link
 let link = "";
 export function clickItemCard(e) {
     e.preventDefault();
+    link = $(e.currentTarget).attr("href");
 
     if (link == "") {
         link = $(e.currentTarget).attr("href");
+        console.log(link);
     }
-    console.log("Link clicked: " + link);
+
     $.get(link, function (data) {
         goBackLink = "/api/user/dashboard";
         updateHTML(data, true);
 
         applyCategoryButtonClick(link);
-
+        applyOverlayCloseButton();
 
         backButtonApply();
 
@@ -32,13 +34,10 @@ function clickShowOrderButton(e) {
     $.get("/api/user/orders", function (data) {
 
         if (data != "empty") {
-            $(".overlay").remove();
             updateHTML(data, true);
             $(".overlay").fadeIn(200);
-
-            $("#close-orders-button").off("click").on("click", function (e) {
-                $(".overlay").fadeOut(300, function () { $(this).remove(); });
-            });
+            
+            applyOverlayCloseButton();
 
             $("#delete-order-button").off("click").on("click", function (e) {
                 e.preventDefault();
@@ -52,10 +51,7 @@ function clickShowOrderButton(e) {
                         //Informs the user on the message returned from the DELETE route, and then 
                         //refreshes the order menu
                         alert(data);
-                        $(".overlay").fadeOut(300, function () {
-                            $(this).remove();
-                            clickShowOrderButton(e);
-                        });
+                        clickShowOrderButton(e);
                     },
                     error: function (err) {
                         console.error('Error occured when attempting to delete order:', err);
@@ -78,13 +74,10 @@ function clickShowCartButton(e) {
     e.preventDefault();
     $.get("/api/user/get-cart", function (data) {
         if (data != "empty") {
-            $(".overlay").remove();
             updateHTML(data, true);
             $(".overlay").fadeIn(200);
 
-            $("#close-cart-button").off("click").on("click", function (e) {
-                $(".overlay").fadeOut(300, function () { $(this).remove(); });
-            });
+            applyOverlayCloseButton();
 
             $(".delete-cart-button").off("click").on("click", function (e) {
                 e.preventDefault();
@@ -98,10 +91,7 @@ function clickShowCartButton(e) {
                         //Informs the user on the message returned from the DELETE route, and then 
                         //refreshes the order menu
                         alert(data);
-                        $(".overlay").fadeOut(300, function () {
-                            $(".overlay").remove();
-                            clickShowCartButton(e);
-                        });
+                        clickShowCartButton(e);
                     },
                     error: function (err) {
                         alert('Session or connection timeout. Reloading the page, please login again.');
@@ -160,11 +150,17 @@ function clickAddToCartButton(e) {
 }
 
 
-export function updateHTML(data, overlay, replace_this, replace_to) {
-    if (replace_this && replace_to) {
-        data = data.replace(replace_this, replace_to);
-    }
-
+/*This function is responsible to update the HTML elements
+It accepts the following parameters:
+    data: the content to update the html to
+    overlay: the type of the content whether it's a full page change (seeing store names) or an overlay on the site (carts page in user)
+    overlay_show: whether to show the overlay side content when the user clicks on a new page. For example, when the user
+                  clicks on a category it both refreshes the page to show the products AND keeps the side overlay the same 
+                  that way the user can change categories on the same spot.
+                  This is false when the user goes BACK from the products seeing page, that way the overlay would be removed 
+One of the core functions done to prevent repetitve functionality written.
+*/
+export function updateHTML(data, overlay, overlay_show) {
     // Create a temporary DOM element to parse the HTML string
     // This way we can only replace the header and main section
     // We can't remove it from primary dashboard.ejs as it's being used to add the header and script, or else
@@ -176,7 +172,7 @@ export function updateHTML(data, overlay, replace_this, replace_to) {
     // current body.
     let contentOne, contentTwo;
 
-    // Extract the header and main content depends if it's an overlay or no. Overlay is something like seeing
+    // Extract the header, main content and footer depending if it's an overlay or no. Overlay is something like seeing
     // user cart, since it's a popup on the page.
     if (overlay == true) {
         $(".overlay").fadeOut(300);
@@ -184,14 +180,26 @@ export function updateHTML(data, overlay, replace_this, replace_to) {
 
         let overlayHeaderContent = tempBody.querySelector(".overlay-header");
         let overlayBodyContent = tempBody.querySelector(".overlay-item-list");
+        let overlayFooterContent = tempBody.querySelector(".overlay-footer");
+
         $(".overlay").append(overlayHeaderContent);
         $(".overlay").append(overlayBodyContent);
+        $(".overlay").append(overlayFooterContent);
 
         $(".overlay").fadeIn(300);
     } else {
-        //clearing the body of the current page to insert the new page 
-        overlay = $("body").find(".overlay");
+        // Getting how many overlay headers we have, this tells us if there was an overlay before already.
+        // this way we can back it up to show it again later
+        const overlay_count = $(".overlay-header").length;
+
+
+        if (overlay_count == 1 && overlay_show == true) {
+            //clearing the body of the current page to insert the new page 
+            overlay = $("body").find(".overlay");
+        }
+
         $("body").html("");
+
         contentOne = "header";
         contentTwo = "main";
 
@@ -199,7 +207,12 @@ export function updateHTML(data, overlay, replace_this, replace_to) {
         let headerContent = tempBody.querySelector(contentOne);
         $("body").append(mainContent);
         $("body").prepend(headerContent);
-        $("main").prepend(overlay);
+
+        if (overlay_count == 1 && overlay_show == true) {
+            $("main").prepend(overlay);
+            $(".overlay").show();
+            applyOverlayCloseButton();
+        }
 
         $("main").fadeIn(1000);
     }
@@ -210,9 +223,6 @@ function backButtonApply(link) {
         e.preventDefault();
         $.get(goBackLink, function (data) {
             applyButtonClicks(data);
-            link = link;
-
-            clickItemCard(e);
 
             //if the gobacklink is currently at /api/category/get, that means the user was browsing the 
             //store's category so it sets the new goBackLink to the dashboard. That way, after the new page
@@ -250,10 +260,17 @@ function applyCategoryButtonClick(back_link) {
         e.preventDefault();
         const category_products_api_link = $(e.currentTarget).attr("href");
         $.get(category_products_api_link, function (data) {
-            updateHTML(data);
+            updateHTML(data,false, true);
             buttonClicks();
             applyCategoryButtonClick(back_link);
             backButtonApply(back_link);
         })
+    })
+}
+
+//Adds the closing functionality of overlays open, to prevent repetitive code.
+function applyOverlayCloseButton() {
+    $("#close-button").off("click").on("click", function() {
+        $(".overlay").fadeOut(300);
     })
 }
