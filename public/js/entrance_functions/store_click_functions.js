@@ -1,3 +1,15 @@
+function errorHandler(err_status, err_response) {
+    alert(err_response);
+
+    if (err_status === 401) {
+        location.reload();
+    } else if (err_status === 404) {
+        $(".overlay").fadeOut(300);
+    }
+
+    console.log(`Error Status: ${err_status}\nMessage: ${err_response}`);
+}
+
 // This function updates the body of the html page, and takes into consideration replacing 
 // the back link to whatever that is needed. If/else condition checks if we need to change
 // any link, if so it replaces
@@ -6,22 +18,14 @@ export function updateHTML(data, overlay, replace_this, replace_to) {
         data = data.replace(replace_this, replace_to);
     }
 
-    // Create a temporary DOM element to parse the HTML string
-    // This way we can only replace the header and main section
-    // We can't remove it from primary dashboard.ejs as it's being used to add the header and script, or else
-    // when nodejs renders the dashboard.ejs without head it makes it empty by default and it gets broken.
     let tempBody = document.createElement('body');
     tempBody.innerHTML = data;
 
-    //Initializing variables to identify which elements to extract from the data passed and add it to the
-    // current body.
     let contentOne, contentTwo;
 
-    // Extract the header and main content depends if it's an overlay or no. Overlay is something like seeing
-    // user cart, since it's a popup on the page.
     if (overlay == true) {
         $(".overlay").fadeOut(300);
-        $(".overlay").html("");//clearing the content in the .overlay section element
+        $(".overlay").html("");
 
         let overlayHeaderContent = tempBody.querySelector(".overlay-header");
         let overlayBodyContent = tempBody.querySelector(".overlay-item-list");
@@ -30,7 +34,6 @@ export function updateHTML(data, overlay, replace_this, replace_to) {
 
         $(".overlay").fadeIn(300);
     } else {
-        //clearing the body of the current page to insert the new page 
         $("body").html("");
         contentOne = "header";
         contentTwo = "main";
@@ -44,27 +47,35 @@ export function updateHTML(data, overlay, replace_this, replace_to) {
     }
 }
 
-//refreshes primary page when store adds, deletes or modifies a product.
 function refreshPrimaryPage() {
     $.get("/api/store/product/limited/0/10/", function(data) {
         applyButtonClicks(data);
-    })
+    }).fail(function(err) {
+        errorHandler(err.status, err.responseText);
+    });
 }
 
 function deleteProduct(e) {
     e.preventDefault();
-    const api_link = $(e.currentTarget).attr("action");
-    console.log(api_link);
 
-    $.ajax({
-        url: window.location.origin + api_link,
-        type: 'DELETE',
-        contentType: 'application/json',
-        success: function (data) {
-            alert(data);
-            refreshPrimaryPage();
-        }
-    })
+    if (confirm("Are you sure you want to delete this product?")) {
+        const api_link = $(e.currentTarget).attr("action");
+        console.log(api_link);
+    
+        $.ajax({
+            url: window.location.origin + api_link,
+            type: 'DELETE',
+            contentType: 'application/json',
+            success: function (data) {
+                alert(data);
+                refreshPrimaryPage();
+            },
+            error: function (err) {
+                errorHandler(err.status, err.responseText);
+            }
+        });
+    }
+
 }
 
 function addProduct(e) {
@@ -74,7 +85,6 @@ function addProduct(e) {
     $(".overlay").load("templates/product_add.html", function () {
         $(".overlay").fadeIn(300);
 
-        // Use .off() to ensure no duplicate event handlers are attached
         $('#confirm-add-product-button').off('submit').on('submit', function (e) {
             e.preventDefault();
             const link = $(e.currentTarget).attr("action");
@@ -107,23 +117,19 @@ function addProduct(e) {
                     }
                 },
                 error: function (err) {
-                    console.error('Error when trying to add product:', err);
-                    alert("Your session is expired. Please login again.");
-                    location.reload();
+                    errorHandler(err.status, err.responseText);
                 }
             });
         });
 
         $('#close-button').off('click').on('click', function () {
             $(".overlay").fadeOut(300);
-        })
+        });
     });
-
 }
 
 function updateProduct(e) {
     e.preventDefault();
-    // Getting the current data of the clicked product
     const product_card_parent = $(this).parents(".product-card").get(0);
 
     const category = $(product_card_parent).find("#category").text().trim();
@@ -149,12 +155,11 @@ function updateProduct(e) {
 
             $("#close-button").off("click").on("click", function(e) {
                 $(".overlay").fadeOut(300);
-            })
+            });
 
             $("#confirm-update-product-button").off("click").on("click", function (e) {
                 e.preventDefault();
 
-                // getting the current updated input values
                 const new_product_card_parent = $(this).parents(".overlay-item-list").get(0);
                 console.log(new_product_card_parent);
 
@@ -174,27 +179,19 @@ function updateProduct(e) {
                         price: new_price,
                         installment: new_installment,
                         product_id: product_id
-                    }), success: function (data) {
+                    }), 
+                    success: function (data) {
                         alert("Updated the data successfully");
                         refreshPrimaryPage();
-                    }, error: function(err) {
-                        const err_status = err.status
-
-                        if (err_status === 403) {
-                            alert("You cannot change the name of the product to the following inserted name since there is already another product with the same name under your store.")
-                        } else {
-                            alert("An error occured, please double check information and login credentials. Error is printed in console.")
-                        }
-                        console.log("Error: " + err)
-                    }})
-                
+                    }, 
+                    error: function(err) {
+                        errorHandler(err.status, err.responseText);
+                    }
+                });
             });
-
-
         },
         error: function (err) {
-            console.error('Error:', err);
-            alert('An error occured. The page will refresh to ensure login security.');
+            errorHandler(err.status, err.responseText);
         }
     });
 }
@@ -202,7 +199,7 @@ function updateProduct(e) {
 function seeTransactions(e) {
     e.preventDefault();
     $.get("/api/store/transactions", function(data) {
-        updateHTML(data, true)
+        updateHTML(data, true);
 
         $(".status-button").off("click").on("click", function(e) {
             e.preventDefault();
@@ -216,24 +213,12 @@ function seeTransactions(e) {
                 success: function (data) {
                     alert("Updated the status successfully");
                     seeTransactions(e);
-                }, error: function(err) {
-                    const err_status = err.status
-
-                    if (err_status === 404) {
-                        alert("This transaction does not exist! This shouldn't happen, contact the devs please.")
-                        console.log("Does not exist ERROR: " + err);
-                    } else if (error_status == 401) {
-                        alert("Session timeout or not authorized to do this, please login again. The page will reload now.")
-                        console.log("No Authorization Error: " + err)
-                        location.reload();
-                    } else {
-                        alert("An unknown error occured. Please chech the console logs and report to the team.")
-                        console.log("UNKNOWN ERROR: " + err);
-                    }
-
-                }})
-
-        })
+                }, 
+                error: function(err) {
+                    errorHandler(err.status, err.responseText);
+                }
+            });
+        });
 
         $(".customer-info-button").off("click").on("click", function(e) {
             const api_link = e.target.dataset.transactionid;
@@ -245,36 +230,24 @@ function seeTransactions(e) {
                 const address = data.address;
                 const phone_number = data.phone_number;
 
-                alert(`Here are information about the user of this transaction:\n\tName: ${name}\n\tEmail: ${email}\n\tAddress: ${address}\n\tPhone Number: ${phone_number}`)
-            })
-        })
+                alert(`Here are information about the user of this transaction:\n\tName: ${name}\n\tEmail: ${email}\n\tAddress: ${address}\n\tPhone Number: ${phone_number}`);
+            }).fail(function(err) {
+                errorHandler(err.status, err.responseText);
+            });
+        });
 
         $("#close-transactions-button").off("click").on("click", function(e) {
             $(".overlay").fadeOut(300);
-        })
+        });
     }).fail(function(err) {
-        const error_status = err.status;
-        $(".overlay").fadeOut(300);
-
-        if (error_status == 404) {
-            alert("No transactions!");
-            console.log("No Transactions Error: " + err);
-        } else if (error_status == 401) {
-            alert("Session timeout or not authorized to do this, please login again. The page will reload now.")
-            console.log("No Authorization Error: " + err)
-            location.reload();
-        } else {
-            alert("An unknown error occured. Please chech the console logs and report to the team.")
-            console.log("UNKNOWN ERROR: " + err);
-        }
-
-    })
+        errorHandler(err.status, err.responseText);
+    });
 }
 
 function seeCategories(e) {
     e.preventDefault();
     $.get("/api/store/category/get/", function (data) {
-        updateHTML(data, true)
+        updateHTML(data, true);
 
         $(".delete-category-form").off("submit").on("submit", function(e) {
             e.preventDefault();
@@ -287,16 +260,20 @@ function seeCategories(e) {
                 success: function (data) {
                     alert(data);
                     seeCategories(e);
+                    refreshPrimaryPage();
+                },
+                error: function(err) {
+                    errorHandler(err.status, err.responseText);
                 }
-            })
-        })
+            });
+        });
 
         $("#close-category-button").off("click").on("click", function() {
             $(".overlay").fadeOut(300);
-        })
-    })
-
-
+        });
+    }).fail(function(err) {
+        errorHandler(err.status, err.responseText);
+    });
 }
 
 export function applyButtonClicks(data) {
@@ -305,8 +282,6 @@ export function applyButtonClicks(data) {
     buttonClicks();
 }
 
-//special function because I can't use applyButtonClicks in clickItemCard due to a different way of
-// updating data on the html file
 function buttonClicks() {
     $(".delete-form").off("submit").on("submit", deleteProduct);
     $(".edit-button").off("click").on("click", updateProduct);

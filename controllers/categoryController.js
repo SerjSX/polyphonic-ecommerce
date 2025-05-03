@@ -4,26 +4,24 @@ const Product = require("../models/productsModel");
 const Transaction = require("../models/transactionsModel");
 const Cart = require("../models/cartModel");
 
-//@desc Add a category
+//@desc Add a category. This function is no longer needed as adding a product 
+//                      automatically checks if there is the passed category and creates
+//                      a new one if does not exist.
 //@route POST /api/stores/category/add
 //@access private
 const addCategory = asyncHandler(async (req,res) => {
     const name = req.body.name;
 
     if (!name) {
-        res.status(400);
-        throw new Error("You have to include the name of the category");
+        return res.status(400).send("You have to include the name of the category");
     }
 
     const categoryCheck = await Category.findOne({name, store_id: req.storeID});
     console.log(categoryCheck);
 
     if (categoryCheck) {
-        res.status(401);
-        throw new Error("This category already exists under your store");
+        return res.status(401).send("This category already exists under your store");
     }
-
-    console.log(req.storeID)
 
     const category = await Category.create({
         name,
@@ -33,8 +31,7 @@ const addCategory = asyncHandler(async (req,res) => {
     if (category) {
         res.status(201).json({name:name, store:req.storeName})
     } else {
-        res.status(400);
-        throw new Error("An error occured and the category was not created");
+        res.status(400).send("An error occured and the category was not created");
     }
 
 })
@@ -47,13 +44,11 @@ const deleteCategory = asyncHandler(async (req,res) => {
     const category = await Category.findById(req.params.id);
 
     if (!category) {
-        res.status(404);
-        throw new Error("Category not found");
+        return res.status(404).send("Category not found");
     }
 
     if(category.store_id.toString() !== req.storeID) {
-        res.status(403);//not authorized to update the category of another store
-        throw new Error("Store does not have permission to delete other store's categories");
+        return res.status(403).send("Store does not have permission to delete other store's categories");
     }
 
     //Finding the products of the category to delete
@@ -69,7 +64,6 @@ const deleteCategory = asyncHandler(async (req,res) => {
     
     //deleting the products
     const product_del = await Product.deleteMany({category_id: category._id});
-    console.log(product_del);
 
     await Category.deleteOne({_id: req.params.id});//function to delete a record
     //first sending success status then sending in JSON format a message

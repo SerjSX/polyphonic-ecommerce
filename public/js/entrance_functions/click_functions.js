@@ -1,3 +1,15 @@
+function errorHandler(err_status, err_response) {
+    alert(err_response);
+
+    if (err_status === 401) {
+        location.reload();
+    } else if (err_status === 404) {
+        $(".overlay").fadeOut(300);
+    }
+
+    console.log(`Error Status: ${err_status}\nMessage: ${err_response}`);
+}
+
 //This function runs when the user clicks on an item card, for example a store name.
 //I stored it in a separate file because when the user clicks on the back button I have to add the 
 //same functionality to the item cards again, this way I can just call the same function to prevent repetition.
@@ -23,9 +35,8 @@ export function clickItemCard(e) {
 
         buttonClicks();
 
-    }).fail(function () {
-        alert("Your session is expired. Please login again.")
-        location.reload();
+    }).fail(function (err) {
+        errorHandler(err.status, err.responseText || err.statusText);
     });
 }
 
@@ -33,15 +44,16 @@ function clickShowOrderButton(e) {
     e.preventDefault();
     $.get("/api/user/orders", function (data) {
 
-        if (data != "empty") {
-            updateHTML(data, true);
-            $(".overlay").fadeIn(200);
-            
-            applyOverlayCloseButton();
+        updateHTML(data, true);
+        $(".overlay").fadeIn(200);
 
-            $("#delete-order-button").off("click").on("click", function (e) {
-                e.preventDefault();
-                const api_link = $("#delete-order-button").attr("action");
+        applyOverlayCloseButton();
+
+        $(".delete-button-form").off("click").on("click", function (e) {
+            e.preventDefault();
+
+            if (confirm("Are you sure you want to cancel this order?")) {
+                const api_link = $(e.currentTarget).attr("action");
 
                 $.ajax({
                     url: window.location.origin + api_link,
@@ -54,35 +66,32 @@ function clickShowOrderButton(e) {
                         clickShowOrderButton(e);
                     },
                     error: function (err) {
-                        console.error('Error occured when attempting to delete order:', err);
+                        errorHandler(err.status, err.responseText || err.statusText);
                     }
-                })
-            })
-        } else {
-            alert("Your orders list is now empty.");
-        }
+                });
+            }
 
+        });
 
-    }).fail(function () {
-        alert("Your session is expired. Please login again.")
-        location.reload();
-    })
-
+    }).fail(function (err) {
+        errorHandler(err.status, err.responseText || err.statusText);
+    });
 }
 
 function clickShowCartButton(e) {
     e.preventDefault();
     $.get("/api/user/get-cart", function (data) {
-        if (data != "empty") {
-            updateHTML(data, true);
-            $(".overlay").fadeIn(200);
+        updateHTML(data, true);
+        $(".overlay").fadeIn(200);
 
-            applyOverlayCloseButton();
+        applyOverlayCloseButton();
 
-            $(".delete-cart-button").off("click").on("click", function (e) {
-                e.preventDefault();
-                const api_link = $(".delete-cart-button").attr("action");
+        $(".delete-cart-button").off("click").on("click", function (e) {
+            e.preventDefault();
 
+            if (confirm("Are you sure you want to delete this item from your cart?")) {
+                const api_link = $(".delete-button").attr("action");
+    
                 $.ajax({
                     url: window.location.origin + api_link,
                     type: 'DELETE',
@@ -94,35 +103,30 @@ function clickShowCartButton(e) {
                         clickShowCartButton(e);
                     },
                     error: function (err) {
-                        alert('Session or connection timeout. Reloading the page, please login again.');
-                        location.reload();
+                        errorHandler(err.status, err.responseText || err.statusText);
                     }
                 })
-            })
+            }
+        })
 
-            $("#confirm-button").off("click").on("click", function (e) {
-                e.preventDefault();
-                $.ajax({
-                    url: window.location.origin + "/api/user/confirm-cart/",
-                    type: 'POST',
-                    success: function (data) {
-                        //Informs the user on the message returned from the DELETE route, and then 
-                        //refreshes the order menu
-                        alert(data);
-                        $(".overlay").fadeOut(300, function () { $(this).remove(); })
-                    },
-                    error: function (err) {
-                        alert('Session or connection timeout. Reloading the page, please login again.');
-                        location.reload();
-                    }
-                })
+        $("#confirm-button").off("click").on("click", function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: window.location.origin + "/api/user/confirm-cart/",
+                type: 'POST',
+                success: function (data) {
+                    //Informs the user on the message returned from the DELETE route, and then 
+                    //refreshes the order menu
+                    alert(data);
+                    $(".overlay").fadeOut(300);
+                },
+                error: function (err) {
+                    errorHandler(err.status, err.responseText || err.statusText);
+                }
             })
-        } else {
-            alert("Your cart is now empty.");
-        }
-    }).fail(function () {
-        alert('Session or connection timeout. Reloading the page, please login again.')
-        location.reload();
+        })
+    }).fail(function (err) {
+        errorHandler(err.status, err.responseText || err.statusText);
     })
 }
 
@@ -140,12 +144,10 @@ function clickAddToCartButton(e) {
 
         },
         error: function (err) {
-            console.error('Error:', err);
-            alert('Error occured when trying to add this item to your cart. Check logs for more info.');
+            errorHandler(err.status, err.responseText || err.statusText);
         }
-    }).fail(function () {
-        alert('Session or connection timeout. Reloading the page, please login again.')
-        location.reload();
+    }).fail(function (err) {
+        errorHandler(err.status, err.responseText || err.statusText);
     })
 }
 
@@ -231,9 +233,9 @@ function backButtonApply(link) {
                 goBackLink = "/api/user/dashboard";
                 backButtonApply();
             }
-        }).fail(function () {
-            alert('Session or connection timeout. Reloading the page, please login again.')
-            location.reload();
+        }).fail(function (err) {
+            errorHandler(err.status, err.responseText || err.statusText);
+
         });
     });
 }
@@ -252,7 +254,6 @@ function buttonClicks() {
     $("#cart-button").off("submit").on("submit", clickShowCartButton);
     $(".add-to-cart").off("submit").on("submit", clickAddToCartButton);
     $(".page-switch-buttons").off("click").on("click", clickItemCard);
-
 }
 
 function applyCategoryButtonClick(back_link) {
@@ -260,7 +261,7 @@ function applyCategoryButtonClick(back_link) {
         e.preventDefault();
         const category_products_api_link = $(e.currentTarget).attr("href");
         $.get(category_products_api_link, function (data) {
-            updateHTML(data,false, true);
+            updateHTML(data, false, true);
             buttonClicks();
             applyCategoryButtonClick(back_link);
             backButtonApply(back_link);
@@ -270,7 +271,7 @@ function applyCategoryButtonClick(back_link) {
 
 //Adds the closing functionality of overlays open, to prevent repetitive code.
 function applyOverlayCloseButton() {
-    $("#close-button").off("click").on("click", function() {
+    $("#close-button").off("click").on("click", function () {
         $(".overlay").fadeOut(300);
     })
 }

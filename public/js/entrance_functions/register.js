@@ -129,7 +129,7 @@ export function userRegisterButtonClick(e) {
             },
             error: function (err) {
               console.error('Error in creating account:', err);
-              alert('Failed to create account. Please try again later.');
+              alert(err.responseText);
             }
           });
     })

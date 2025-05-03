@@ -10,17 +10,16 @@ const { getStores } = require("./storeController");
 //@route POST /api/user/register
 //@access public
 const registerUser = asyncHandler(async (req,res) => {
-    console.log(req.body);
     const {name,email,password,age, address, phone_number} = req.body;
 
     if (!name || !email || !age || !password || !address || !phone_number) {
-        res.status(400).send("All fields are mandatory!");
+        return res.status(400).send("All fields are mandatory!");
     }
 
     const userCheck = await User.findOne({email});
 
     if (userCheck) {
-        res.status(400).send("A user is already registered with that email!");
+        return res.status(400).send("A user is already registered with that email!");
     }
 
     const hashedPassword = await bcrypt.hash(password,10);
@@ -51,14 +50,12 @@ const loginUser = asyncHandler(async (req,res) => {
     const {email,password} = req.body;
 
     if (!email || !password) {
-        res.status(400);
-        throw new Error ("All fields are necessary to add");
+        return res.status(400).send("All fields are necessary to add");
     }
 
     const user = await User.findOne({email});
 
     if (user && await(bcrypt.compare(password, user.password))) { //if user exists and password matches
-        console.log("Attempting to login:", user.id);
         const userAccessToken = jwt.sign({
             name: user.name,
             email: user.email,
@@ -74,8 +71,7 @@ const loginUser = asyncHandler(async (req,res) => {
         res.cookie('user_access_token', userAccessToken, {httpOnly: true, secure: process.env.NODE_ENV === "production"})
         res.status(200).render("user/dashboard", {userName: user.name, stores_list: await getStores()});
     } else {
-        res.status(401);
-        throw new Error("Email or password is incorrect");
+        res.status(401).send("Email or password is incorrect");
     }
 });
 
@@ -99,16 +95,13 @@ const loadDashboard = asyncHandler(async (req,res) => {
 //@access private
 const getOrders = asyncHandler(async (req,res) => {
     const user_id = req.userID;
-    console.log("User accessing orders: " + user_id)
     const orders = await Transaction.find({user_id}).sort({purchase_date: 1});
-    console.log("orders: " + orders);
 
     const returnProducts = [];
 
     for (const order of orders) {
-        console.log("ORDER:")
         const product = await Product.findOne({_id: order.product_id}, {name: 1, price: 1});
-        console.log("PRODUCT: " + product);
+
         returnProducts.push({
             id: order.id,
             name: product.name || "Unknown",
@@ -121,7 +114,7 @@ const getOrders = asyncHandler(async (req,res) => {
     if (returnProducts.length > 0) {
         res.status(200).render('user/orders', {orders: returnProducts});
     } else {
-        res.status(200).send("empty");
+        res.status(404).send("No orders!");
     }
 })
 
@@ -133,11 +126,11 @@ const deleteOrder = asyncHandler(async (req,res) => {
     const order = await Transaction.findOne({_id: orderID});
 
     if (!order) {
-        res.status(404).send("Order not found.")
+        return res.status(404).send("Order not found.")
     }
 
     if (order.user_id != req.userID || order.order_status != "pending") {
-        res.status(401).send("Not authorized to delete this order. Either it's not yours or the order is not in pending status.");
+        return res.status(401).send("Not authorized to delete this order. Either it's not yours or the order is not in pending status.");
     }
 
     await Transaction.deleteOne({_id: orderID});

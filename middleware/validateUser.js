@@ -4,7 +4,8 @@ const jwt = require("jsonwebtoken");
 const userValidation = asyncHandler(async(req,res,next) => {
     const token = req.cookies.user_access_token;
     if(!token) {
-        return res.status(401).render("login", {type_user: "User", error: "Please login to your account."});
+        res.status(401).send("Please login to your account.")
+        return;
     }
 
     try {
@@ -15,7 +16,7 @@ const userValidation = asyncHandler(async(req,res,next) => {
         next(); //prevents infinite looping on the request
     } catch (err) {
         console.log(err);
-        return res.status(401).render("main");       
+        res.status(401).send("Please login to your account again, your session is expired.");       
     }
 })
 

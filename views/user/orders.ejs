@@ -27,7 +27,7 @@
                             <%= order.purchase_date %>
                         </p>
                         <div>
-                            <form action="/api/user/order/<%=order.id%>" method="post" class="delete-button" id="delete-order-button">
+                            <form action="/api/user/order/<%=order.id%>" method="post" class="delete-button-form" id="delete-order-button">
                                 <% if (order.status=="pending" ) { %>
                                     <button type="submit" class="delete-button">Cancel Order</button>
                                     <% } else {%>

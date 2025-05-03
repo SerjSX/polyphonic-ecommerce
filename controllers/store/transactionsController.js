@@ -10,8 +10,7 @@ const getTransactions = asyncHandler(async (req,res) => {
     const return_arr = []
 
     if (transactions.length === 0) {
-        res.status(404);
-        throw new Error("No transactions found for this store!");
+        return res.status(404).send("No transactions found for this store!");
     }
 
     for (let i = 0; i < transactions.length; i++) {
@@ -32,8 +31,7 @@ const updateTransactionStatus = asyncHandler(async (req,res) => {
     const transaction_search = await Transaction.find({_id: transaction_id});
 
     if (transaction_search.length == 0) {
-        res.status(404);
-        throw new Error("This transaction does not exist")
+        return res.status(404).send("This transaction does not exist")
     }
 
     const transaction_updated = await Transaction.updateOne({_id: transaction_id}, {order_status: change_to_status});
