@@ -13,3 +13,6 @@ This allows multiple operations:
 4. NodeJS, expressJS
 5. MongoDB
 
+---
+### Note
+The .env file is not included as it has confidential links and access keys, so you won't be able to run the program properly with the source code. 
