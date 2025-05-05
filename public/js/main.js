@@ -24,7 +24,7 @@ $.get('/check', function (data) {
 })
 
 $(document).ready(function () {
-    const enterContainer = $('#enter-container');
+    const enterContainer = $('.enter-container');
     const loginButton = $('#log-in');
     const registerButton = $('#register');
 
@@ -33,7 +33,7 @@ $(document).ready(function () {
 
         import("../templates/account_choice.js").then(module => {
             enterContainer.html(module.accountChoiceTemplate.replaceAll('REPLACE_TWO', 'Login').replaceAll('REPLACE', 'login'));
-            $("main").fadeIn(300);
+            $(".enter-container").fadeIn(300);
 
             let userLoginButton = $('#user-login');
             let storeLoginButton = $('#store-login');
@@ -54,7 +54,7 @@ $(document).ready(function () {
         import("../templates/account_choice.js").then(module => {
             enterContainer.html(module.accountChoiceTemplate.replaceAll('REPLACE_TWO', 'Register').replaceAll('REPLACE', 'register'));
 
-            $("main").fadeIn(300);
+            $(".enter-container").fadeIn(300);
 
             let userRegisterButton = $('#user-register');
             let storeRegisterButton = $('#store-register');

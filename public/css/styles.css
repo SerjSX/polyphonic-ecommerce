@@ -46,8 +46,8 @@ button.door-button {
     @apply bg-amber-200 hover:bg-amber-100;
 }
 
-.enter-container {
-    @apply flex justify-center;
+.enter-header {
+    @apply flex justify-center items-center;
 }
 
 button.account-button {
@@ -55,7 +55,7 @@ button.account-button {
 }
 
 .account-button-icon {
-    @apply size-24;
+    @apply size-16 md:size-25;
 }
 
 /* enter-container is for the login and register pages */
@@ -64,14 +64,75 @@ button.account-button {
     @apply rounded-lg;
 }
 
-.enter-container, main {
-    @apply bg-gray-50 p-10 w-fit;
+.enter-container,main:not(.main-page) {
+    @apply bg-gray-50 p-10;
     @apply shadow-md shadow-purple-600;
 }
 
-.enter-container,main {
-    @apply hidden;
+.main-page {
+    @apply w-full flex justify-center items-center flex-col;
+    @apply text-[10px] sm:text-xs;
 }
+
+.main-page h1 {
+    @apply bg-gray-200 p-4 rounded-2xl;
+}
+
+.showcase-wrapper {
+    @apply flex flex-col sm:flex-row;
+}
+
+.showcase-item {
+    @apply bg-center bg-cover p-24 relative flex justify-center;
+    @apply rounded-2xl m-3 hover:shadow-amber-300 hover:shadow-xl transition ease-in-out duration-700;
+    @apply size-30 sm:size-25 lg:size-64;
+}
+
+
+.showcase-item h4 {
+    @apply absolute m-0 bottom-0 w-full text-center bg-gray-600 text-white py-4 opacity-95;
+    @apply rounded-b-2xl;
+    @apply text-sm lg:text-lg;
+}
+
+.showcase-item img {
+    @apply size-84;
+}
+
+#showcase-one {
+    @apply bg-[url(/media/showcase1.jpg)];
+}
+
+#showcase-two {
+    @apply bg-[url(/media/showcase2.jpg)];
+}
+
+#showcase-three {
+    @apply bg-[url(/media/showcase3.jpeg)];
+}
+
+#showcase-four {
+    @apply bg-[url(/media/showcase4.jpg)];
+}
+
+div.enter-container {
+    @apply flex justify-center absolute w-64 hidden;
+    @apply rounded-lg;
+    @apply top-30 z-20;
+    @apply w-50 h-fit;
+    @apply overflow-hidden;
+    min-height: fit-content; 
+    background-color: #e8eaf6; 
+}
+
+.account-type {
+    @apply flex -mt-5;
+}
+
+main {
+    @apply mt-30;
+}
+
 
 .form-group:first-of-type {
     @apply mt-7;
@@ -96,23 +157,29 @@ input,textarea {
 }
 
 header {
-    @apply flex flex-col items-center justify-center;
-    @apply mt-8;
+    @apply flex items-center justify-between;
+    @apply bg-gray-300 fixed left-0 w-full top-0;
+    @apply z-50;
+    @apply text-[8px] sm:text-xs md:text-sm;
+}
+
+header > h4 {
+    @apply ml-3 mt-6 italic opacity-70;
 }
 
 nav {
-    @apply flex float-left;
+    @apply flex flex-wrap;
 }
 
-h1 {
-    @apply underline decoration-2 decoration-dashed;
+h1,.main-icon {
+    @apply ml-5;
 }
 
 h4 {
     @apply -mt-2;
 }
 
-.message-box {
+#message-box {
     @apply hidden;
 }
 
@@ -240,7 +307,6 @@ div.product-card * {
 
 .product-actions > button, .product-actions > form > button{
     @apply p-0.5 pt-0.75;
-
 }
 
 #category {

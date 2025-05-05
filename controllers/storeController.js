@@ -14,15 +14,13 @@ const registerStore = asyncHandler(async (req,res) => {
     const {name,email,phone_number,founded_date,location,password} = req.body;
 
     if (!name || !email || !phone_number || !founded_date || !location || !password) {
-        res.status(400);
-        throw new Error("All fields are mandatory!");
+        return res.status(400).send("All fields are mandatory!");
     }
 
     const storeCheck = await Store.findOne({email});
 
     if (storeCheck) {
-        res.status(400);
-        throw new Error("A store is already registered with that email!");
+        return res.status(400).send("A store is already registered with that email!");
     }
 
     const hashedPassword = await bcrypt.hash(password,10);
@@ -39,10 +37,9 @@ const registerStore = asyncHandler(async (req,res) => {
     console.log(`Store created ${store}`)
 
     if (store) {
-        res.status(201).redirect("/store/login");
+        return res.status(201).send("Success");
     } else {
-        res.status(400);
-        throw new Error("User data is invalid");
+        return res.status(400).send("User data is invalid!");
     }
 
 })

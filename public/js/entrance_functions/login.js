@@ -1,7 +1,12 @@
-const enterContainer = $('#enter-container');
+const enterContainer = $('.enter-container');
 
 const template = `
-<h1>REPLACE Login</h1>
+<div class="enter-header">
+    <button class="close-button">
+        Close
+    </button>
+    <h1>REPLACE Login</h1>
+</div>
 
 <div class="error-message hidden">
     <p></p>
@@ -71,6 +76,10 @@ export function userLoginButtonClick(e) {
             })
     })
 
+    $(".close-button").off("click").on("click", function() {
+        closeMenu()
+    })
+    
     //to make the register shortcut work, we use the same function from the register.js file
     import("./register.js").then(module => {
         const registerShortcut = $("#register-shortcut");
@@ -124,6 +133,10 @@ export function storeLoginButtonClick(e) {
             })
     })
 
+    $(".close-button").off("click").on("click", function() {
+        closeMenu()
+    })
+
     //to make the register shortcut work, we use the same function from the register.js file
     import("./register.js").then(module => {
         const registerShortcut = $("#register-shortcut");
@@ -147,4 +160,8 @@ export function userLoginCheck(e) {
             })
         } 
     })
+}
+
+function closeMenu() {
+    enterContainer.fadeOut(300);
 }

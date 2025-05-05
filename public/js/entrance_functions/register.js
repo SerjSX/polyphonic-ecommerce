@@ -1,46 +1,4 @@
-const enterContainer = $('#enter-container');
-
-const template = `
-        <div class="enter-header">
-            <a href="/REPLACE/login"><button>Back</button></a>
-            <h1>Register REPLACE</h1>
-        </div>
-        <form action="/api/REPLACE/register" method="POST">
-            <table class="form-group">
-                <tr>
-                   <th><label for="name">Name</label></th>
-                   <td><input type="text" id="name" name="name" required></td>
-                </tr>
-                
-                <tr>
-                   <th><label for="founded_date">Founded Date</label></th>
-                   <td><input type="date" id="founded_date" name="founded_date" placeholder="YYYY-MM-DD" required></td>
-                </tr>
-
-                <tr>
-                    <th><label for="phone_number">Phone Number</label></th>
-                    <td><input type="text" id="phone_number" name="phone_number" required></td>
-                </tr>
-
-                <tr>
-                    <th><label for="location">Location</label></th>
-                    <td><input type="text" id="location" name="location"></td>
-                </tr>
-
-                <tr>
-                    <th><label for="email">Email</label></th>
-                    <td><input type="email" id="email" name="email" required></td>
-                </tr>
-
-                <tr>
-                    <th><label for="password">Password</label></th>
-                    <td><input type="password" id="password" name="password" required></td>
-                </tr>
-            </table>
-
-            <button type="submit" class="door-button">Register</button>
-        </form>
-`;
+const enterContainer = $('.enter-container');
 
 // we export this function since it can be called again from the login page.
 export function userRegisterButtonClick(e) {
@@ -50,9 +8,11 @@ export function userRegisterButtonClick(e) {
 
     enterContainer.html(`
         <div class="enter-header">
-            <button id="user-register-back">Back</button>
-            <h1>User Registration</h1>
+            <button class="close-button">Close</button>
+            <h2>User Registration</h2>
         </div>
+        
+        <div id="message-box"></div>
 
         <form id="user-register-form">
             <table class="form-group">
@@ -134,21 +94,26 @@ export function userRegisterButtonClick(e) {
           });
     })
 
-
+    $(".close-button").off("click").on("click", function() {
+        closeMenu();
+    })
 
 };
 
 export function storeRegisterButtonClick(e) {
-    //user login button's click event
+    //store registration button's click event
     e.preventDefault();
     enterContainer.css({"display": "none"});
 
     enterContainer.html(`
         <div class="enter-header">
-            <button id="store-register-back">Back</button>
-            <h1>Store Registration</h1>
+            <button class="close-button">Close</button>
+            <h2>Store Registration</h2>
         </div>
-        <form action="/api/store/register" method="POST">
+
+        <div id="message-box"></div>
+
+        <form id="store-register-form">
             <table class="form-group">
                 <tr>
                    <th><label for="name">Store Name</label></th>
@@ -181,12 +146,61 @@ export function storeRegisterButtonClick(e) {
                 </tr>
             </table>
 
-            <button type="submit" class="door-button">Register</button>
+            <button type="submit" id="store-register-button">Register</button>
         </form>
-        `)
+        `);
     
     enterContainer.fadeIn(1000);
 
-    //implement store register back
+    // implement store register back
+    $('#store-register-form').on('submit', function (e) {
+        e.preventDefault();
 
-};
+        const name = $("#name").val();
+        const founded_date = $("#founded_date").val();
+        const phone_number = $("#phone_number").val();
+        const location = $("#location").val();
+        const email = $("#email").val();
+        const password = $("#password").val();
+
+        $.ajax({
+            url: window.location.origin + "/api/store/register",
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+              name: name,
+              founded_date: founded_date,
+              phone_number: phone_number,
+              location: location,
+              email: email,
+              password: password
+            }),
+            success: function(data) {
+                if (data == "Success") {
+                    $("main").fadeOut(1000);
+
+                    $("#message-box").html(`
+                        <p>Store Registration Successful. You can now manage your store.</p>`);
+                    $("#message-box").addClass("success-message");
+                    $("#message-box").fadeIn(1000);
+    
+                    $("#message-box").delay(5000).fadeOut(1000);
+                } else {
+                    alert(data);
+                }
+            },
+            error: function (err) {
+              console.error('Error in creating store:', err);
+              alert(err.responseText);
+            }
+        });
+    });
+
+    $(".close-button").off("click").on("click", function() {
+        closeMenu();
+    });
+}
+
+function closeMenu() {
+    enterContainer.fadeOut(300);
+}
