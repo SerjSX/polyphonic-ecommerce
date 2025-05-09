@@ -5,6 +5,13 @@ const Product = require("../models/productsModel");
 const Cart = require("../models/cartModel");
 const Transaction = require("../models/transactionsModel");
 
+//@desc Get Add Product page
+//@route GET /api/stores/product/add-page
+//@access private
+const addProductPage = asyncHandler(async (req, res) => {
+    res.status(200).render("store/product_add", {});
+})
+
 //@desc Add a Product
 //@route POST /api/stores/product/add
 //@access private
@@ -140,7 +147,7 @@ const getLimitedProducts = asyncHandler(async (req, res) => {
         products = await Product.find({ store_id: req.storeID }).skip(skip).limit(limit);
     }
 
-    const products_left = (await Product.countDocuments({ store_id: req.storeID })) - skip - 2;
+    const products_left = (await Product.countDocuments({ store_id: req.storeID })) - skip - 16;
 
     if (!products) {
         return res.status(404).send("You don't have products!")
@@ -168,4 +175,4 @@ async function getInfo(products) {
     return return_arr;
 }
 
-module.exports = { addProduct, deleteProduct, getProductInfo, getLimitedProducts, getInfo, updateProductPage, updateProduct };
+module.exports = {addProductPage, addProduct, deleteProduct, getProductInfo, getLimitedProducts, getInfo, updateProductPage, updateProduct };

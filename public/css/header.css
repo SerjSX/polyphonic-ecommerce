@@ -1,0 +1,51 @@
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/*FOR PAGE HEADER*/
+.store-header {
+    @apply bg-white dark:bg-gray-900 p-1;
+}
+
+.header-container {
+    @apply mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8;
+}
+
+.header-flex {
+    @apply flex h-16 items-center justify-between;
+}
+
+.header-logo {
+    @apply flex-1 md:flex md:items-center md:gap-12;
+}
+
+.header-title {
+    @apply block text-teal-600 dark:text-teal-300;
+}
+
+.header-actions {
+    @apply flex items-center gap-2;
+}
+
+/* Action button styling */
+.action-button {
+    @apply relative transition duration-400 ease-in-out inline-flex items-center overflow-hidden bg-indigo-600 hover:bg-indigo-500 px-4 py-4 rounded-4xl md:rounded-sm md:px-6 md:py-3 text-white focus:ring-3 focus:outline-hidden;
+    @apply cursor-pointer;
+}
+
+.action-button-secondary {
+    @apply bg-indigo-400 hover:bg-indigo-300;
+}
+
+/*Specifically for views/user/store/nav.ejs*/
+.action-button-neutral {
+    @apply bg-gray-200 hover:bg-gray-300 text-gray-700;
+}
+
+.button-icon {
+    @apply md:absolute md:-start-full md:transition-all md:group-hover:start-4 size-5;
+}
+
+.button-text {
+    @apply text-sm font-medium transition-all group-hover:ms-4 hidden md:inline;
+}

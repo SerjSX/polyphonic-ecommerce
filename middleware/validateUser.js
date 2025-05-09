@@ -15,8 +15,7 @@ const userValidation = asyncHandler(async(req,res,next) => {
         req.userEmail = decoded.email;
         next(); //prevents infinite looping on the request
     } catch (err) {
-        console.log(err);
-        res.status(401).send("Please login to your account again, your session is expired.");       
+        return -1;     
     }
 })
 

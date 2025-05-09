@@ -1,0 +1,47 @@
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/*The following file contains styling for account choice, login, and register elements only*/
+
+/* Modal styling */
+.modal-overlay {
+    @apply fixed inset-0 z-50 grid place-content-center bg-black/50 p-4;
+}
+
+.modal-container {
+    @apply w-full max-w-md rounded-lg bg-white p-6 shadow-lg dark:bg-gray-900;
+}
+
+.modal-header-content {
+    @apply flex items-start justify-between;
+}
+
+.modal-title {
+    @apply text-xl font-bold text-gray-900 sm:text-2xl dark:text-white;
+}
+
+.modal-close-button {
+    @apply -me-4 -mt-4 rounded-full p-2 text-gray-400 transition-colors hover:bg-gray-50 hover:text-gray-600 focus:outline-none dark:text-gray-500 dark:hover:bg-gray-800 dark:hover:text-gray-300;
+}
+
+.close-icon {
+    @apply size-5;
+}
+
+.account-options {
+    @apply mt-4 flex space-y-4;
+}
+
+/* Account type buttons */
+.account-button {
+    @apply inline-block m-2 text-sm font-medium text-indigo-600 focus:ring-3 focus:outline-hidden;
+}
+
+.button-content {
+    @apply size-24 flex items-center justify-center rounded-2xl bg-white px-8 py-3 dark:bg-gray-800 dark:text-white;
+}
+
+.button-icon {
+    @apply w-5 h-5 mr-2 inline-block;
+}

@@ -1,0 +1,42 @@
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/*SPECIFICALLY FOR /views/user/store/category_products.ejs specific styling*/
+/* For the inner header of category pages */
+.inner-header {
+    @apply mb-6;
+}
+
+/* For the product grid in category view (3 columns instead of 4) */
+.category-product-grid {
+    @apply mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3;
+}
+
+/* For the product badge statuses */
+.product-badge-positive {
+    @apply rounded-full bg-green-100 p-1.5 text-green-600 flex-shrink-0;
+}
+
+.product-badge-negative {
+    @apply rounded-full bg-red-100 p-1.5 text-red-600 flex-shrink-0;
+}
+
+/* For the item container wrapper */
+.itemContainer {
+    @apply mt-4;
+}
+
+/* For the Add to Cart button styling - matching original neutral style */
+.add-to-cart-button {
+    @apply block w-full rounded-sm p-4 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-100 transition hover:scale-105;
+}
+
+/* Product text styles to match the original */
+.product-title {
+    @apply text-lg font-medium text-gray-900;
+}
+
+.product-price-original {
+    @apply mt-1.5 text-sm text-gray-700;
+}

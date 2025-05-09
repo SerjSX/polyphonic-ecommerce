@@ -43,7 +43,7 @@ app.get("/product/add", storeValidation, (req,res) => {
 
 app.get("/store/login", (req,res) => {
     if (req.cookies.store_access_token) {
-        res.redirect("/api/store/product/limited/0/10/");
+        res.redirect("/api/store/product/limited/16/");
     } else {
          res.render("login", {type_user: "Store", error: "none"});
     }

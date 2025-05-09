@@ -1,0 +1,222 @@
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/*THE BELOW IS FOR SIDEBAR STYLINGS- CATEGORY.EJS,PRODUCT_ADD.EJS AND THE EQUIVILANT DESIGN*/
+.sidebar-overlay {
+    @apply hidden fixed inset-0 z-50 flex items-center justify-end bg-black/50;
+}
+
+/* Sidebar panel */
+.sidebar-panel {
+    @apply absolute right-0 h-screen w-90 overflow-y-auto border-l border-gray-100 bg-white;
+}
+
+/* Header section */
+.sidebar-header {
+    @apply sticky top-0 border-b border-gray-100 bg-white px-4 py-3;
+}
+
+.sidebar-header-content {
+    @apply flex items-center justify-between;
+}
+
+.sidebar-title {
+    @apply text-lg font-medium;
+}
+
+.sidebar-close-button {
+    @apply rounded-lg px-1 py-1 text-gray-500 hover:bg-gray-100 hover:text-gray-700;
+}
+
+/* Content section */
+.sidebar-content {
+    @apply px-4 py-6;
+}
+
+/* Categories content */
+.category-list {
+    @apply space-y-4;
+}
+
+.category-item {
+    @apply flex items-center justify-between rounded-lg border border-gray-100 p-4;
+}
+
+.category-name {
+    @apply text-sm font-medium text-gray-700;
+}
+
+.category-delete-button {
+    @apply rounded-full p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-700;
+}
+
+/* Transaction items */
+.transaction-list {
+    @apply space-y-4;
+}
+
+.transaction-item {
+    @apply flex flex-col rounded-lg border border-gray-100 p-4;
+}
+
+.transaction-info {
+    @apply text-sm text-gray-500;
+}
+
+.transaction-name {
+    @apply text-sm font-medium text-gray-700;
+}
+
+.transaction-actions {
+    @apply mt-4 flex flex-col items-center space-y-2;
+}
+
+.customer-info-button {
+    @apply rounded-lg px-2 py-1 text-sm text-gray-500 bg-blue-50 hover:bg-blue-100 hover:text-gray-700;
+}
+
+.status-button-accept {
+    @apply rounded-lg px-2 py-1 text-sm text-gray-500 bg-green-50 hover:bg-green-100 hover:text-gray-700;
+}
+
+.status-button-reject {
+    @apply rounded-lg px-2 py-1 text-sm text-gray-500 bg-red-50 hover:bg-red-100 hover:text-gray-700;
+}
+
+.status-button-complete {
+    @apply rounded-lg px-2 py-1 text-sm text-gray-500 bg-indigo-50 hover:bg-indigo-100 hover:text-gray-700;
+}
+
+.status-form {
+    @apply space-y-2;
+}
+
+/* Empty state */
+.empty-state {
+    @apply flex h-64 items-center justify-center px-4 py-6;
+}
+
+.empty-message {
+    @apply text-center text-sm text-gray-500;
+}
+
+/* Form elements */
+.form-container {
+    @apply space-y-4 flex flex-col justify-center;
+}
+
+.form-group {
+    @apply space-y-1 mr-5;
+}
+
+.form-label {
+    @apply block text-sm font-medium text-gray-700;
+}
+
+.form-input,.form-textarea {
+    @apply w-full rounded-lg border-none p-2.5 text-sm shadow-sm focus:border-0 focus:border-blue-500 focus:ring-blue-500;
+}
+
+.form-checkbox-group {
+    @apply flex space-x-2 mr-5;
+}
+
+.form-checkbox {
+    @apply h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500;
+}
+
+.form-button {
+    @apply ml-0.5 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300;
+}
+
+/* Cart-specific styles */
+.cart-footer {
+    @apply sticky inset-x-0 bottom-0 border-t border-gray-100 bg-white px-4 py-4;
+}
+
+.cart-summary {
+    @apply mb-4 space-y-1 text-sm;
+}
+
+.cart-summary-row {
+    @apply flex justify-between;
+}
+
+.cart-summary-label {
+    @apply font-medium;
+}
+
+.cart-confirm-button {
+    @apply block w-full rounded-lg bg-gray-100 px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-200;
+}
+
+/* Order-specific styles */
+.order-item {
+    @apply rounded-lg border border-gray-100 p-4;
+}
+
+.order-item-completed {
+    @apply bg-green-200 rounded-lg border border-gray-100 p-4;
+}
+
+.order-header {
+    @apply mb-2 flex justify-between;
+}
+
+.order-info {
+    @apply text-sm font-medium text-gray-700;
+}
+
+.order-price {
+    @apply text-sm text-gray-500;
+}
+
+.order-status {
+    @apply text-xs italic text-gray-500;
+}
+
+.order-date {
+    @apply mb-3 text-xs text-gray-500;
+}
+
+.cancel-button {
+    @apply rounded-lg px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-100;
+}
+
+.cancel-button-disabled {
+    @apply cursor-not-allowed rounded-lg px-3 py-1 text-xs font-medium text-gray-400;
+}
+
+.continue-shopping {
+    @apply rounded-lg bg-gray-100 px-4 py-2 text-xs font-medium text-gray-700 hover:bg-gray-200;
+}
+
+/* Store sidebar (left sidebar) styles */
+.store-sidebar {
+    @apply hidden fixed left-0 top-0 z-50 flex h-screen w-64 flex-col border-e border-gray-100 bg-white shadow-lg px-4 py-6;
+}
+
+.store-sidebar-header {
+    @apply flex items-center justify-between border-b border-gray-100 pb-4;
+}
+
+.store-sidebar-title {
+    @apply text-lg font-medium text-gray-700;
+}
+
+.store-sidebar-close {
+    @apply rounded-lg px-3 py-1 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700;
+}
+
+.category-navigation {
+    @apply mt-6 space-y-1;
+}
+
+.category-link {
+    @apply block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700;
+}
+
+.store-empty {
+    @apply mt-6 px-4 py-6 text-center text-sm text-gray-500;
+}

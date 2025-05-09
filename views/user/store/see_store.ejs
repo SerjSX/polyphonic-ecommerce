@@ -1,26 +1,30 @@
 <body>
-    <section class="overlay">
-
-        <div class="overlay-header">
-            <button id="close-button" class="door-button">Close</button>
-            <h3><%= store_name %>'s Categories</h3>
+    <div class="store-sidebar overlay">
+        <div class="store-sidebar-header">
+            <h3 class="store-sidebar-title">
+                <%= store_name %>'s Categories
+            </h3>
+            <button id="close-button"
+                class="store-sidebar-close">
+                Close
+            </button>
         </div>
 
-        <% if (categories && categories.length > 0) { %>
-            <div class="overlay-item-list">
-                <% categories.forEach(category => { %>
-                    <div class="overlay-item-card">
-                        <a href="/api/category/get-products/<%= store_name %>-<%= store_id %>-<%= category.name %>-<%= category.id %>/0" class="item-card">
-                            <h3><%= category.name %></h3>
+        <% if (categories && categories.length> 0) { %>
+            <ul class="category-navigation">
+                <% categories.forEach(category=> { %>
+                    <li>
+                        <a href="/api/category/get-products/<%= store_name %>-<%= store_id %>-<%= category.name %>-<%= category.id %>/0"
+                            class="category-link">
+                            <%= category.name %>
                         </a>
-                    </div>
-                <% }); %>
-            </div>
-        <% } else { %>
-            <div class="overlay-item-list">
-                <p>No categories found for this store.</p>
-            </div>
-        <% } %>
-
-    </section>
+                    </li>
+                    <% }); %>
+            </ul>
+            <% } else { %>
+                <div class="store-empty">
+                    <p>No categories found for this store.</p>
+                </div>
+                <% } %>
+    </div>
 </body>

@@ -72,7 +72,7 @@ const loginStore = asyncHandler(async (req,res) => {
 
         //stores the access token as a cookie!
         res.cookie('store_access_token', storeAccessToken, {httpOnly: true, secure: process.env.NODE_ENV === "production"})
-        res.status(200).redirect("/api/store/product/limited/0/10/");
+        res.status(200).redirect("/api/store/product/limited/0/16/");
     } else {
         res.status(401).render("login", {type_user: "Store", error: "Email or password is incorrect"});
     }

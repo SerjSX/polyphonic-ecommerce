@@ -1,0 +1,47 @@
+<section class="sidebar-overlay overlay">
+    <div class="sidebar-panel">
+        <div class="sidebar-header">
+            <div class="sidebar-header-content">
+                <h2 class="sidebar-title">Add a Product</h2>
+                <button id="close-button" class="sidebar-close-button">
+                    Close
+                </button>
+            </div>
+        </div>
+
+        <div class="sidebar-content">
+            <form action="/api/store/product/add" id="add-product-form" method="POST" class="form-container">
+                <div class="form-group">
+                    <label for="name" class="form-label">Product Name</label>
+                    <input type="text" id="name" name="name" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea rows="4" id="description" name="description" class="form-textarea" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="number" id="price" name="price" step="0.01" class="form-input" required>
+                </div>
+
+                <div class="form-checkbox-group">
+                    <input type="checkbox" id="installment" name="installment" class="form-checkbox" checked>
+                    <label for="installment" class="form-label">
+                        Available for Installment Payment
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="category" class="form-label">Category</label>
+                    <input type="text" id="category" name="category" class="form-input" required>
+                </div>
+
+                <button type="submit" class="form-button">
+                    Add Product
+                </button>
+            </form>
+        </div>
+    </div>
+</section>

@@ -35,6 +35,7 @@ export function clickItemCard(e) {
 
         buttonClicks();
 
+
     }).fail(function (err) {
         errorHandler(err.status, err.responseText || err.statusText);
     });
@@ -90,7 +91,7 @@ function clickShowCartButton(e) {
             e.preventDefault();
 
             if (confirm("Are you sure you want to delete this item from your cart?")) {
-                const api_link = $(".delete-button").attr("action");
+                const api_link = $(".delete-cart-button").attr("action");
     
                 $.ajax({
                     url: window.location.origin + api_link,
@@ -111,19 +112,23 @@ function clickShowCartButton(e) {
 
         $("#confirm-button").off("click").on("click", function (e) {
             e.preventDefault();
-            $.ajax({
-                url: window.location.origin + "/api/user/confirm-cart/",
-                type: 'POST',
-                success: function (data) {
-                    //Informs the user on the message returned from the DELETE route, and then 
-                    //refreshes the order menu
-                    alert(data);
-                    $(".overlay").fadeOut(300);
-                },
-                error: function (err) {
-                    errorHandler(err.status, err.responseText || err.statusText);
-                }
-            })
+
+            if (confirm('Are you sure you want to order these products? If yes, the supplier will contact you shortly afterwards.')) {
+                $.ajax({
+                    url: window.location.origin + "/api/user/confirm-cart/",
+                    type: 'POST',
+                    success: function (data) {
+                        //Informs the user on the message returned from the DELETE route, and then 
+                        //refreshes the order menu
+                        alert(data);
+                        $(".overlay").fadeOut(300);
+                    },
+                    error: function (err) {
+                        errorHandler(err.status, err.responseText || err.statusText);
+                    }
+                })
+            }
+
         })
     }).fail(function (err) {
         errorHandler(err.status, err.responseText || err.statusText);
@@ -170,23 +175,12 @@ export function updateHTML(data, overlay, overlay_show) {
     let tempBody = document.createElement('body');
     tempBody.innerHTML = data;
 
-    //Initializing variables to identify which elements to extract from the data passed and add it to the
-    // current body.
-    let contentOne, contentTwo;
 
     // Extract the header, main content and footer depending if it's an overlay or no. Overlay is something like seeing
     // user cart, since it's a popup on the page.
     if (overlay == true) {
-        $(".overlay").fadeOut(300);
-        $(".overlay").html("");//clearing the content in the .overlay section element
-
-        let overlayHeaderContent = tempBody.querySelector(".overlay-header");
-        let overlayBodyContent = tempBody.querySelector(".overlay-item-list");
-        let overlayFooterContent = tempBody.querySelector(".overlay-footer");
-
-        $(".overlay").append(overlayHeaderContent);
-        $(".overlay").append(overlayBodyContent);
-        $(".overlay").append(overlayFooterContent);
+        $(".overlay").fadeOut(300, function() {$(this).remove();});
+        $("body").prepend(tempBody.querySelector(".overlay"));//clearing the content in the .overlay section element
 
         $(".overlay").fadeIn(300);
     } else {
@@ -202,11 +196,14 @@ export function updateHTML(data, overlay, overlay_show) {
 
         $("body").html("");
 
-        contentOne = "header";
-        contentTwo = "main";
+        const contentOne = "header";
+        const contentMiddle = ".overlay"; //adds side menus like my cart and my orders whenever needed in this container
+        const contentTwo = "main";
 
         let mainContent = tempBody.querySelector(contentTwo);
+        let middleContent = tempBody.querySelector(contentMiddle);
         let headerContent = tempBody.querySelector(contentOne);
+        $("body").append(middleContent);
         $("body").append(mainContent);
         $("body").prepend(headerContent);
 
@@ -216,7 +213,7 @@ export function updateHTML(data, overlay, overlay_show) {
             applyOverlayCloseButton();
         }
 
-        $("main").fadeIn(1000);
+        $("main").fadeIn(500);
     }
 }
 
@@ -246,18 +243,36 @@ export function applyButtonClicks(data) {
     buttonClicks();
 }
 
+function applyPageSwitch(e) {
+    e.preventDefault();
+    const api_link = $(e.currentTarget).attr("href");
+
+    $.get(api_link, function (data) {
+        updateHTML(data);
+        buttonClicks();
+        backButtonApply(goBackLink);//so when the user switches page and clicks back link it goes back to the dashboard
+    })
+}
+
 //special function because I can't use applyButtonClicks in clickItemCard due to a different way of
 // updating data on the html file
 function buttonClicks() {
-    $(".product-click").off("click").on("click", clickItemCard);
-    $("#order-button").off("submit").on("submit", clickShowOrderButton);
-    $("#cart-button").off("submit").on("submit", clickShowCartButton);
+    import("./logout.js").then(module => {
+        $("#logout-button").off("click").on("click", function (e) {
+          e.preventDefault();
+          module.userLogoutButtonClick(e);
+        })
+    });
+
+    $(".store-card").off("click").on("click",clickItemCard);
+    $("#order-button").off("click").on("click", clickShowOrderButton);
+    $("#cart-button").off("click").on("click", clickShowCartButton);
     $(".add-to-cart").off("submit").on("submit", clickAddToCartButton);
-    $(".page-switch-buttons").off("click").on("click", clickItemCard);
+    $(".page-switch").off("click").on("click", applyPageSwitch);
 }
 
 function applyCategoryButtonClick(back_link) {
-    $(".item-card").off("click").on("click", function (e) {
+    $(".category-link").off("click").on("click", function (e) {
         e.preventDefault();
         const category_products_api_link = $(e.currentTarget).attr("href");
         $.get(category_products_api_link, function (data) {

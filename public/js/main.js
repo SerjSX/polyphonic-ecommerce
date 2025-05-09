@@ -11,7 +11,7 @@ $.get('/check', function (data) {
     }
 
     if (data == "Store Account") {
-        $.get('/api/store/product/limited/0/10/', function(data) {
+        $.get('/api/store/product/limited/0/16/', function(data) {
             import("./entrance_functions/store_click_functions.js").then(module => {
                 module.applyButtonClicks(data);
             }).catch (error => {
@@ -24,6 +24,8 @@ $.get('/check', function (data) {
 })
 
 $(document).ready(function () {
+    $("main").fadeIn(500);
+
     const enterContainer = $('.enter-container');
     const loginButton = $('#log-in');
     const registerButton = $('#register');
@@ -33,6 +35,11 @@ $(document).ready(function () {
 
         import("../templates/account_choice.js").then(module => {
             enterContainer.html(module.accountChoiceTemplate.replaceAll('REPLACE_TWO', 'Login').replaceAll('REPLACE', 'login'));
+
+            $(".modal-close-button").off("click").on("click", function() {
+                $(".enter-container").fadeOut(300);
+            })
+
             $(".enter-container").fadeIn(300);
 
             let userLoginButton = $('#user-login');
@@ -53,6 +60,10 @@ $(document).ready(function () {
 
         import("../templates/account_choice.js").then(module => {
             enterContainer.html(module.accountChoiceTemplate.replaceAll('REPLACE_TWO', 'Register').replaceAll('REPLACE', 'register'));
+
+            $(".modal-close-button").off("click").on("click", function() {
+                $(".enter-container").fadeOut(300);
+            })
 
             $(".enter-container").fadeIn(300);
 

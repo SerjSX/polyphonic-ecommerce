@@ -3,335 +3,169 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
 
-html {
-    @apply bg-indigo-50;
-    background-color: #e8eaf6;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='46' viewBox='0 0 70 46'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%2300008b' fill-opacity='0.03'%3E%3Cpolygon points='68 44 62 44 62 46 56 46 56 44 52 44 52 46 46 46 46 44 40 44 40 46 38 46 38 44 32 44 32 46 26 46 26 44 22 44 22 46 16 46 16 44 12 44 12 46 6 46 6 44 0 44 0 42 8 42 8 28 6 28 6 0 12 0 12 28 10 28 10 42 18 42 18 28 16 28 16 0 22 0 22 28 20 28 20 42 28 42 28 28 26 28 26 0 32 0 32 28 30 28 30 42 38 42 38 0 40 0 40 42 48 42 48 28 46 28 46 0 52 0 52 28 50 28 50 42 58 42 58 28 56 28 56 0 62 0 62 28 60 28 60 42 68 42 68 0 70 0 70 46 68 46'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-}
-
 body {
-    @apply font-sans bg-cover bg-no-repeat;
-    @apply flex flex-col items-center justify-center;
+background-color: #ffffff;
+background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='46' viewBox='0 0 70 46'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23eeeaf4' fill-opacity='0.06'%3E%3Cpolygon points='68 44 62 44 62 46 56 46 56 44 52 44 52 46 46 46 46 44 40 44 40 46 38 46 38 44 32 44 32 46 26 46 26 44 22 44 22 46 16 46 16 44 12 44 12 46 6 46 6 44 0 44 0 42 8 42 8 28 6 28 6 0 12 0 12 28 10 28 10 42 18 42 18 28 16 28 16 0 22 0 22 28 20 28 20 42 28 42 28 28 26 28 26 0 32 0 32 28 30 28 30 42 38 42 38 0 40 0 40 42 48 42 48 28 46 28 46 0 52 0 52 28 50 28 50 42 58 42 58 28 56 28 56 0 62 0 62 28 60 28 60 42 68 42 68 0 70 0 70 46 68 46'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
-.door-page {
-    @apply bg-cover bg-no-repeat;
-    background-image: url('/media/background.webp');
+header:not(.inner-header) {
+    @apply fixed w-full top-0 left-0 z-40;
 }
 
-button:not(.add-to-cart-button) {
-    @apply bg-lime-400 hover:bg-lime-300;
-} 
-
-button{
-    @apply mt-5 m-3 p-2 pt-2.5;
-    @apply border-none transition ease-in-out duration-200 rounded-lg cursor-pointer;
+.enter-container {
+    @apply hidden;
 }
 
-button > svg {
-    @apply h-6 w-6;
-}
-
-.info-button {
-    @apply rounded-xl mt-2 m-1;
-}
-
-button.add-to-cart-button {
-    @apply bg-lime-200 hover:bg-lime-100 rounded-3xl;
-    @apply mt-2.5 m-1.5 p-1 pt-1.25;
-}
-
-/* .door-button class is for all login/register/logout related buttons */
-button.door-button {
-    @apply bg-amber-200 hover:bg-amber-100;
-}
-
-.enter-header {
-    @apply flex justify-center items-center;
-}
-
-button.account-button {
-    @apply bg-gray-200 hover:bg-gray-100;
-}
-
-.account-button-icon {
-    @apply size-16 md:size-25;
-}
-
-/* enter-container is for the login and register pages */
-.enter-container, form {
-    @apply flex flex-col items-center justify-center m-0 m-auto;
-    @apply rounded-lg;
-}
-
-.enter-container,main:not(.main-page) {
-    @apply bg-gray-50 p-10;
-    @apply shadow-md shadow-purple-600;
-}
-
-.main-page {
-    @apply w-full flex justify-center items-center flex-col;
-    @apply text-[10px] sm:text-xs;
-}
-
-.main-page h1 {
-    @apply bg-gray-200 p-4 rounded-2xl;
-}
-
-.showcase-wrapper {
-    @apply flex flex-col sm:flex-row;
-}
-
-.showcase-item {
-    @apply bg-center bg-cover p-24 relative flex justify-center;
-    @apply rounded-2xl m-3 hover:shadow-amber-300 hover:shadow-xl transition ease-in-out duration-700;
-    @apply size-30 sm:size-25 lg:size-64;
-}
-
-
-.showcase-item h4 {
-    @apply absolute m-0 bottom-0 w-full text-center bg-gray-600 text-white py-4 opacity-95;
-    @apply rounded-b-2xl;
-    @apply text-sm lg:text-lg;
-}
-
-.showcase-item img {
-    @apply size-84;
-}
-
-#showcase-one {
-    @apply bg-[url(/media/showcase1.jpg)];
-}
-
-#showcase-two {
-    @apply bg-[url(/media/showcase2.jpg)];
-}
-
-#showcase-three {
-    @apply bg-[url(/media/showcase3.jpeg)];
-}
-
-#showcase-four {
-    @apply bg-[url(/media/showcase4.jpg)];
-}
-
-div.enter-container {
-    @apply flex justify-center absolute w-64 hidden;
-    @apply rounded-lg;
-    @apply top-30 z-20;
-    @apply w-50 h-fit;
-    @apply overflow-hidden;
-    min-height: fit-content; 
-    background-color: #e8eaf6; 
-}
-
-.account-type {
-    @apply flex -mt-5;
+.overlay {
+    @apply hidden;
 }
 
 main {
-    @apply mt-30;
+    @apply mt-10 hidden;
 }
 
-
-.form-group:first-of-type {
-    @apply mt-7;
+ul {
+    @apply list-none;
 }
 
-.form-group * {
-    @apply w-36;
-    margin: 0 auto;
+button {
+    @apply border-none;
 }
 
-input,textarea {
-    @apply outline-0 outline-fuchsia-200 p-2 focus:outline-2 focus:outline-fuchsia-400;
-    @apply hover:outline-fuchsia-700 hover:shadow-2xl;
-    @apply transition duration-1000;
-    @apply border-l-2 border-t-0 border-b-0 border-r-0 rounded-br-2xl rounded-tr-2xl;
-    @apply mt-1;
+button:not(.no-click) {
+    @apply cursor-pointer;
 }
 
-.main-icon {
-    @apply hover:animate-bounce hover:shadow-2xl hover:shadow-purple-600;
-    @apply size-8 rounded-2xl transition duration-1000 ease-in-out;
+/* MAIN CONTENT AREA */
+.main-content {
+    @apply mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8;
 }
 
-header {
-    @apply flex items-center justify-between;
-    @apply bg-gray-300 fixed left-0 w-full top-0;
-    @apply z-50;
-    @apply text-[8px] sm:text-xs md:text-sm;
+/* Inner header (not the main fixed header) */
+.inner-header-title {
+    @apply text-xl font-bold text-gray-900 sm:text-3xl;
 }
 
-header > h4 {
-    @apply ml-3 mt-6 italic opacity-70;
+.inner-header-desc {
+    @apply mt-4 max-w-md text-gray-500;
 }
 
-nav {
-    @apply flex flex-wrap;
+/* Product grid */
+.product-grid {
+    @apply mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4;
 }
 
-h1,.main-icon {
-    @apply ml-5;
-}
-
-h4 {
-    @apply -mt-2;
-}
-
-#message-box {
-    @apply hidden;
-}
-
-.success-message {
-    @apply bg-green-400 opacity-75 text-white py-0.5 px-2 rounded-lg m-0;
-}
-
-.error-message {
-    @apply bg-red-400 opacity-75 text-white py-0.5 px-2 rounded-lg m-0;
-}
-
-/*These two are used in cart.ejs to show 4 items per row, and adjust accordingly*/
-.extend-container {
-    @apply grid grid-cols-4;
-}
-
-.extend-item {
-    @apply mr-5 mb-5 p-5 border-gray-200 border-dotted border-2;
-}
-
-.item-card,.no-js-item-card {
-    @apply decoration-0 text-black no-underline;
-}
-
-.no-js-item-card {
-    @apply w-80;
-}
-
-.item-card-container,.overlay-item-card {
-    @apply hover:bg-indigo-200 cursor-pointer;
-    @apply transition ease-in-out duration-300;
-    @apply p-5 rounded-2xl;
-}
-
+/* Product card */
 .product-card {
-    @apply flex flex-col gap-2 items-center;
-    @apply border-l-0 border-r-0 border-t-0 border-b-gray-200 border-dashed;
-    @apply mb-5 pb-5;
+    @apply block overflow-hidden rounded-lg border border-gray-100 shadow-sm transition hover:shadow-md;
 }
 
-.product-card-part {
-    @apply flex items-center justify-center;   
+.product-image {
+    @apply h-[250px] w-full object-cover transition duration-500 group-hover:scale-105;
 }
 
-.product-card-part h3 {
-    @apply mr-5;
+.product-content {
+    @apply relative p-4;
 }
 
-.product-card-part-last {
-    @apply -mt-10;
+.product-category {
+    @apply text-base text-gray-500;
 }
 
-.add-to-cart {
-    @apply -mt-5 hover:animate-spin;
+.product-name {
+    @apply text-xl text-gray-700 group-hover:underline group-hover:underline-offset-4;
 }
 
-section.overlay {
-    @apply fixed z-20 right-0 top-0;
-    @apply bg-blue-50 p-5 rounded-bl-3xl;
-    @apply shadow-yellow-100 shadow-2xl;
-    @apply w-56;
-    @apply flex flex-col items-center;
-    @apply hidden;
-    @apply overflow-scroll h-screen;
+.product-description {
+    @apply mt-2 text-sm text-gray-500 line-clamp-2;
 }
 
-.overlay-header { 
-    @apply flex justify-center;
+.product-meta {
+    @apply mt-2 flex items-center justify-between;
 }
 
-.overlay-item-list {
-    @apply p-5;
+.product-price {
+    @apply font-bold tracking-wider text-gray-900;
 }
 
-.overlay-item-card {
-    @apply border-y-2 border-y-gray-500 pt-5;
-    @apply flex flex-col items-center;
-}
-
-.overlay-item-card * {
-    @apply m-1.5 text-center;
-}
-
-.overlay-item-card > div > * {
-    @apply inline-block;
-}
-
-button.confirm-button {
-    @apply mb-10;
-}
-
-button.delete-button,button.not-alone-delete-button {
-    @apply bg-red-300 hover:bg-red-100;
-}
-
-button.delete-button {
-    @apply rounded-4xl p-1 pt-1.25;
-}
-
-button.delete-button > svg {
-    @apply size-5;
-}
-
-.ping-span {
-    @apply absolute hidden ml-5.25 -mt-2 p-1 animate-ping rounded-full bg-sky-600;
-}
-
-/*store_dashboard.ejs specific related*/
-.productsList {
-    @apply grid grid-cols-2;
-}
-
-
-.store-product-card {
-    @apply m-2 w-72;
-}
-
-div.product-card * {
-    @apply m-1;
+.product-badge {
+    @apply text-green-600 text-sm flex items-center;
 }
 
 .product-actions {
-    @apply flex justify-center;
+    @apply mt-4 flex justify-end gap-2;
 }
 
-.product-actions > button, .product-actions > form > button{
-    @apply p-0.5 pt-0.75;
+/*SPECIFICALLY FOR STORE LISTINGS in views/user/dashboard.ejs*/
+.store-card {
+    @apply block overflow-hidden rounded-lg border border-gray-100 shadow-sm transition duration-400 p-4 ;
+    @apply hover:scale-105 hover:shadow-xl focus:ring-3 focus:outline-hidden;
 }
 
-#category {
-    @apply text-sm border-gray-600 border-1 border-dashed p-0.5 rounded-md;
+.store-image {
+    @apply h-[250px] w-full object-cover transition duration-500 group-hover:scale-105;
 }
 
-div.fit-text {
-    @apply max-w-max break-words;
-    word-break: break-word;
-    overflow-wrap: break-word;
+.store-content {
+    @apply relative pt-3;
 }
 
-.store-form-group {
-    @apply mt-5;
+.store-name {
+    @apply text-base text-gray-700 group-hover:underline group-hover:underline-offset-4;
 }
 
-footer > a {
+.store-location {
+    @apply mt-2 text-gray-500 tracking-wider;
+}
+
+.store-founded {
+    @apply mt-1 tracking-wider text-gray-900;
+}
+
+/* Action buttons */
+.icon-button {
+    @apply p-2 transition;
+}
+
+.edit-icon-button {
+    @apply text-gray-600 hover:text-gray-900;
+}
+
+.delete-icon-button {
+    @apply text-red-600 hover:text-red-900;
+}
+
+/* Pagination - THIS IS USED IN BOTH STORE DASHBOARD AND USER TO SWITCH PAGES AND LIMIT PRODUCT SHOWING
+PER PAGE FOR OPTIMIZATION AND SPEED  */
+.pagination-container {
+    @apply mt-8 flex justify-between;
+}
+
+.pagination-button {
+    @apply inline-flex items-center justify-center rounded border border-gray-100 px-5 py-2 text-sm text-gray-700 transition hover:bg-gray-50;
+}
+
+.pagination-button-disabled {
+    @apply opacity-50 cursor-not-allowed;
+}
+
+/* Empty state */
+.empty-products {
+    @apply py-12 text-center text-gray-500;
+}
+
+/* Results info */
+.results-info {
+    @apply text-sm text-gray-500;
+}
+
+
+/*Specifically for orders.ejs if the order is not pending.*/
+button:not(.header-button) {
+    @apply p-2;
+}
+
+a {
     @apply no-underline;
 }
 
-/*Used in transactions.ejs*/
-.status-buttons {
-    @apply flex flex-row;
-}
-
-button.customer-info-button {
-    @apply bg-emerald-400 hover:bg-emerald-200;
-}

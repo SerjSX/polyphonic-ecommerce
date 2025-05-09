@@ -106,8 +106,8 @@ const getCategories = asyncHandler(async (req,res) => {
 const getCategoryProducts = asyncHandler(async (req,res) => {
     const [store_name,store_id,category_name,category_id] = req.params.information.split("-");
 
-    const products = await Product.find({category_id}).skip(req.params.skip).limit(2).lean();
-    const products_left = (await Product.countDocuments({category_id})) - req.params.skip - 2;
+    const products = await Product.find({category_id}).skip(req.params.skip).limit(21).lean();
+    const products_left = (await Product.countDocuments({category_id})) - req.params.skip - 21;
 
     if (!products) {
         res.status(404).json({message: "No products found on this page"});
