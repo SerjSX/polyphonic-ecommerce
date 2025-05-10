@@ -45,3 +45,57 @@
 .button-icon {
     @apply w-5 h-5 mr-2 inline-block;
 }
+
+/* Additional login/register specific classes */
+
+/* Error message */
+.error-container {
+    @apply hidden mb-4 p-3 bg-red-100 text-red-700 rounded dark:bg-red-900/30 dark:text-red-400;
+}
+
+/* Account links */
+.account-link-container {
+    @apply mt-4 text-center text-sm text-gray-600 dark:text-gray-400;
+}
+
+.register-link {
+    @apply inline-block rounded-sm bg-indigo-400 px-2 py-1 text-sm font-medium text-white transition hover:scale-110 hover:shadow-xl focus:ring-3 focus:outline-hidden;
+}
+
+/* Dark mode extensions for existing form classes */
+.form-label-dark {
+    @apply dark:text-gray-300;
+}
+
+.form-input-dark {
+    @apply dark:bg-gray-800 dark:border-gray-700 dark:text-white;
+}
+
+.form-button-dark {
+    @apply dark:bg-blue-700 dark:hover:bg-blue-800;
+}
+
+/* Registration form specific classes */
+.registration-form {
+    @apply mt-6 space-y-6;
+}
+
+.registration-fields {
+    @apply space-y-4;
+}
+
+.field-row {
+    @apply grid grid-cols-3 items-center gap-4;
+}
+
+.field-input {
+    @apply col-span-2;
+}
+
+.form-actions {
+    @apply flex justify-end;
+}
+
+.message-container {
+    @apply mt-4;
+}

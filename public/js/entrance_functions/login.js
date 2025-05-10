@@ -1,51 +1,48 @@
 const enterContainer = $('.enter-container');
 
-const template = `
-<div class="fixed inset-0 z-50 grid place-content-center bg-black/50 p-4" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-  <div class="max-w-md rounded-lg bg-white p-6 shadow-lg dark:bg-gray-900">
-    <div class="flex items-start justify-between w-full">
-      <h2 id="modalTitle" class="text-xl font-bold text-gray-900 sm:text-2xl dark:text-white">
+const template = `<div class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-container">
+    <div class="modal-header-content w-full">
+      <h2 id="modalTitle" class="modal-title">
         REPLACE Login
       </h2>
-      <button type="button" class="close-button -me-4 -mt-4 rounded-full p-2 text-gray-400 transition-colors hover:bg-gray-50 hover:text-gray-600 focus:outline-none dark:text-gray-500 dark:hover:bg-gray-800 dark:hover:text-gray-300" aria-label="Close">
-        <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <button type="button" class="modal-close-button" aria-label="Close">
+        <svg xmlns="http://www.w3.org/2000/svg" class="close-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
     </div>
 
     <div class="flex flex-col justify-center items-center mt-4">
-      <div class="error-message hidden mb-4 p-3 bg-red-100 text-red-700 rounded dark:bg-red-900/30 dark:text-red-400">
+      <div class="error-container">
         <p></p>
       </div>
 
-      <form action="/api/REPLACE/login" method="POST" id="REPLACE-login-form" class="space-y-4">
-        <div class="space-y-2">
-          <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
-          <input type="email" id="email" name="email" required class="w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+      <form action="/api/REPLACE/login" method="POST" id="REPLACE-login-form" class="form-container">
+        <div class="form-group">
+          <label for="email" class="form-label form-label-dark">Email</label>
+          <input type="email" id="email" name="email" required class="form-input form-input-dark">
         </div>
 
-        <div class="space-y-2">
-          <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
-          <input type="password" id="password" name="password" required class="w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+        <div class="form-group">
+          <label for="password" class="form-label form-label-dark">Password</label>
+          <input type="password" id="password" name="password" required class="form-input form-input-dark">
         </div>
 
-        <button type="submit" id="REPLACE-login-button" class="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-700 dark:hover:bg-blue-800">Login</button>
+        <button type="submit" id="REPLACE-login-button" class="form-button form-button-dark">Login</button>
       </form>
 
-      <p class="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">
+      <p class="account-link-container">
         Don't have an account? 
         
-        <a id="register-shortcut"
-        class="inline-block rounded-sm bg-indigo-400 px-2 py-1 text-sm font-medium text-white transition hover:scale-110 hover:shadow-xl focus:ring-3 focus:outline-hidden"
-        href="#"
-            >
+        <a id="register-shortcut" class="register-link" href="#">
             Register Now
         </a>
       </p>
     </div>
   </div>
 </div>`;
+
 
 export function userLoginButtonClick(e) {
   //user login button's click event
@@ -106,7 +103,7 @@ function processLoginOperation(acc_type) {
     })
   })
 
-  $(".close-button").off("click").on("click", function () {
+  $(".modal-close-button").off("click").on("click", function () {
     closeMenu()
   })
 

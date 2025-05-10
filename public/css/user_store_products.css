@@ -24,7 +24,7 @@
 
 /* For the item container wrapper */
 .itemContainer {
-    @apply mt-4;
+    @apply mt-4  ;
 }
 
 /* For the Add to Cart button styling - matching original neutral style */
