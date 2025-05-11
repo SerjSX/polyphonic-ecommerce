@@ -165,7 +165,7 @@
         <div class="pagination-container">
             <% const skip_val_back = Number(skip_val) - 16; const skip_val_next = Number(skip_val) + 16; %>
     
-            <a href="/api/store/product/limited/<%= skip_val_back %>/16/"
+            <a href="/api/store/product/limited/<%= skip_val_back %>"
                 class="pagination-button <%= skip_val_back < 0 ? 'pagination-button-disabled' : '' %>"
                 <%= skip_val_back < 0 ? 'aria-disabled="true" tabindex="-1"' : '' %>>
                 <svg xmlns="http://www.w3.org/2000/svg" class="size-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
@@ -176,7 +176,7 @@
                 Previous
             </a>
     
-            <a href="/api/store/product/limited/<%= skip_val_next %>/16/" 
+            <a href="/api/store/product/limited/<%= skip_val_next %>" 
                 class="pagination-button <%= products_left <= 0 ? 'pagination-button-disabled' : '' %>"
                 <%= products_left <= 0 ? 'aria-disabled="true" tabindex="-1"' : '' %>>
                 Next

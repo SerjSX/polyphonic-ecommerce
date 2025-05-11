@@ -3,12 +3,10 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Store = require("../models/storesModel");
 const Transaction = require("../models/transactionsModel");
-const Product = require("../models/productsModel");
 const User = require("../models/usersModel");
-const { getInfo } = require("./productController");
 
 //@desc Register a Store
-//@route POST /api/stores/register
+//@route POST /api/store/register
 //@access public
 const registerStore = asyncHandler(async (req,res) => {
     const {name,email,phone_number,founded_date,location,password} = req.body;
@@ -72,7 +70,7 @@ const loginStore = asyncHandler(async (req,res) => {
 
         //stores the access token as a cookie!
         res.cookie('store_access_token', storeAccessToken, {httpOnly: true, secure: process.env.NODE_ENV === "production"})
-        res.status(200).redirect("/api/store/product/limited/0/16/");
+        res.status(200).redirect("/api/store/product/limited/0");
     } else {
         res.status(401).render("login", {type_user: "Store", error: "Email or password is incorrect"});
     }

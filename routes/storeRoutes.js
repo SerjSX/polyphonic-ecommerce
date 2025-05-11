@@ -1,6 +1,6 @@
 const express = require("express");
 const {registerStore, loginStore, logoutStore, getClientInfo} = require("../controllers/storeController");
-const {addProduct, deleteProduct, getProductInfo, getLimitedProducts, updateProductPage, updateProduct, addProductPage} = require("../controllers/productController");
+const {addProduct, deleteProduct, getLimitedProducts, updateProductPage, updateProduct, addProductPage} = require("../controllers/productController");
 const {addCategory, deleteCategory, getCategories} = require("../controllers/categoryController");
 
 const storeValidation = require("../middleware/validateStore");
@@ -23,7 +23,6 @@ router.get("/product/add-page", storeValidation, addProductPage);
 router.post("/product/add", storeValidation, addProduct);
 router.delete("/product/delete/:id", storeValidation, deleteProduct);
 router.get(["/product/limited/:skip/:limit", "/product/limited/:skip", "/product/limited/:skip/:limit/:storeid"], storeValidation, getLimitedProducts);
-router.get(["/product/:id", "/product"], getProductInfo);
 router.post("/product/update-page", storeValidation, updateProductPage);
 router.post("/product/update", storeValidation, updateProduct);
 

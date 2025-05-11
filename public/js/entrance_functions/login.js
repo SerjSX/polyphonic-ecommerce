@@ -89,7 +89,7 @@ function processLoginOperation(acc_type) {
         password: password
       }),
       success: function (data) {
-        const import_src = (acc_type == "user") ? "./click_functions.js" : "./store_click_functions.js";
+        const import_src = (acc_type == "user") ? "../click_functions/click_functions.js" : "../click_functions/store_click_functions.js";
         import(import_src).then(module => {
           module.applyButtonClicks(data);
         });
@@ -126,7 +126,7 @@ export function userLoginCheck(e) {
     if (data != "No Account") {
       $.get('/api/user/dashboard', function (data) {
 
-        import("./click_functions.js").then(module => {
+        import("../click_functions/click_functions.js").then(module => {
           module.applyButtonClicks(data);
         }).catch(error => {
           console.log("No account, error: " + error);

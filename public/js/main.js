@@ -2,7 +2,7 @@
 $.get('/check', function (data) {
     if (data == "User Account") {
         $.get('/api/user/dashboard', function(data) {
-            import("./entrance_functions/click_functions.js").then(module => {
+            import("./click_functions/click_functions.js").then(module => {
                 module.applyButtonClicks(data);
             }).catch (error => {
                 console.log("Error: " + error);
@@ -11,8 +11,8 @@ $.get('/check', function (data) {
     }
 
     if (data == "Store Account") {
-        $.get('/api/store/product/limited/0/16/', function(data) {
-            import("./entrance_functions/store_click_functions.js").then(module => {
+        $.get('/api/store/product/limited/0', function(data) {
+            import("./click_functions/store_click_functions.js").then(module => {
                 module.applyButtonClicks(data);
             }).catch (error => {
                 console.log("Error: " + error);

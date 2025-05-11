@@ -16,10 +16,6 @@ header:not(.inner-header) {
     @apply hidden;
 }
 
-.overlay {
-    @apply hidden;
-}
-
 main {
     @apply mt-10 hidden;
 }

@@ -4,7 +4,7 @@ function errorHandler(err_status, err_response) {
     if (err_status === 401) {
         location.reload();
     } else if (err_status === 404) {
-        $(".overlay").fadeOut(300);
+        $(".sidebar-overlay").fadeOut(300);
     }
 
     console.log(`Error Status: ${err_status}\nMessage: ${err_response}`);
@@ -25,25 +25,25 @@ export function updateHTML(data, overlay) {
     // Extract the header, main content and footer depending if it's an overlay or no. Overlay is something like seeing
     // user cart, since it's a popup on the page.
     if (overlay == true) {
-        $(".overlay").fadeOut(300, function () { $(this).remove(); });
-        $("body").prepend(tempBody.querySelector(".overlay"));//clearing the content in the .overlay section element
+        $(".sidebar-overlay").fadeOut(300, function () { $(this).remove(); });
+        $("body").prepend(tempBody.querySelector(".sidebar-overlay"));//clearing the content in the sidebar-overlay section element
 
-        $(".overlay").fadeIn(300);
+        $(".sidebar-overlay").fadeIn(300);
     } else {
         // Getting how many overlay headers we have, this tells us if there was an overlay before already.
         // this way we can back it up to show it again later
-        const overlay_count = $(".overlay").length;
+        const overlay_count = $(".sidebar-overlay").length;
 
         if (overlay_count == 1) {
             //clearing the body of the current page to insert the new page 
-            overlay = $("body").find(".overlay");
-            $(".overlay").fadeOut(300);
+            overlay = $("body").find(".sidebar-overlay");
+            $(".sidebar-overlay").fadeOut(300);
         }
 
         $("body").html("");
 
         const contentOne = "header";
-        const contentMiddle = ".overlay"; //adds side menus like my cart and my orders whenever needed in this container
+        const contentMiddle = ".sidebar-overlay"; //adds side menus like my cart and my orders whenever needed in this container
         const contentTwo = "main";
 
         let mainContent = tempBody.querySelector(contentTwo);
@@ -55,7 +55,7 @@ export function updateHTML(data, overlay) {
 
         if (overlay_count == 1) {
             $("body").prepend(overlay);
-            $(".overlay").show();
+            $(".sidebar-overlay").show();
             applyOverlayCloseButton();
         }
 
@@ -96,7 +96,7 @@ function deleteProduct(e) {
 
 function addProduct(e) {
     e.preventDefault();
-    $(".overlay").fadeOut(300);
+    $(".sidebar-overlay").fadeOut(300);
 
     $.get('/api/store/product/add-page', function (data) {
         updateHTML(data, true);
@@ -300,7 +300,7 @@ export function applyButtonClicks(data) {
 //Adds the closing functionality of overlays open, to prevent repetitive code.
 function applyOverlayCloseButton() {
     $("#close-button").off("click").on("click", function () {
-        $(".overlay").fadeOut(300);
+        $(".sidebar-overlay").fadeOut(300);
         buttonClicks();
     })
 }
