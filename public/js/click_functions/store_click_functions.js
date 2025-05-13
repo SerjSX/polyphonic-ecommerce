@@ -4,7 +4,7 @@ function errorHandler(err_status, err_response) {
     if (err_status === 401) {
         location.reload();
     } else if (err_status === 404) {
-        $(".sidebar-overlay").fadeOut(300);
+        $(".overlay").fadeOut(300);
     }
 
     console.log(`Error Status: ${err_status}\nMessage: ${err_response}`);
@@ -25,25 +25,25 @@ export function updateHTML(data, overlay) {
     // Extract the header, main content and footer depending if it's an overlay or no. Overlay is something like seeing
     // user cart, since it's a popup on the page.
     if (overlay == true) {
-        $(".sidebar-overlay").fadeOut(300, function () { $(this).remove(); });
-        $("body").prepend(tempBody.querySelector(".sidebar-overlay"));//clearing the content in the sidebar-overlay section element
+        $(".overlay").fadeOut(300, function () { $(this).remove(); });
+        $("body").prepend(tempBody.querySelector(".overlay"));//clearing the content in the sidebar-overlay section element
 
-        $(".sidebar-overlay").fadeIn(300);
+        $(".overlay").fadeIn(300);
     } else {
         // Getting how many overlay headers we have, this tells us if there was an overlay before already.
         // this way we can back it up to show it again later
-        const overlay_count = $(".sidebar-overlay").length;
+        const overlay_count = $(".overlay").length;
 
         if (overlay_count == 1) {
             //clearing the body of the current page to insert the new page 
-            overlay = $("body").find(".sidebar-overlay");
-            $(".sidebar-overlay").fadeOut(300);
+            overlay = $("body").find(".overlay");
+            $(".overlay").fadeOut(300);
         }
 
         $("body").html("");
 
         const contentOne = "header";
-        const contentMiddle = ".sidebar-overlay"; //adds side menus like my cart and my orders whenever needed in this container
+        const contentMiddle = ".overlay"; //adds side menus like my cart and my orders whenever needed in this container
         const contentTwo = "main";
 
         let mainContent = tempBody.querySelector(contentTwo);
@@ -55,7 +55,7 @@ export function updateHTML(data, overlay) {
 
         if (overlay_count == 1) {
             $("body").prepend(overlay);
-            $(".sidebar-overlay").show();
+            $(".overlay").show();
             applyOverlayCloseButton();
         }
 
@@ -64,7 +64,7 @@ export function updateHTML(data, overlay) {
 }
 
 function refreshPrimaryPage() {
-    $.get("/api/store/product/limited/16/", function (data) {
+    $.get("/api/store/product/limited/0/", function (data) {
         applyButtonClicks(data);
     }).fail(function (err) {
         errorHandler(err.status, err.responseText);
@@ -96,32 +96,23 @@ function deleteProduct(e) {
 
 function addProduct(e) {
     e.preventDefault();
-    $(".sidebar-overlay").fadeOut(300);
+    $(".overlay").fadeOut(300);
 
     $.get('/api/store/product/add-page', function (data) {
         updateHTML(data, true);
 
         $('#add-product-form').off('submit').on('submit', function (e) {
             e.preventDefault();
-            const link = $(e.currentTarget).attr("action");
+            const formData = new FormData(this); //to handle uploads
 
-            const name = $("#name").val();
-            const description = $("#description").val();
-            const price = $("#price").val();
-            const pay_by_installment = $("#installment").prop("checked");
-            const category = $("#category").val();
+            const link = $(e.currentTarget).attr("action");
 
             $.ajax({
                 url: window.location.origin + link,
                 type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    name: name,
-                    description: description,
-                    price: price,
-                    pay_by_installment: pay_by_installment,
-                    category: category,
-                }),
+                data: formData,
+                processData:false,//prevent jquery from processing data
+                contentType:false,//prevent jquery from setting content type
                 success: function (data) {
                     if (data == "Product Exists") {
                         alert("There is already a product with this name. Please make the name unique.");
@@ -300,7 +291,7 @@ export function applyButtonClicks(data) {
 //Adds the closing functionality of overlays open, to prevent repetitive code.
 function applyOverlayCloseButton() {
     $("#close-button").off("click").on("click", function () {
-        $(".sidebar-overlay").fadeOut(300);
+        $(".overlay").fadeOut(300);
         buttonClicks();
     })
 }

@@ -2,10 +2,11 @@ const express = require("express");
 const {registerUser, loginUser, logoutUser, getOrders, loadDashboard, deleteOrder} = require("../controllers/userController");
 const userValidation = require("../middleware/validateUser");
 const { addToCart, getCartItems, deleteCartItem, confirmCart } = require("../controllers/cartController");
+const { upload } = require("../middleware/multer_mid");
 
 const router = express.Router();
 
-router.post("/register", registerUser);
+router.post("/register", upload.none(), registerUser);
 router.post("/login", loginUser);
 router.post("/logout", userValidation, logoutUser);
 router.get("/dashboard", userValidation, loadDashboard);

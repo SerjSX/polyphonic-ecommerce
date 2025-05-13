@@ -35,13 +35,20 @@ const addProduct = asyncHandler(async (req, res) => {
         category_search = await Category.create({ name: category, store_id: req.storeID });
     }
 
+    let filePath = null;
+    if (req.file) {
+        filePath = `/uploads/${req.file.filename}`;//save the file path
+    }
+    console.log(filePath);
+
     const productCreated = await Product.create({
         name,
         description,
         price,
-        pay_by_installment,
+        pay_by_installment: (pay_by_installment == "on") ? true : false,
         category_id: category_search.id,
-        store_id: req.storeID
+        store_id: req.storeID,
+        image_location: filePath
     })
 
     if (productCreated) {
@@ -154,6 +161,7 @@ const getLimitedProducts = asyncHandler(async (req, res) => {
                 description: 1,
                 price: 1,
                 pay_by_installment: 1,
+                image_location:1,
                 category: "$category.name",
                 store: "$store.name"
             }
@@ -176,4 +184,4 @@ const getLimitedProducts = asyncHandler(async (req, res) => {
 })
 
 
-module.exports = { addProductPage, addProduct, deleteProduct, getLimitedProducts, updateProductPage, updateProduct };
+module.exports = { addProductPage, addProduct, deleteProduct, getLimitedProducts, updateProductPage, updateProduct};

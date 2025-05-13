@@ -23,13 +23,20 @@ const registerStore = asyncHandler(async (req,res) => {
 
     const hashedPassword = await bcrypt.hash(password,10);
 
+    // Handle file upload
+    let filePath = null;
+    if (req.file) {
+        filePath = `/uploads/${req.file.filename}`; // Save the file path
+    }
+
     const store = await Store.create({
         name,
         email,
         phone_number,
         founded_date,
         location,
-        password: hashedPassword
+        password: hashedPassword,
+        image_location: filePath
     })
 
     console.log(`Store created ${store}`)
@@ -86,7 +93,7 @@ const logoutStore = asyncHandler(async (req,res) => {
 
 //@desc getting a list of all stores
 async function getStores() {
-    return await Store.find({}, { _id: 1, name: 1, location: 1, founded_date: 1 })
+    return await Store.find({}, { _id: 1, name: 1, location: 1, founded_date: 1, image_location:1 })
 }
 
 //@desc Get a customer's information
@@ -107,6 +114,7 @@ const getClientInfo = (async (req,res) => {
     
     res.status(200).send(customer);
 })
+
 
 
 module.exports = {registerStore, loginStore, logoutStore, getStores, getClientInfo};

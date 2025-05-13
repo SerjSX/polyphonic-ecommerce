@@ -1,61 +1,65 @@
 <body>
-    <section class="sidebar-overlay overlay">
-        <div class="sidebar-panel">
-            <div class="sidebar-header">
-                <div class="sidebar-header-content">
-                    <h2 class="sidebar-title">Transactions</h2>
-                    <button id="close-button" class="sidebar-close-button">
-                        Close
-                    </button>
+    <div class="overlay">
+        <section class="sidebar-overlay">
+            <div class="sidebar-panel">
+                <div class="sidebar-header">
+                    <div class="sidebar-header-content">
+                        <h2 class="sidebar-title">Transactions</h2>
+                        <button id="close-button" class="sidebar-close-button">
+                            Close
+                        </button>
+                    </div>
                 </div>
-            </div>
 
-            <% if (transactions.length > 0) { %>
-                <div class="sidebar-content">
-                    <ul class="transaction-list">
-                        <% transactions.forEach(transaction => {
-                            if (transaction.status != "completed") { %>
-                            <li class="transaction-item">
-                                <div>
-                                    <h5 class="transaction-name">
-                                        <%= transaction.name %>
-                                    </h5>
-                                    <p class="transaction-info">$<%= transaction.price %></p>
-                                    <p class="transaction-info">
-                                        <%= transaction.purchase_date %>
-                                    </p>
-                                    <p class="transaction-info">Status: <%= transaction.status %></p>
-                                </div>
-                                <div class="transaction-actions">
-                                    <button data-transactionid="/api/store/get-client/<%= transaction.id %>"
-                                        class="customer-info-button">
-                                        Get Customer Info
-                                    </button>
-                                    <form action="/api/store/transaction/set-status/<%= transaction.id %>"
-                                        method="post" class="status-form">
-                                        <button type="submit" name="status" value="accepted"
-                                            class="status-button status-button-accept">
-                                            Accept
+                <% if (transactions.length> 0) { %>
+                    <div class="sidebar-content">
+                        <ul class="transaction-list">
+                            <% transactions.forEach(transaction=> {
+                                if (transaction.status != "completed") { %>
+                                <li class="transaction-item">
+                                    <div>
+                                        <h5 class="transaction-name">
+                                            <%= transaction.name %>
+                                        </h5>
+                                        <p class="transaction-info">$<%= transaction.price %>
+                                        </p>
+                                        <p class="transaction-info">
+                                            <%= transaction.purchase_date %>
+                                        </p>
+                                        <p class="transaction-info">Status: <%= transaction.status %>
+                                        </p>
+                                    </div>
+                                    <div class="transaction-actions">
+                                        <button data-transactionid="/api/store/get-client/<%= transaction.id %>"
+                                            class="customer-info-button">
+                                            Get Customer Info
                                         </button>
-                                        <button type="submit" name="status" value="rejected"
-                                            class="status-button status-button-reject">
-                                            Reject
-                                        </button>
-                                        <button type="submit" name="status" value="completed"
-                                            class="status-button status-button-complete">
-                                            Complete
-                                        </button>
-                                    </form>
-                                </div>
-                            </li>
-                            <% } }); %>
-                    </ul>
-                </div>
-            <% } else { %>
-                <div class="empty-state">
-                    <p class="empty-message">No user transactions.</p>
-                </div>
-            <% } %>
-        </div>
-    </section>
+                                        <form action="/api/store/transaction/set-status/<%= transaction.id %>"
+                                            method="post" class="status-form">
+                                            <button type="submit" name="status" value="accepted"
+                                                class="status-button status-button-accept">
+                                                Accept
+                                            </button>
+                                            <button type="submit" name="status" value="rejected"
+                                                class="status-button status-button-reject">
+                                                Reject
+                                            </button>
+                                            <button type="submit" name="status" value="completed"
+                                                class="status-button status-button-complete">
+                                                Complete
+                                            </button>
+                                        </form>
+                                    </div>
+                                </li>
+                                <% } }); %>
+                        </ul>
+                    </div>
+                    <% } else { %>
+                        <div class="empty-state">
+                            <p class="empty-message">No user transactions.</p>
+                        </div>
+                        <% } %>
+            </div>
+        </section>
+    </div>
 </body>

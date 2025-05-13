@@ -4,13 +4,14 @@
 
 /*The following file contains styling for account choice, login, and register elements only*/
 
-/* Modal styling */
-.modal-overlay {
-    @apply fixed inset-0 z-50 grid place-content-center bg-black/50 p-4;
+/* Modal styling, enter-container is the wrapper that most of the other classes are in */
+.enter-container {
+    @apply hidden fixed inset-0 z-50 grid place-content-center bg-black/50 p-4;
 }
 
 .modal-container {
-    @apply w-full max-w-md rounded-lg bg-white p-6 shadow-lg dark:bg-gray-900;
+    @apply w-fit max-w-md rounded-lg bg-white p-6 shadow-lg dark:bg-gray-900;
+    margin: 0 auto;
 }
 
 .modal-header-content {

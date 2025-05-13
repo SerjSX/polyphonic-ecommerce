@@ -4,7 +4,7 @@ function errorHandler(err_status, err_response) {
     if (err_status === 401) {
         location.reload();
     } else if (err_status === 404) {
-        $(".sidebar-overlay").fadeOut(300);
+        $(".overlay").fadeOut(300);
     }
 
     console.log(`Error Status: ${err_status}\nMessage: ${err_response}`);
@@ -46,7 +46,7 @@ function clickShowOrderButton(e) {
     $.get("/api/user/orders", function (data) {
 
         updateHTML(data, true);
-        $(".sidebar-overlay").fadeIn(200);
+        $(".overlay").fadeIn(200);
 
         applyOverlayCloseButton();
 
@@ -83,7 +83,7 @@ function clickShowCartButton(e) {
     e.preventDefault();
     $.get("/api/user/get-cart", function (data) {
         updateHTML(data, true);
-        $(".sidebar-overlay").fadeIn(200);
+        $(".overlay").fadeIn(200);
 
         applyOverlayCloseButton();
 
@@ -121,7 +121,7 @@ function clickShowCartButton(e) {
                         //Informs the user on the message returned from the DELETE route, and then 
                         //refreshes the order menu
                         alert(data);
-                        $(".sidebar-overlay").fadeOut(300);
+                        $(".overlay").fadeOut(300);
                     },
                     error: function (err) {
                         errorHandler(err.status, err.responseText || err.statusText);
@@ -174,15 +174,16 @@ export function updateHTML(data, overlay, overlay_show) {
     // when nodejs renders the dashboard.ejs without head it makes it empty by default and it gets broken.
     let tempBody = document.createElement('body');
     tempBody.innerHTML = data;
+    console.log(tempBody.innerHTML);
 
 
     // Extract the header, main content and footer depending if it's an overlay or no. Overlay is something like seeing
     // user cart, since it's a popup on the page.
     if (overlay == true) {
-        $(".sidebar-overlay").fadeOut(300, function() {$(this).remove();});
-        $("body").prepend(tempBody.querySelector(".sidebar-overlay"));//clearing the content in the .overlay section element
+        $(".overlay").fadeOut(300, function() {$(this).remove();});
+        $("body").prepend(tempBody.querySelector(".overlay"));
 
-        $(".sidebar-overlay").fadeIn(300);
+        $(".overlay").fadeIn(300);
     } else {
         // Getting how many overlay headers we have, this tells us if there was an overlay before already.
         // this way we can back it up to show it again later
@@ -191,13 +192,13 @@ export function updateHTML(data, overlay, overlay_show) {
 
         if (overlay_count == 1 && overlay_show == true) {
             //clearing the body of the current page to insert the new page 
-            overlay = $("body").find(".sidebar-overlay");
+            overlay = $("body").find(".overlay");
         }
 
         $("body").html("");
 
         const contentOne = "header";
-        const contentMiddle = ".sidebar-overlay"; //adds side menus like my cart and my orders whenever needed in this container
+        const contentMiddle = ".overlay"; //adds side menus like my cart and my orders whenever needed in this container
         const contentTwo = "main";
 
         let mainContent = tempBody.querySelector(contentTwo);
@@ -209,7 +210,7 @@ export function updateHTML(data, overlay, overlay_show) {
 
         if (overlay_count == 1 && overlay_show == true) {
             $("main").prepend(overlay);
-            $(".sidebar-overlay").show();
+            $(".overlay").show();
             applyOverlayCloseButton();
         }
 
@@ -287,6 +288,6 @@ function applyCategoryButtonClick(back_link) {
 //Adds the closing functionality of overlays open, to prevent repetitive code.
 function applyOverlayCloseButton() {
     $("#close-button").off("click").on("click", function () {
-        $(".sidebar-overlay").fadeOut(300);
+        $(".overlay").fadeOut(300);
     })
 }

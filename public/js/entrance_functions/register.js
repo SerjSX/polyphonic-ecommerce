@@ -39,7 +39,7 @@ function processRegister(connect_type) {
         <p></p>
       </div>
 
-      <form id="user-register-form" class="form-container w-full">
+      <form id="user-register-form" class="form-container w-full" enctype="multipart/form-data">
         <div class="grid grid-cols-2 gap-4">
           <div class="form-group">
             <label for="name" class="form-label form-label-dark">User Name</label>
@@ -98,7 +98,7 @@ function processRegister(connect_type) {
         <p></p>
       </div>
 
-      <form id="store-register-form" class="form-container w-full">
+      <form id="store-register-form" class="form-container w-full" enctype="multipart/form-data">
         <div class="grid grid-cols-2 gap-4">
           <div class="form-group">
             <label for="name" class="form-label form-label-dark">Store Name</label>
@@ -129,6 +129,23 @@ function processRegister(connect_type) {
             <label for="password" class="form-label form-label-dark">Password</label>
             <input type="password" id="password" name="password" required class="form-input form-input-dark">
           </div>
+
+          <div class="form-group">
+            <label for="file" class="form-label form-label-dark">
+              <div class="flex items-center justify-center gap-4">
+                  <span> Upload your store picture </span>
+
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                          stroke-width="1.5" stroke="currentColor" class="size-6">
+                          <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M7.5 7.5h-.75A2.25 2.25 0 0 0 4.5 9.75v7.5a2.25 2.25 0 0 0 2.25 2.25h7.5a2.25 2.25 0 0 0 2.25-2.25v-7.5a2.25 2.25 0 0 0-2.25-2.25h-.75m0-3-3-3m0 0-3 3m3-3v11.25m6-2.25h.75a2.25 2.25 0 0 1 2.25 2.25v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5a2.25 2.25 0 0 1-2.25-2.25v-.75" />
+                  </svg>
+              </div>
+
+              <input multiple type="file" id="file" name="file" />
+            </label>
+
+          </div>
         </div>
 
         <div class="mt-6 flex justify-center">
@@ -153,43 +170,15 @@ function processRegister(connect_type) {
     $(`#${connect_type}-register-form`).on('submit', function (e) {
         e.preventDefault();
 
-        const name = $("#name").val();
-        const email = $("#email").val();
-        const password = $("#password").val();
-        const phone_number = $("#phone_number").val();
-        let data_to_pass;
-
-        if (connect_type == "user") {
-            const age = $("#age").val();
-            const address = $("#address").val();
-
-            data_to_pass = {
-                name: name,
-                email: email,
-                password: password,
-                age: age,
-                address: address,
-                phone_number: phone_number
-            }
-        } else {
-            const founded_date = $("#founded_date").val();
-            const location = $("#location").val();
-
-            data_to_pass = {
-                name: name,
-                founded_date: founded_date,
-                phone_number: phone_number,
-                location: location,
-                email: email,
-                password: password
-            }
-        }
+        //getting the data for the form to pass to the backend api
+        const formData = new FormData(this);
 
         $.ajax({
             url: window.location.origin + `/api/${connect_type}/register`,
             type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(data_to_pass),
+            data: formData,
+            processData:false,
+            contentType: false,
             success: function (data) {
                 if (data == "Success") {
                     alert("Registration successful. You can now login to your account.")

@@ -1,47 +1,69 @@
-<section class="sidebar-overlay overlay">
-    <div class="sidebar-panel">
-        <div class="sidebar-header">
-            <div class="sidebar-header-content">
-                <h2 class="sidebar-title">Add a Product</h2>
-                <button id="close-button" class="sidebar-close-button">
-                    Close
-                </button>
+<div class="overlay">
+    <section class="sidebar-overlay">
+        <div class="sidebar-panel">
+            <div class="sidebar-header">
+                <div class="sidebar-header-content">
+                    <h2 class="sidebar-title">Add a Product</h2>
+                    <button id="close-button" class="sidebar-close-button">
+                        Close
+                    </button>
+                </div>
+            </div>
+
+            <div class="sidebar-content">
+                <form action="/api/store/product/add" id="add-product-form" method="POST" class="form-container"
+                    enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="name" class="form-label">Product Name</label>
+                        <input type="text" id="name" name="name" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea rows="4" id="description" name="description" class="form-textarea"
+                            required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="price" class="form-label">Price</label>
+                        <input type="number" id="price" name="price" step="0.01" class="form-input" required>
+                    </div>
+
+                    <div class="form-checkbox-group">
+                        <input type="checkbox" id="pay_by_installment" name="pay_by_installment" class="form-checkbox"
+                            checked>
+                        <label for="pay_by_installment" class="form-label">
+                            Available for Installment Payment
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category" class="form-label">Category</label>
+                        <input type="text" id="category" name="category" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="file" class="form-label">
+                            <div class="flex items-center justify-center gap-4">
+                                <span class="font-medium"> Upload your file(s) </span>
+
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M7.5 7.5h-.75A2.25 2.25 0 0 0 4.5 9.75v7.5a2.25 2.25 0 0 0 2.25 2.25h7.5a2.25 2.25 0 0 0 2.25-2.25v-7.5a2.25 2.25 0 0 0-2.25-2.25h-.75m0-3-3-3m0 0-3 3m3-3v11.25m6-2.25h.75a2.25 2.25 0 0 1 2.25 2.25v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5a2.25 2.25 0 0 1-2.25-2.25v-.75" />
+                                </svg>
+                            </div>
+
+                            <input multiple type="file" id="file" name="file" />
+                        </label>
+
+                    </div>
+
+                    <button type="submit" class="form-button">
+                        Add Product
+                    </button>
+                </form>
             </div>
         </div>
-
-        <div class="sidebar-content">
-            <form action="/api/store/product/add" id="add-product-form" method="POST" class="form-container">
-                <div class="form-group">
-                    <label for="name" class="form-label">Product Name</label>
-                    <input type="text" id="name" name="name" class="form-input" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea rows="4" id="description" name="description" class="form-textarea" required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="price" class="form-label">Price</label>
-                    <input type="number" id="price" name="price" step="0.01" class="form-input" required>
-                </div>
-
-                <div class="form-checkbox-group">
-                    <input type="checkbox" id="installment" name="installment" class="form-checkbox" checked>
-                    <label for="installment" class="form-label">
-                        Available for Installment Payment
-                    </label>
-                </div>
-
-                <div class="form-group">
-                    <label for="category" class="form-label">Category</label>
-                    <input type="text" id="category" name="category" class="form-input" required>
-                </div>
-
-                <button type="submit" class="form-button">
-                    Add Product
-                </button>
-            </form>
-        </div>
-    </div>
-</section>
+    </section>
+</div>

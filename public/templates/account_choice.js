@@ -1,5 +1,5 @@
-export const accountChoiceTemplate = `<div class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-  <div class="modal-container">
+export const accountChoiceTemplate = `
+  <div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-header-content">
       <h2 id="modalTitle" class="modal-title">
         Choose Account Type
@@ -34,5 +34,4 @@ export const accountChoiceTemplate = `<div class="modal-overlay" role="dialog" a
       </a>
     </div>
   </div>
-</div>
 `

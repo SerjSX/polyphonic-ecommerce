@@ -79,7 +79,7 @@
           <% stores.forEach(store=> { %>
             <a href="/api/category/get/<%= store.name %>-<%= store.id %>" class="store-card">
               <img
-                src="https://img.freepik.com/premium-vector/online-store-icon-template-vector-flat-design_617585-5785.jpg"
+                src="<%= store.image_location %>"
                 alt="<%= store.name %>" class="store-image" />
               <div class="store-content">
                 <h3 class="store-name">

@@ -16,7 +16,7 @@
 }
 
 .header-logo {
-    @apply flex-1 md:flex md:items-center md:gap-12;
+    @apply flex-1 justify-center md:flex md:items-center md:gap-12;
 }
 
 .header-title {

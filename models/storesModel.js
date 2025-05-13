@@ -23,6 +23,9 @@ const storeSchema = mongoose.Schema({
     password: {
         type: String,
         required: [true, "Please enter a password!"]
+    },
+    image_location: {
+        type:String,
     }
 })
 

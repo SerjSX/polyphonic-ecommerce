@@ -4,6 +4,10 @@ const connectDB = require("./config/dbConnection");
 const bodyParser = require('body-parser');
 const asyncHandler = require("express-async-handler");
 
+//Models
+const Store = require("./models/storesModel");
+const Products = require("./models/productsModel");
+
 // cookieParser is used to store the login token as a cookie to access
 // and validate throughout the routes
 const cookieParser = require("cookie-parser");
@@ -27,9 +31,25 @@ app.use("/api/store", require("./routes/storeRoutes"));
 app.use("/api/user",require("./routes/userRoutes"));
 app.use("/api/category",require("./routes/catRoutes"));
 
-app.get("/", (req,res) => {
+app.get("/", async (req,res) => {
+
     res.render("main", {error_passed: "", success_passed: ""});
 });
+
+app.get("/products",async(req,res) => {
+    const stores_five = await Store.find({},{_id:1, name:1}).limit(5)
+    const products_four = [];
+
+    for (let i = 0; i < stores_five.length; i++) {
+        const product = await Products.find({store_id: stores_five[i]._id}, {id:1,name:1,price:1, image_location:1}).limit(4)
+        products_four.push([stores_five[i].name,product]);
+    }
+
+    const clean_products = products_four.filter(products => products[1].length > 0);
+    console.log(clean_products);
+
+    res.render("products", {products_four})
+})
 
 // To get an HTML template from the public/templates directory
 app.get("/templates/:templateName", (req,res) => {

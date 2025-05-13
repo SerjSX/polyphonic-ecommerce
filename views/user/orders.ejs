@@ -1,5 +1,6 @@
 <body>
-  <div class="sidebar-overlay overlay">
+  <div class="overlay">
+    <div class="sidebar-overlay">
       <div class="sidebar-panel">
         <div class="sidebar-header">
           <div class="sidebar-header-content">
@@ -38,8 +39,7 @@
 
                     <form action="/api/user/order/<%=order.id%>" method="post" class="delete-button-form text-right">
                       <% if (order.status=="pending" ) { %>
-                        <button title="Cancel order" type="submit"
-                          class="cancel-button">
+                        <button title="Cancel order" type="submit" class="cancel-button">
                           Cancel Order
                         </button>
                         <% } else { %>
@@ -57,12 +57,12 @@
           <% } else { %>
             <div class="empty-state">
               <p class="empty-message">No orders</p>
-              <a href="/user"
-                class="continue-shopping">
+              <a href="/user" class="continue-shopping">
                 Continue shopping
               </a>
             </div>
             <% } %>
       </div>
+    </div>
   </div>
 </body>

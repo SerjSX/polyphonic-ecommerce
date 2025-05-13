@@ -26,6 +26,9 @@ const productSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: "Stores"
+    },
+    image_location: {
+        type: String,
     }
 })
 

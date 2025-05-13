@@ -4,7 +4,7 @@
 
 /*THE BELOW IS FOR SIDEBAR STYLINGS- CATEGORY.EJS,PRODUCT_ADD.EJS AND THE EQUIVILANT DESIGN*/
 .sidebar-overlay {
-    @apply hidden fixed inset-0 z-50 flex items-center justify-end bg-black/50;
+    @apply fixed inset-0 z-50 flex items-center justify-end bg-black/50;
 }
 
 /* Sidebar panel */
@@ -194,7 +194,7 @@
 
 /* Store sidebar (left sidebar) styles */
 .store-sidebar {
-    @apply hidden fixed left-0 top-0 z-50 flex h-screen w-64 flex-col border-e border-gray-100 bg-white shadow-lg px-4 py-6;
+    @apply fixed left-0 top-0 z-50 flex h-screen w-64 flex-col border-e border-gray-100 bg-white shadow-lg px-4 py-6;
 }
 
 .store-sidebar-header {
