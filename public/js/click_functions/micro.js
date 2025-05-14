@@ -1,7 +1,7 @@
 // This function updates the body of the html page, and takes into consideration replacing 
 // the back link to whatever that is needed. If/else condition checks if we need to change
 // any link, if so it replaces
-export function updateHTML(data, overlay) {
+export function updateHTML(data, overlay, acc_type) {
     // Create a temporary DOM element to parse the HTML string
     // This way we can only replace the header and main section
     // We can't remove it from primary dashboard.ejs as it's being used to add the header and script, or else
@@ -25,31 +25,52 @@ export function updateHTML(data, overlay) {
         if (overlay_count == 1) {
             //clearing the body of the current page to insert the new page 
             overlay = $("body").find(".overlay");
-            $(".overlay").fadeOut(300);
         }
 
         $("body").html("");
 
         const contentOne = "header";
         const contentLowerMid = ".enter-container";
-        const contentMiddle = ".overlay"; //adds side menus like my cart and my orders whenever needed in this container
         const contentTwo = "main";
 
         let mainContent = tempBody.querySelector(contentTwo);
         let lowMidContent = tempBody.querySelector(contentLowerMid);
-        let middleContent = tempBody.querySelector(contentMiddle);
         let headerContent = tempBody.querySelector(contentOne);
-        $("body").append(middleContent);
         $("body").append(lowMidContent);
         $("body").append(mainContent);
         $("body").prepend(headerContent);
 
         if (overlay_count == 1) {
-            $("body").prepend(overlay);
-            $(".overlay").show();
-            applyOverlayCloseButton();
+            if (acc_type == "store") {
+                import("./store_click_functions.js").then(module => {
+                    module.applyOverlayCloseButton();
+                });
+            } else if (acc_type == "user") {
+                import("./click_functions.js").then(module => {
+                    module.applyOverlayCloseButton();
+                });
+            }
         }
 
         $("main").fadeIn(500);
     }
+}
+
+export function errorHandler(err_status, err_response) {
+    alert(err_response);
+
+    if (err_status === 401) {
+        location.reload();
+    } else if (err_status === 404) {
+        $(".overlay").fadeOut(300);
+    }
+
+    console.log(`Error Status: ${err_status}\nMessage: ${err_response}`);
+}
+
+//Adds the closing functionality of overlays open, to prevent repetitive code.
+export function applyOverlayCloseButton(acc_type) {
+    $("#close-button").off("click").on("click", function () {
+        $(".overlay").fadeOut(300);
+    })
 }

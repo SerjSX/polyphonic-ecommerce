@@ -31,7 +31,7 @@
 }
 
 .account-options {
-    @apply mt-4 flex space-y-4;
+    @apply mt-4 flex flex-col sm:flex-row space-y-4;
 }
 
 /* Account type buttons */

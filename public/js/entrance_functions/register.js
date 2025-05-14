@@ -142,7 +142,7 @@ function processRegister(connect_type) {
                   </svg>
               </div>
 
-              <input multiple type="file" id="file" name="file" />
+              <input type="file" id="file" name="file" required/>
             </label>
 
           </div>

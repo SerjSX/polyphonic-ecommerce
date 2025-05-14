@@ -1,8 +1,8 @@
 const express = require("express");
-const {registerStore, loginStore, logoutStore, getClientInfo} = require("../controllers/storeController");
-const {addProduct, deleteProduct, getLimitedProducts, updateProductPage, updateProduct, addProductPage} = require("../controllers/productController");
-const {upload} = require("../middleware/multer_mid");//for malter config
-const {addCategory, deleteCategory, getCategories} = require("../controllers/categoryController");
+const { registerStore, loginStore, logoutStore, getClientInfo } = require("../controllers/storeController");
+const { addProduct, deleteProduct, getLimitedProducts, updateProductPage, updateProduct, addProductPage } = require("../controllers/productController");
+const { upload } = require("../middleware/multer_mid");//for malter config
+const { addCategory, deleteCategory, getCategories } = require("../controllers/categoryController");
 
 const storeValidation = require("../middleware/validateStore");
 const { getTransactions, updateTransactionStatus } = require("../controllers/store/transactionsController");

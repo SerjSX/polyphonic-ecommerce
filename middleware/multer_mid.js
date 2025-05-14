@@ -15,6 +15,20 @@ const storage = multer.diskStorage({
 });
 
 // Initialize multer
-const upload = multer({ storage: storage });
+const upload = multer({
+    storage: storage,
+    fileFilter: function (req, file, cb) {
+        const fileTypes = /jpeg|jpg|png/;
+        const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
+        const mimetype = fileTypes.test(file.mimetype);
+
+        if (extname && mimetype) {
+            return cb(null, true);
+        } else {
+            return cb("Error: Images only!");
+        }
+    },
+    limits: { fileSize: 2 * 1024 * 1024 } // Limit file size to 2MB
+});
 
 module.exports = { storage, upload };

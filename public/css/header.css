@@ -16,7 +16,7 @@
 }
 
 .header-logo {
-    @apply flex-1 justify-center md:flex md:items-center md:gap-12;
+    @apply flex-1 justify-center ;
 }
 
 .header-title {
@@ -29,8 +29,8 @@
 
 /* Action button styling */
 .action-button {
-    @apply relative transition duration-400 ease-in-out inline-flex items-center overflow-hidden bg-indigo-600 hover:bg-indigo-500 px-4 py-4 rounded-4xl md:rounded-sm md:px-6 md:py-3 text-white focus:ring-3 focus:outline-hidden;
-    @apply cursor-pointer;
+    @apply relative transition duration-400 ease-in-out inline-flex items-center overflow-hidden bg-indigo-600 hover:bg-indigo-500 rounded-4xl md:rounded-sm md:px-6 md:py-3 text-white focus:ring-3 focus:outline-hidden;
+    @apply cursor-pointer px-0.5 py-2.5 md:px-4 md:py-4;
 }
 
 .action-button-secondary {
@@ -43,7 +43,8 @@
 }
 
 .button-icon {
-    @apply md:absolute md:-start-full md:transition-all md:group-hover:start-4 size-5;
+    @apply flex items-center justify-center md:absolute md:-start-full md:transition-all md:group-hover:start-4 ;
+    @apply ml-2 md:-ml-1.5;
 }
 
 .button-text {
