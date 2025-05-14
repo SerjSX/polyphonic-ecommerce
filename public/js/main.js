@@ -30,7 +30,7 @@ $(document).ready(function () {
     loginButtonApply();
     registerButtonApply();
 
-    $(".products-button").on('click', function(e) {
+    $(".products-button-click").on('click', function(e) {
         $.get("/products", (data) => {
             import("./click_functions/micro.js").then(module => {
                 module.updateHTML(data);

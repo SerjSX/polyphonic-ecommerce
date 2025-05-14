@@ -63,8 +63,8 @@ button:not(.no-click) {
 /* Product card */
 .product-card {
     @apply block overflow-hidden rounded-lg border border-gray-100 shadow-sm transition hover:shadow-md;
-    @apply w-45 h-fit;
-    @apply md:w-fit md:h-fit;
+    @apply w-full h-fit;
+    @apply md:w-fit;
     @apply flex flex-col items-center;
 }
 
@@ -86,7 +86,7 @@ button:not(.no-click) {
 }
 
 .product-description {
-    @apply mt-2 text-sm text-gray-500 line-clamp-2;
+    @apply mt-2 text-sm text-gray-500 line-clamp-2 h-20 overflow-scroll overflow-y-hidden;
 }
 
 .product-meta {
