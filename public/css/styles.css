@@ -179,3 +179,20 @@ a {
     @apply no-underline;
 }
 
+/*For popups showing messages*/
+.message-popup {
+    @apply hidden z-50 fixed top-[10%] left-[50%];
+    @apply -mt-[50px] -ml-[50px] w-100;
+}
+
+.error-message {
+    @apply w-fit border-s-4 border-red-700 bg-red-50 p-4;
+}
+
+.error-message-header {
+    @apply flex items-center gap-2 text-red-700;
+}
+
+.error-message-text {
+    @apply mt-2 text-sm text-red-700;
+}

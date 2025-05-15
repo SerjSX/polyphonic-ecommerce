@@ -63,6 +63,8 @@
   </header>
 
   <main class="main-content">
+    <div class="message-popup"></div>
+
     <header class="inner-header">
       <h2 class="inner-header-title">Which store would you like to check out?</h2>
       <p class="inner-header-desc">
@@ -77,9 +79,7 @@
         <% if (stores && stores.length> 0) { %>
           <% stores.forEach(store=> { %>
             <a href="/api/category/get/<%= store.name %>-<%= store.id %>" class="store-card">
-              <img
-                src="<%= store.image_location %>"
-                alt="<%= store.name %>" class="store-image" />
+              <img src="<%= store.image_location %>" alt="<%= store.name %>" class="store-image" />
               <div class="store-content">
                 <h3 class="store-name">
                   <%= store.name %>

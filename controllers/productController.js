@@ -6,14 +6,14 @@ const Transaction = require("../models/transactionsModel");
 const mongoose = require("mongoose");
 
 //@desc Get Add Product page
-//@route GET /api/stores/product/add-page
+//@route GET /api/store/product/add-page
 //@access private
 const addProductPage = asyncHandler(async (req, res) => {
     res.status(200).render("store/product_add", {});
 })
 
 //@desc Add a Product
-//@route POST /api/stores/product/add
+//@route POST /api/store/product/add
 //@access private
 const addProduct = asyncHandler(async (req, res) => {
     const { name, description, price, pay_by_installment, category } = req.body;
@@ -182,6 +182,10 @@ const getLimitedProducts = asyncHandler(async (req, res) => {
         });
     }
 })
+
+//@desc Search for products
+//@route GET /api/product/searc/:searchkey
+//@access public
 
 
 module.exports = { addProductPage, addProduct, deleteProduct, getLimitedProducts, updateProductPage, updateProduct};

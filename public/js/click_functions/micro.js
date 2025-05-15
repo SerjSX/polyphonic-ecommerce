@@ -57,13 +57,21 @@ export function updateHTML(data, overlay, acc_type) {
 }
 
 export function errorHandler(err_status, err_response) {
-    alert(err_response);
+    $(".message-popup").fadeOut(300);
 
+    $(".message-popup").load("./templates/error_template.html", function () {
+        $(".message-popup").fadeIn(300);
+        $(".message-popup").find(".error-message-text").text(err_response);
+        setTimeout(function () {
+            $(".message-popup").fadeOut(300);
+        }, 3000);
+    })
+    
     if (err_status === 401) {
         location.reload();
     } else if (err_status === 404) {
         $(".overlay").fadeOut(300);
-    }
+    } 
 
     console.log(`Error Status: ${err_status}\nMessage: ${err_response}`);
 }
