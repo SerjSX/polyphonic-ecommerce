@@ -17,7 +17,7 @@
                         <h3>Store Dashboard</h3>
                     </a>
                 </div>
-    
+
                 <div class="header-actions">
                     <div class="relative md:block group">
                         <a id="add-product-button" class="action-button" href="/product/add">
@@ -31,7 +31,7 @@
                             <span class="button-text">Add New</span>
                         </a>
                     </div>
-    
+
                     <div id="see-transactions" class="relative md:block group">
                         <a class="action-button" href="/store/orders">
                             <span class="button-icon">
@@ -44,7 +44,7 @@
                             <span class="button-text">See Orders</span>
                         </a>
                     </div>
-    
+
                     <div id="see-categories" class="relative md:block group">
                         <a class="action-button" href="/store/categories">
                             <span class="button-icon">
@@ -57,7 +57,7 @@
                             <span class="button-text">See Categories</span>
                         </a>
                     </div>
-    
+
                     <div id="logout-button" class="relative md:block group">
                         <form action="/api/store/logout" method="post">
                             <button type="submit" class="header-button action-button action-button-secondary"
@@ -87,112 +87,115 @@
                 Manage your product collection. Edit or remove items as needed.
             </p>
         </header>
-    
+
         <div class="mt-8">
-            <% if (products && products.length > 0) { %>
-                <p class="results-info">Showing <span><%= products.length %></span> products</p>
-            <% } %>
+            <% if (products && products.length> 0) { %>
+                <p class="results-info">Showing <span>
+                        <%= products.length %>
+                    </span> products</p>
+                <% } %>
         </div>
-    
-        <% if (products && products.length > 0) { %>
+
+        <% if (products && products.length> 0) { %>
             <ul class="product-grid">
-                <% products.forEach(product => { 
+                <% products.forEach(product=> {
                     let image_loc;
                     if (product.image_location != null) {
-                        image_loc = product.image_location  
+                    image_loc = product.image_location
                     } else {
-                        image_loc = "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1770&q=80"
+                    image_loc =
+                    "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1770&q=80"
                     }%>
-                    <li class="product-card store-product-card group" product_id="<%= product.id %>">
-                        <div class="block overflow-hidden">
-                            <img src="<%= image_loc %>"
-                                alt="<%= product.name %>" class="product-image" />
-    
-                            <div class="product-content">
-                                <span class="product-category" id="category">
-                                    <%= product.category %>
-                                </span>
-    
-                                <h3 id="name" class="product-name">
-                                    <%= product.name %>
-                                </h3>
-    
-                                <p id="description" class="product-description">
-                                    <%= product.description %>
+                    <li class="product-card group" product_id="<%= product.id %>">
+                        <img src="<%= image_loc %>" alt="<%= product.name %>" class="product-image" />
+
+                        <div class="product-content">
+                            <span class="product-category" id="category">
+                                <%= product.category %>
+                            </span>
+
+                            <h3 id="name" class="product-name">
+                                <%= product.name %>
+                            </h3>
+
+                            <p id="description" class="product-description">
+                                <%= product.description %>
+                            </p>
+
+                            <div class="product-meta">
+                                <p id="price" class="product-price">
+                                    $<%= Number.parseFloat(product.price).toFixed(2) %>
                                 </p>
-    
-                                <div class="product-meta">
-                                    <p id="price" class="product-price">
-                                        $<%= Number.parseFloat(product.price).toFixed(2) %>
-                                    </p>
-    
-                                    <% if (product.pay_by_installment === true) { %>
-                                        <span id="installment" class="product-badge" title="Can be paid in installments">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="size-4 mr-1">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                            </svg>
-                                            Installments
-                                        </span>
+
+                                <% if (product.pay_by_installment===true) { %>
+                                    <span id="installment" class="product-badge" title="Can be paid in installments">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="size-4 mr-1">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                        </svg>
+                                        Installments
+                                    </span>
                                     <% } %>
-                                </div>
-    
-                                <div class="product-actions">
-                                    <button class="edit-button icon-button edit-icon-button">
-                                        <span class="sr-only">Edit</span>
+                            </div>
+
+                            <div class="product-actions">
+                                <button class="edit-button icon-button edit-icon-button">
+                                    <span class="sr-only">Edit</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                    </svg>
+                                </button>
+
+                                <form action="/api/store/product/delete/<%= product.id %>" method="post"
+                                    class="delete-form">
+                                    <button type="submit" class="icon-button delete-icon-button">
+                                        <span class="sr-only">Delete</span>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">
                                             <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                                         </svg>
                                     </button>
-    
-                                    <form action="/api/store/product/delete/<%= product.id %>" method="post" class="delete-form">
-                                        <button type="submit" class="icon-button delete-icon-button">
-                                            <span class="sr-only">Delete</span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="size-5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                            </svg>
-                                        </button>
-                                    </form>
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </li>
-                <% }); %>
+                    <% }); %>
             </ul>
-        <% } else { %>
-            <div id="emptyMessage" class="empty-products">No products found.</div>
-        <% } %>
-    
-        <div class="pagination-container">
-            <% const skip_val_back = Number(skip_val) - 16; const skip_val_next = Number(skip_val) + 16; %>
-    
-            <a href="/api/store/product/limited/<%= skip_val_back %>"
-                class="pagination-button <%= skip_val_back < 0 ? 'pagination-button-disabled' : '' %>"
-                <%= skip_val_back < 0 ? 'aria-disabled="true" tabindex="-1"' : '' %>>
-                <svg xmlns="http://www.w3.org/2000/svg" class="size-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd"
-                        d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                        clip-rule="evenodd" />
-                </svg>
-                Previous
-            </a>
-    
-            <a href="/api/store/product/limited/<%= skip_val_next %>" 
-                class="pagination-button <%= products_left <= 0 ? 'pagination-button-disabled' : '' %>"
-                <%= products_left <= 0 ? 'aria-disabled="true" tabindex="-1"' : '' %>>
-                Next
-                <svg xmlns="http://www.w3.org/2000/svg" class="size-4 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd"
-                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                        clip-rule="evenodd" />
-                </svg>
-            </a>
-        </div>
+            <% } else { %>
+                <div id="emptyMessage" class="empty-products">No products found.</div>
+                <% } %>
+
+                    <div class="pagination-container">
+                        <% const skip_val_back=Number(skip_val) - 16; const skip_val_next=Number(skip_val) + 16; %>
+
+                            <a href="/api/store/product/limited/<%= skip_val_back %>"
+                                class="pagination-button <%= skip_val_back < 0 ? 'pagination-button-disabled' : '' %>"
+                                <%=skip_val_back < 0 ? 'aria-disabled="true" tabindex="-1"' : '' %>>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="size-4 mr-2" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                Previous
+                            </a>
+
+                            <a href="/api/store/product/limited/<%= skip_val_next %>"
+                                class="pagination-button <%= products_left <= 0 ? 'pagination-button-disabled' : '' %>"
+                                <%=products_left <=0 ? 'aria-disabled="true" tabindex="-1"' : '' %>>
+                                Next
+                                <svg xmlns="http://www.w3.org/2000/svg" class="size-4 ml-2" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </a>
+                    </div>
     </main>
 
 </body>

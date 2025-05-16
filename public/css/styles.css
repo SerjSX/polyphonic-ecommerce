@@ -57,7 +57,7 @@ button:not(.no-click) {
 
 /* Product grid */
 .product-grid {
-    @apply mt-4 grid gap-4 sm:grid-cols-3 lg:grid-cols-4;
+    @apply mt-4 grid gap-4 sm:grid-cols-3;
 }
 
 /* Product card */
@@ -65,7 +65,7 @@ button:not(.no-click) {
     @apply block overflow-hidden rounded-lg border border-gray-100 shadow-sm transition hover:shadow-md;
     @apply w-full h-fit;
     @apply md:w-fit;
-    @apply flex flex-col items-center;
+    @apply flex flex-col items-center ;
 }
 
 .product-image {
@@ -86,7 +86,7 @@ button:not(.no-click) {
 }
 
 .product-description {
-    @apply mt-2 text-sm text-gray-500 line-clamp-2 h-20 overflow-scroll overflow-y-hidden;
+    @apply mt-2 text-sm text-gray-500 max-h-15 overflow-scroll overflow-x-hidden;
 }
 
 .product-meta {
@@ -106,6 +106,10 @@ button:not(.no-click) {
 }
 
 /*SPECIFICALLY FOR STORE LISTINGS in views/user/dashboard.ejs*/
+.store-grid {
+    @apply mt-4 grid gap-4 sm:grid-cols-3 lg:grid-cols-4;
+}
+
 .store-card {
     @apply block overflow-hidden rounded-lg border border-gray-100 shadow-sm transition duration-400 p-4 ;
     @apply hover:scale-105 hover:shadow-xl focus:ring-3 focus:outline-hidden;
@@ -181,12 +185,12 @@ a {
 
 /*For popups showing messages*/
 .message-popup {
-    @apply hidden z-50 fixed top-[10%] left-[50%];
-    @apply -mt-[50px] -ml-[50px] w-100;
+    @apply hidden z-40 fixed top-[23%];
+    @apply -mt-[50px] w-100;
 }
 
 .error-message {
-    @apply w-fit border-s-4 border-red-700 bg-red-50 p-4;
+    @apply w-50 border-s-4 border-red-700 bg-red-50 p-4;
 }
 
 .error-message-header {
@@ -195,4 +199,16 @@ a {
 
 .error-message-text {
     @apply mt-2 text-sm text-red-700;
+}
+
+.success-message {
+    @apply rounded-md border border-gray-300 bg-white p-4 shadow-sm;
+}
+
+.success-message-content {
+    @apply flex items-start gap-4;
+}
+
+.success-message-text {
+    @apply mt-0.5 text-sm text-gray-700;
 }

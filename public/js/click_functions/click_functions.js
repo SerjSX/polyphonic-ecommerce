@@ -1,4 +1,4 @@
-import {updateHTML, errorHandler} from "./micro.js";
+import {updateHTML, messagePopup} from "./micro.js";
 
 //This function runs when the user clicks on an item card, for example a store name.
 //I stored it in a separate file because when the user clicks on the back button I have to add the 
@@ -27,7 +27,7 @@ export function clickItemCard(e) {
 
 
     }).fail(function (err) {
-        errorHandler(err.status, err.responseText || err.statusText);
+        messagePopup("error", err.status, err.responseText || err.statusText);
     });
 }
 
@@ -53,11 +53,11 @@ function clickShowOrderButton(e) {
                     success: function (data) {
                         //Informs the user on the message returned from the DELETE route, and then 
                         //refreshes the order menu
-                        alert(data);
-                        clickShowOrderButton(e);
+                        messagePopup("success",200, data);
+                        $(".overlay").fadeOut(300);
                     },
                     error: function (err) {
-                        errorHandler(err.status, err.responseText || err.statusText);
+                        messagePopup("error", err.status, err.responseText || err.statusText);
                     }
                 });
             }
@@ -65,7 +65,7 @@ function clickShowOrderButton(e) {
         });
 
     }).fail(function (err) {
-        errorHandler(err.status, err.responseText || err.statusText);
+        messagePopup("error", err.status, err.responseText || err.statusText);
     });
 }
 
@@ -90,11 +90,11 @@ function clickShowCartButton(e) {
                     success: function (data) {
                         //Informs the user on the message returned from the DELETE route, and then 
                         //refreshes the order menu
-                        alert(data);
-                        clickShowCartButton(e);
+                        $(".overlay").fadeOut(300);
+                        messagePopup("success",200, data);
                     },
                     error: function (err) {
-                        errorHandler(err.status, err.responseText || err.statusText);
+                        messagePopup("error", err.status, err.responseText || err.statusText);
                     }
                 })
             }
@@ -110,18 +110,18 @@ function clickShowCartButton(e) {
                     success: function (data) {
                         //Informs the user on the message returned from the DELETE route, and then 
                         //refreshes the order menu
-                        alert(data);
                         $(".overlay").fadeOut(300);
+                        messagePopup("success", 200, data);
                     },
                     error: function (err) {
-                        errorHandler(err.status, err.responseText || err.statusText);
+                        messagePopup("error", err.status, err.responseText || err.statusText);
                     }
                 })
             }
 
         })
     }).fail(function (err) {
-        errorHandler(err.status, err.responseText || err.statusText);
+        messagePopup("error", err.status, err.responseText || err.statusText);
     })
 }
 
@@ -134,15 +134,13 @@ function clickAddToCartButton(e) {
         type: 'POST',
         contentType: 'application/json',
         success: function (data) {
-            alert("Successfully added item to your cart.")
-            $(".cart-ping").fadeIn(300).delay(5000).fadeOut("slow");
-
+            messagePopup("success", 200, "Successfully added item to your cart.");
         },
         error: function (err) {
-            errorHandler(err.status, err.responseText || err.statusText);
+            messagePopup("error", err.status, err.responseText || err.statusText);
         }
     }).fail(function (err) {
-        errorHandler(err.status, err.responseText || err.statusText);
+        messagePopup("error", err.status, err.responseText || err.statusText);
     })
 }
 
@@ -160,7 +158,7 @@ function backButtonApply(link) {
                 backButtonApply();
             }
         }).fail(function (err) {
-            errorHandler(err.status, err.responseText || err.statusText);
+            messagePopup("error", err.status, err.responseText || err.statusText);
 
         });
     });

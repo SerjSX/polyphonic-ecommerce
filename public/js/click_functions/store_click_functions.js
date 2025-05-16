@@ -1,11 +1,11 @@
-import {updateHTML, errorHandler} from "./micro.js";
+import {updateHTML, messagePopup} from "./micro.js";
 
 
 function refreshPrimaryPage() {
     $.get("/api/store/product/limited/0/", function (data) {
         applyButtonClicks(data);
     }).fail(function (err) {
-        errorHandler(err.status, err.responseText);
+        messagePopup("error", err.status, err.responseText);
     });
 }
 
@@ -25,7 +25,7 @@ function deleteProduct(e) {
                 refreshPrimaryPage();
             },
             error: function (err) {
-                errorHandler(err.status, err.responseText);
+                messagePopup("error", err.status, err.responseText);
             }
         });
     }
@@ -62,7 +62,7 @@ function addProduct(e) {
                     }
                 },
                 error: function (err) {
-                    errorHandler(err.status, err.responseText);
+                    messagePopup("error", err.status, err.responseText);
                 }
             });
         });
@@ -128,13 +128,13 @@ function updateProduct(e) {
                         refreshPrimaryPage();
                     },
                     error: function (err) {
-                        errorHandler(err.status, err.responseText);
+                        messagePopup("error", err.status, err.responseText);
                     }
                 });
             });
         },
         error: function (err) {
-            errorHandler(err.status, err.responseText);
+            messagePopup("error", err.status, err.responseText);
         }
     });
 }
@@ -164,7 +164,7 @@ function seeTransactions(e) {
                     seeTransactions(e);
                 },
                 error: function (err) {
-                    errorHandler(err.status, err.responseText);
+                    messagePopup("error", err.status, err.responseText);
                 }
             });
         });
@@ -181,13 +181,13 @@ function seeTransactions(e) {
 
                 alert(`Here are information about the user of this transaction:\n\tName: ${name}\n\tEmail: ${email}\n\tAddress: ${address}\n\tPhone Number: ${phone_number}`);
             }).fail(function (err) {
-                errorHandler(err.status, err.responseText);
+                messagePopup("error", err.status, err.responseText);
             });
         });
 
         applyOverlayCloseButton();
     }).fail(function (err) {
-        errorHandler(err.status, err.responseText);
+        messagePopup("error", err.status, err.responseText);
     });
 }
 
@@ -210,14 +210,14 @@ function seeCategories(e) {
                     seeCategories(e);
                 },
                 error: function (err) {
-                    errorHandler(err.status, err.responseText);
+                    messagePopup("error", err.status, err.responseText);
                 }
             });
         });
 
         applyOverlayCloseButton();
     }).fail(function (err) {
-        errorHandler(err.status, err.responseText);
+        messagePopup("error",err.status, err.responseText);
     });
 }
 

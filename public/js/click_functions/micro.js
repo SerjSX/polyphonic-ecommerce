@@ -56,24 +56,46 @@ export function updateHTML(data, overlay, acc_type) {
     }
 }
 
-export function errorHandler(err_status, err_response) {
-    $(".message-popup").fadeOut(300);
+//this is for timeouts later in messagePopup function
+var timeout;
 
-    $(".message-popup").load("./templates/error_template.html", function () {
-        $(".message-popup").fadeIn(300);
-        $(".message-popup").find(".error-message-text").text(err_response);
-        setTimeout(function () {
-            $(".message-popup").fadeOut(300);
-        }, 3000);
-    })
+export function messagePopup(msg_type,err_status, err_response) {
+    //clears previous timeout so there won't be double.
+    clearTimeout(timeout);
     
-    if (err_status === 401) {
-        location.reload();
-    } else if (err_status === 404) {
-        $(".overlay").fadeOut(300);
-    } 
+    let load_file,text_box;
+    if (msg_type == "error") {
+        load_file = "./templates/error_template.html";
+        text_box = ".error-message-text";
+    } else if (msg_type == "success") { 
+        load_file = "./templates/success_template.html";
+        text_box = ".success-message-text";
+    }
+    console.log(msg_type, err_status, err_response);
+    console.log(load_file, text_box);
 
-    console.log(`Error Status: ${err_status}\nMessage: ${err_response}`);
+    $(".message-popup").load(load_file, function () {
+        $(".message-popup").fadeIn(300);
+        $(".message-popup").find(text_box).text(err_response);
+        timeout = setTimeout(function () {
+            $(".message-popup").fadeOut(200, function () {
+                $(".message-popup").html("");
+            })
+        }, 2000);
+    })
+
+    if (msg_type == "error") {
+        if (err_status === 401) {
+            location.reload();
+        } else if (err_status === 404) {
+            $(".overlay").fadeOut(300);
+        }
+        
+        console.log(`Error Status: ${err_status}\nMessage: ${err_response}`);
+
+    }
+
+
 }
 
 //Adds the closing functionality of overlays open, to prevent repetitive code.
