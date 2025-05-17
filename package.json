@@ -30,6 +30,6 @@
     "tailwind-entrance": "npx @tailwindcss/cli -i ./public/css/entrance.css -o ./public/css/outputs/entrance_output.css --watch",
     "tailwind-header": "npx @tailwindcss/cli -i ./public/css/header.css -o ./public/css/outputs/header_output.css --watch",
     "tailwind-sidebar": "npx @tailwindcss/cli -i ./public/css/sidebar.css -o ./public/css/outputs/sidebar_output.css --watch",
-    "tailwind-user_store_products": "npx @tailwindcss/cli -i ./public/css/user_store_products.css -o ./public/css/outputs/user_store_products_output.css --watch"
+    "tailwind-user-store-products": "npx @tailwindcss/cli -i ./public/css/user_store_products.css -o ./public/css/outputs/user_store_products_output.css --watch"
   }
 }

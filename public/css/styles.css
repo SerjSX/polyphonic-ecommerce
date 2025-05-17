@@ -69,14 +69,14 @@ button:not(.no-click) {
 /* Product card */
 .product-card {
     @apply block overflow-hidden rounded-lg border border-gray-100 shadow-sm transition hover:shadow-md;
-    @apply w-full h-fit;
+    @apply w-full;
     @apply md:w-fit;
     @apply flex flex-col items-center ;
 }
 
 .product-image {
-    @apply h-[125px] w-fit object-center transition duration-500 group-hover:scale-105;
-    @apply md:h-[250px];
+    @apply h-[300px] w-fit object-fill transition duration-500 group-hover:scale-105;
+    @apply sm:h-[200px] md:h-[250px] md:w-[250px];
 }
 
 .product-content {
@@ -89,6 +89,7 @@ button:not(.no-click) {
 
 .product-name {
     @apply text-xl text-gray-700 group-hover:underline group-hover:underline-offset-4;
+    @apply wrap-anywhere;
 }
 
 .product-description {

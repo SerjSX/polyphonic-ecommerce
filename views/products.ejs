@@ -75,19 +75,16 @@
 
                 <ul class="category-product-grid">
                     <% products.forEach(function(product) { %>
-                        <li>
-                            <div class="product-card">
-                                <img src="<%= product.image_location %>" alt="<%= product.name %>"
-                                    class="product-image" />
+                        <li class="product-card">
+                            <img src="<%= product.image_location %>" alt="<%= product.name %>" class="product-image" />
 
-                                <div class="product-content">
-                                    <h3 class="product-name">
-                                        <%= product.name %>
-                                    </h3>
-                                    <p class="product-price">
-                                        $<%= Number.parseFloat(product.price).toFixed(2) %>
-                                    </p>
-                                </div>
+                            <div class="product-content">
+                                <h3 class="product-name">
+                                    <%= product.name %>
+                                </h3>
+                                <p class="product-price">
+                                    $<%= Number.parseFloat(product.price).toFixed(2) %>
+                                </p>
                             </div>
                         </li>
                         <% }); %>
