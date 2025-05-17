@@ -4,6 +4,7 @@ const Product = require("../models/productsModel");
 const Cart = require("../models/cartModel");
 const Transaction = require("../models/transactionsModel");
 const mongoose = require("mongoose");
+const fs = require("fs");
 
 //@desc Get Add Product page
 //@route GET /api/store/product/add-page
@@ -39,7 +40,6 @@ const addProduct = asyncHandler(async (req, res) => {
     if (req.file) {
         filePath = `/uploads/${req.file.filename}`;//save the file path
     }
-    console.log(filePath);
 
     const productCreated = await Product.create({
         name,
@@ -52,7 +52,7 @@ const addProduct = asyncHandler(async (req, res) => {
     })
 
     if (productCreated) {
-        return res.status(201).send("Success");
+        return res.status(201).send("Product added successfully! Page will now reload.");
     } else {
         return res.status(400).send("An error occured and the product was not added");
     }
@@ -72,6 +72,15 @@ const deleteProduct = asyncHandler(async (req, res) => {
         return res.status(403).send("You can't delete this product since it belongs to another store.")
     }
 
+    //check if the category the product is under has this as the last product, if so, delete the category
+    const products = await Product.find({ category_id: product.category_id });
+    if (products.length == 1) {
+        //delete the category
+        await Category.deleteOne({ _id: product.category_id });
+    }
+
+    //delete the image of the product
+    fs.unlinkSync(`public${product.image_location}`)
 
     //deleting all cart and transactions that fall under the product deleting
     await Cart.deleteMany({ product_id: req.params.id });

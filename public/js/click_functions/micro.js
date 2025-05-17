@@ -71,8 +71,6 @@ export function messagePopup(msg_type,err_status, err_response) {
         load_file = "./templates/success_template.html";
         text_box = ".success-message-text";
     }
-    console.log(msg_type, err_status, err_response);
-    console.log(load_file, text_box);
 
     $(".message-popup").load(load_file, function () {
         $(".message-popup").fadeIn(300);

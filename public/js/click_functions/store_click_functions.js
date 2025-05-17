@@ -1,4 +1,4 @@
-import {updateHTML, messagePopup} from "./micro.js";
+import { updateHTML, messagePopup } from "./micro.js";
 
 
 function refreshPrimaryPage() {
@@ -14,15 +14,16 @@ function deleteProduct(e) {
 
     if (confirm("Are you sure you want to delete this product?")) {
         const api_link = $(e.currentTarget).attr("action");
-        console.log(api_link);
 
         $.ajax({
             url: window.location.origin + api_link,
             type: 'DELETE',
             contentType: 'application/json',
             success: function (data) {
-                alert(data);
-                refreshPrimaryPage();
+                messagePopup("success", 200, data);
+                setTimeout(function () {
+                    refreshPrimaryPage();
+                }, 1000);
             },
             error: function (err) {
                 messagePopup("error", err.status, err.responseText);
@@ -49,17 +50,13 @@ function addProduct(e) {
                 url: window.location.origin + link,
                 type: 'POST',
                 data: formData,
-                processData:false,//prevent jquery from processing data
-                contentType:false,//prevent jquery from setting content type
+                processData: false,//prevent jquery from processing data
+                contentType: false,//prevent jquery from setting content type
                 success: function (data) {
-                    if (data == "Product Exists") {
-                        alert("There is already a product with this name. Please make the name unique.");
-                    } else if (data == "No Category") {
-                        alert("This category does not exist, do you want us to automatically create it?");
-                    } else {
-                        alert(data);
+                    messagePopup("success", 200, data);
+                    setTimeout(function () {
                         refreshPrimaryPage();
-                    }
+                    }, 1000);
                 },
                 error: function (err) {
                     messagePopup("error", err.status, err.responseText);
@@ -76,7 +73,6 @@ function addProduct(e) {
 function updateProduct(e) {
     e.preventDefault();
     const product_card_parent = $(this).parents(".product-card").get(0);
-    console.log(product_card_parent);
 
     const category = $(product_card_parent).find("#category").text().trim();
     const name = $(product_card_parent).find("#name").text().trim();
@@ -124,8 +120,10 @@ function updateProduct(e) {
                         product_id: product_id
                     }),
                     success: function (data) {
-                        alert("Updated the data successfully");
-                        refreshPrimaryPage();
+                        messagePopup("success", 200, data);
+                        setTimeout(function () {
+                            refreshPrimaryPage();
+                        }, 1000);
                     },
                     error: function (err) {
                         messagePopup("error", err.status, err.responseText);
@@ -154,13 +152,13 @@ function seeTransactions(e) {
                     return;
                 }
             }
-            
+
             $.ajax({
                 url: window.location.origin + api_link,
                 type: 'POST',
                 contentType: 'application/json',
                 success: function (data) {
-                    alert("Updated the status successfully");
+                    messagePopup("success", 200, data);
                     seeTransactions(e);
                 },
                 error: function (err) {
@@ -171,7 +169,6 @@ function seeTransactions(e) {
 
         $(".customer-info-button").off("click").on("click", function (e) {
             const api_link = e.target.dataset.transactionid;
-            console.log(api_link);
 
             $.get(window.location.origin + api_link, function (data) {
                 const name = data.name;
@@ -205,9 +202,11 @@ function seeCategories(e) {
                 type: 'DELETE',
                 contentType: 'application/json',
                 success: function (data) {
-                    alert(data);
-                    refreshPrimaryPage();
-                    seeCategories(e);
+                    messagePopup("success", 200, data);
+                    setTimeout(function () {  
+                        refreshPrimaryPage();
+                        seeCategories(e);
+                    },1000);
                 },
                 error: function (err) {
                     messagePopup("error", err.status, err.responseText);
@@ -217,7 +216,7 @@ function seeCategories(e) {
 
         applyOverlayCloseButton();
     }).fail(function (err) {
-        messagePopup("error",err.status, err.responseText);
+        messagePopup("error", err.status, err.responseText);
     });
 }
 

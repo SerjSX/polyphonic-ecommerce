@@ -15,8 +15,9 @@ const storeValidation = asyncHandler(async(req,res,next) => {
         req.storeEmail = decoded.email;
         next(); //prevents infinite looping on the request
     } catch (err) {
-        console.log(err);
-        return res.status(401).render("login", {type_user: "Store", error: "User is not authorized, please login again."});       
+        res.clearCookie('store_access_token');
+        res.status(401).send("Please login to your account.")
+        return -1;
     }
 })
 

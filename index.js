@@ -45,7 +45,6 @@ app.get("/products",async(req,res) => {
     }
 
     const clean_products = products_four.filter(products => products[1].length > 0);
-    console.log(clean_products);
 
     res.render("products", {products_four})
 })

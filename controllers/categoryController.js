@@ -17,7 +17,6 @@ const addCategory = asyncHandler(async (req,res) => {
     }
 
     const categoryCheck = await Category.findOne({name, store_id: req.storeID});
-    console.log(categoryCheck);
 
     if (categoryCheck) {
         return res.status(401).send("This category already exists under your store");

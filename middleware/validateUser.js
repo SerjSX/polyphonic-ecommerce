@@ -15,6 +15,8 @@ const userValidation = asyncHandler(async(req,res,next) => {
         req.userEmail = decoded.email;
         next(); //prevents infinite looping on the request
     } catch (err) {
+        res.clearCookie('user_access_token');
+        res.status(401).send("Please login to your account.")
         return -1;     
     }
 })

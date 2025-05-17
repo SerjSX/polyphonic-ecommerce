@@ -11,7 +11,6 @@ export function clickItemCard(e) {
 
     if (link == "") {
         link = $(e.currentTarget).attr("href");
-        console.log(link);
     }
 
     $.get(link, function (data) {
