@@ -1,6 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lobster&family=Oswald:wght@200..700&display=swap');
 @layer theme, base, components, utilities;
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
+
+@theme {
+  --font-bebas: "Bebas Neue", sans-serif; 
+}
 
 /*FOR PAGE HEADER*/
 .store-header {
@@ -16,11 +21,12 @@
 }
 
 .header-logo {
-    @apply flex-1 justify-center ;
+    @apply flex-1 justify-center;
 }
 
 .header-title {
     @apply block text-teal-600 dark:text-teal-300;
+    @apply font-bebas;
 }
 
 .header-actions {

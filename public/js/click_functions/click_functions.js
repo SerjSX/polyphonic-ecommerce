@@ -18,6 +18,8 @@ export function clickItemCard(e) {
         goBackLink = "/api/user/dashboard";
         updateHTML(data, true, "user");
 
+        $(".message-popup").fadeOut(100);
+
         applyCategoryButtonClick(link);
         applyOverlayCloseButton();
 

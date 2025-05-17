@@ -105,7 +105,7 @@ const updateProduct = asyncHandler(async (req, res) => {
     const { product_name_modifying, name, description, price, installment, product_id } = req.body;
 
     const product_search = await Product.findOne({ name: name, store_id: req.storeID });
-    if (product_search && product_search.name != product_name_modifying) {
+    if (product_search) {
         return res.status(403).send("You cannot use this name since another product exists already under your store.")
     }
 
