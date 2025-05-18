@@ -1,3 +1,4 @@
+//for easier management of the template this is stored in a js file variable
 export const accountChoiceTemplate = `
   <div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-header-content">

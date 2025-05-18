@@ -137,3 +137,9 @@
 .about-description, .contact-description {
     @apply mt-4 text-gray-700;
 }
+
+
+.products-container {
+    @apply mt-8 grid gap-4 sm:grid-cols-3 lg:grid-cols-4;
+    @apply mb-10;
+}

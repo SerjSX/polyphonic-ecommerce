@@ -175,6 +175,7 @@
 
 .order-status {
     @apply text-xs italic text-gray-500;
+    @apply ml-1;
 }
 
 .order-date {

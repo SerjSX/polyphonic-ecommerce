@@ -1,5 +1,7 @@
 const enterContainer = $('.enter-container');
 
+// This template is for the login modal popup, the functions below replace the REPLACE
+// with the account type (user or store) and the login/logout/register
 const template = `<div class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <div class="modal-container">
     <div class="modal-header-content w-full">
@@ -43,34 +45,40 @@ const template = `<div class="modal-overlay" role="dialog" aria-modal="true" ari
   </div>
 </div>`;
 
-
+// This function applies the click functions to the user login button
 export function userLoginButtonClick(e) {
   //user login button's click event
   e.preventDefault();
   processLoginOperation("user");
 };
 
+// This function applies the click functions to the store login button
 export function storeLoginButtonClick(e) {
   //user login button's click event
   e.preventDefault();
   processLoginOperation("store");
-
 };
 
 //To prevent duplicate operations, this is a unified function that changes
 // whatever needed based on the account type passed (user or store)
 function processLoginOperation(acc_type) {
+  //Removes the enterContainer div to make the transition smoother
   enterContainer.css({ "display": "none" });
 
+  //Replaces the html of the enterContainer div with the login template
   enterContainer.html(template.replaceAll('REPLACE', acc_type));
 
+  //Fades in the element
   enterContainer.fadeIn(1000);
 
+  //Grabs the login form from the DOM to apply submiting event
   const loginForm = $(`#${acc_type}-login-form`);
 
+  //Adding a submit event listener to the login form
   loginForm.on('submit', function (e) {
     e.preventDefault();
 
+    // Grabs the email and password input fields from the DOM
     const email = $('#email').val();
     const password = $('#password').val();
 
@@ -80,6 +88,7 @@ function processLoginOperation(acc_type) {
       return;
     }
 
+    // Sends the login request to the server with the login credentials
     $.ajax({
       url: window.location.origin + `/api/${acc_type}/login`,
       type: 'POST',
@@ -89,6 +98,8 @@ function processLoginOperation(acc_type) {
         password: password
       }),
       success: function (data) {
+        // If the login is successful, we apply the button clicks from another js file (click_functions/click_functions.js)
+        // which is responsible for buttons like adding products, seeing orders, and so on based on the type of the account
         const import_src = (acc_type == "user") ? "../click_functions/click_functions.js" : "../click_functions/store_click_functions.js";
         import(import_src).then(module => {
           module.applyButtonClicks(data);
@@ -96,6 +107,8 @@ function processLoginOperation(acc_type) {
 
       },
       error: function (err) {
+        // If the login fails, we show an error message
+        // and focus on the email input field for the user to try again
         console.error('Error in login:', err);
         alert('Login failed. Please check your credentials and try again.');
         $("#email").focus();
@@ -103,6 +116,7 @@ function processLoginOperation(acc_type) {
     })
   })
 
+  //Adding a click event listener for closing the enterContainer div
   $(".modal-close-button").off("click").on("click", function () {
     closeMenu()
   })
@@ -111,6 +125,8 @@ function processLoginOperation(acc_type) {
   import("./register.js").then(module => {
     const registerShortcut = $("#register-shortcut");
     
+    //Based on the account type, we change the register button's action
+    // to either user or store
     if (acc_type == "user") {
       registerShortcut.on('click', module.userRegisterButtonClick);
     } else {

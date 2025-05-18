@@ -1,3 +1,4 @@
+//this container is where login/register html is injected
 const enterContainer = $('.enter-container');
 
 // we export this function since it can be called again from the login page.
@@ -13,13 +14,17 @@ export function storeRegisterButtonClick(e) {
     processRegister("store");
 }
 
+//fadesout the enterContainer div, primarily for close buttons
 function closeMenu() {
     enterContainer.fadeOut(300);
 }
 
+//This function is unified to handle both user and store registration
 function processRegister(connect_type) {
     let register_html;
 
+    //The HTML to inject into the enterContainer div is based on the type of account 
+    // as the forms used are different
     if (connect_type === "user") {
       register_html = `<div class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <div class="modal-container">
@@ -158,21 +163,24 @@ function processRegister(connect_type) {
     }
     
     
-
-    // login button's click event
+    //hiding enterContainer
     enterContainer.css({ "display": "none" });
 
+    //Putting the data in 
     enterContainer.html(register_html);
 
+    //Fading in the entercontainer element
     enterContainer.fadeIn(1000);
 
-    // implement user register back
+    // implement user register submit event on the form based on the type of account
     $(`#${connect_type}-register-form`).on('submit', function (e) {
         e.preventDefault();
 
         //getting the data for the form to pass to the backend api
         const formData = new FormData(this);
 
+        //sending the data to the backend api
+        //the api link is based on the type of account
         $.ajax({
             url: window.location.origin + `/api/${connect_type}/register`,
             type: 'POST',
@@ -180,6 +188,8 @@ function processRegister(connect_type) {
             processData:false,
             contentType: false,
             success: function (data) {
+              //if the data is success, that means the account was created successfully
+                //so we close the menu and show a success alert
                 if (data == "Success") {
                     alert("Registration successful. You can now login to your account.")
                     closeMenu();
@@ -195,6 +205,7 @@ function processRegister(connect_type) {
         });
     })
 
+    //Adding a click event listener for closing the enterContainer div
     $(".modal-close-button").off("click").on("click", function () {
         closeMenu();
     })

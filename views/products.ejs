@@ -73,9 +73,9 @@
                     </h3>
                 </header>
 
-                <ul class="category-product-grid">
+                <div class="products-container">
                     <% products.forEach(function(product) { %>
-                        <li class="product-card">
+                        <div class="product-card">
                             <img src="<%= product.image_location %>" alt="<%= product.name %>" class="product-image" />
 
                             <div class="product-content">
@@ -86,9 +86,9 @@
                                     $<%= Number.parseFloat(product.price).toFixed(2) %>
                                 </p>
                             </div>
-                        </li>
+                        </div>
                         <% }); %>
-                </ul>
+                </div>
             </section>
             <% }}); %>
 

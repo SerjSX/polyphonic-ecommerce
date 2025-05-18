@@ -40,11 +40,7 @@ ul {
 }
 
 button {
-    @apply border-none;
-}
-
-button:not(.no-click) {
-    @apply cursor-pointer;
+    @apply border-none cursor-pointer;
 }
 
 /* MAIN CONTENT AREA */

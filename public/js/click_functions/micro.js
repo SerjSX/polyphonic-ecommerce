@@ -11,47 +11,28 @@ export function updateHTML(data, overlay, acc_type) {
 
 
     // Extract the header, main content and footer depending if it's an overlay or no. Overlay is something like seeing
-    // user cart, since it's a popup on the page.
+    // user cart, since it's a popup on the page. Sidebars fall under this category as well.
     if (overlay == true) {
         $(".overlay").fadeOut(300, function () { $(this).remove(); });
-        $("body").prepend(tempBody.querySelector(".overlay"));//clearing the content in the sidebar-overlay section element
 
+        //Adding the overlay element that was passed as data to the body's beginning.
+        $("body").prepend(tempBody.querySelector(".overlay"));
+
+        //Fades in the overlay element
         $(".overlay").fadeIn(300);
     } else {
-        // Getting how many overlay headers we have, this tells us if there was an overlay before already.
-        // this way we can back it up to show it again later
-        const overlay_count = $(".overlay").length;
-
-        if (overlay_count == 1) {
-            //clearing the body of the current page to insert the new page 
-            overlay = $("body").find(".overlay");
-        }
-
+        //Clearing the body element
         $("body").html("");
 
-        const contentOne = "header";
-        const contentLowerMid = ".enter-container";
-        const contentTwo = "main";
-
-        let mainContent = tempBody.querySelector(contentTwo);
-        let lowMidContent = tempBody.querySelector(contentLowerMid);
-        let headerContent = tempBody.querySelector(contentOne);
+        //Adding the header and main content to the body
+        let mainContent = tempBody.querySelector("main");
+        let lowMidContent = tempBody.querySelector(".enter-container");
+        let headerContent = tempBody.querySelector("header");
         $("body").append(lowMidContent);
         $("body").append(mainContent);
         $("body").prepend(headerContent);
 
-        if (overlay_count == 1) {
-            if (acc_type == "store") {
-                import("./store_click_functions.js").then(module => {
-                    module.applyOverlayCloseButton();
-                });
-            } else if (acc_type == "user") {
-                import("./click_functions.js").then(module => {
-                    module.applyOverlayCloseButton();
-                });
-            }
-        }
-
+        //Fades in the main content
         $("main").fadeIn(500);
     }
 }
@@ -59,20 +40,24 @@ export function updateHTML(data, overlay, acc_type) {
 //this is for timeouts later in messagePopup function
 var timeout;
 
-export function messagePopup(msg_type,err_status, err_response) {
+//This function is used to show a message popup on the screen, it takes in the type of message (error or success),
+// the status code and the message to be displayed. It uses jQuery to load a template from a file and then displays
+export function messagePopup(msg_type, err_status, err_response) {
     //clears previous timeout so there won't be double.
     clearTimeout(timeout);
-    
-    let load_file,text_box;
+
+    //If the message type is error, it loads the error template, if it's success, it loads the success template
+    let load_file, text_box;
     if (msg_type == "error") {
         load_file = "./templates/error_template.html";
         text_box = ".error-message-text";
-    } else if (msg_type == "success") { 
+    } else if (msg_type == "success") {
         load_file = "./templates/success_template.html";
         text_box = ".success-message-text";
     }
 
     $(".message-popup").load(load_file, function () {
+        //Fades in the message popup, enters the error response text into the text box and sets a timeout to fade out the message popup after 2 seconds
         $(".message-popup").fadeIn(300);
         $(".message-popup").find(text_box).text(err_response);
         timeout = setTimeout(function () {
@@ -82,23 +67,17 @@ export function messagePopup(msg_type,err_status, err_response) {
         }, 2000);
     })
 
+    //If the message type is error, it checks the status code and if it's 401, it reloads the page, if it's 404, it fades out the overlay
     if (msg_type == "error") {
         if (err_status === 401) {
             location.reload();
         } else if (err_status === 404) {
             $(".overlay").fadeOut(300);
         }
-        
+
         console.log(`Error Status: ${err_status}\nMessage: ${err_response}`);
 
     }
 
 
-}
-
-//Adds the closing functionality of overlays open, to prevent repetitive code.
-export function applyOverlayCloseButton(acc_type) {
-    $("#close-button").off("click").on("click", function () {
-        $(".overlay").fadeOut(300);
-    })
 }

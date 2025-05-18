@@ -15,7 +15,6 @@ router.post("/login", loginStore);
 router.post("/logout", storeValidation, logoutStore);
 
 // Category related
-router.post("/category/add", storeValidation, addCategory);
 router.delete("/category/delete/:id", storeValidation, deleteCategory);
 router.get("/category/get", storeValidation, getCategories);
 
