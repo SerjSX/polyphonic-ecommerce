@@ -44,5 +44,6 @@ The .env file is not included as it has confidential links and access keys, so y
 
 ## Some screenshots from Store Account
 ![image](https://github.com/user-attachments/assets/62b851b5-0242-4905-a628-f35ed646ef5a)
+![image](https://github.com/user-attachments/assets/47528c81-6c69-46bd-8957-7a89fe3b1e3c)
 ![image](https://github.com/user-attachments/assets/1954b120-d93b-45a0-acb3-6ff341a2e828)
 ![image](https://github.com/user-attachments/assets/242c26c0-5b50-4624-a6fe-121228d1d177)
