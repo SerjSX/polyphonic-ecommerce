@@ -26,3 +26,23 @@ This is an instrument oriented ecommerce/marketplace website where both user and
 ---
 ### Note
 The .env file is not included as it has confidential links and access keys, so you won't be able to run the program properly with the source code. 
+
+
+---
+
+## Some Screenshots from User Account and Landpage
+![image](https://github.com/user-attachments/assets/7ed09e6b-cd71-413f-b2eb-622034335870)
+![image](https://github.com/user-attachments/assets/374be99b-9eae-413e-a9cd-351d7a633951)
+![image](https://github.com/user-attachments/assets/24a36d68-c138-4a7e-8d52-aa49ab0416f4)
+![image](https://github.com/user-attachments/assets/de6665f7-8f7e-48b3-8d28-932cd3d3b181)
+
+
+
+---
+
+
+
+## Some screenshots from Store Account
+![image](https://github.com/user-attachments/assets/62b851b5-0242-4905-a628-f35ed646ef5a)
+![image](https://github.com/user-attachments/assets/1954b120-d93b-45a0-acb3-6ff341a2e828)
+![image](https://github.com/user-attachments/assets/242c26c0-5b50-4624-a6fe-121228d1d177)
