@@ -72,7 +72,6 @@ button {
 
 .product-image {
     @apply h-[300px] w-fit object-fill transition duration-500 group-hover:scale-105;
-    @apply sm:h-[200px] md:h-[250px] md:w-[250px];
 }
 
 .product-content {
@@ -110,7 +109,7 @@ button {
 
 /*SPECIFICALLY FOR STORE LISTINGS in views/user/dashboard.ejs*/
 .store-grid {
-    @apply mt-4 grid gap-4 sm:grid-cols-3 lg:grid-cols-4;
+    @apply mt-4 grid gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5;
 }
 
 .store-card {
