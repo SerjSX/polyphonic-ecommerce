@@ -71,7 +71,7 @@ button {
 }
 
 .product-image {
-    @apply h-[300px] w-fit object-fill transition duration-500 group-hover:scale-105;
+    @apply h-[300px] md:h-[200px] w-fit object-fill transition duration-500 group-hover:scale-105;
 }
 
 .product-content {

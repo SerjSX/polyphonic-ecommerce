@@ -544,6 +544,9 @@ button {
       scale: var(--tw-scale-x) var(--tw-scale-y);
     }
   }
+  @media (width >= 48rem) {
+    height: 200px;
+  }
 }
 .product-content {
   position: relative;
