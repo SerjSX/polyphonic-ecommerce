@@ -115,32 +115,64 @@ const getOrders = asyncHandler(async (req,res) => {
     // Use aggregation to join transactions with products
     // Since we will also display the product name and price in the orders page which are from another model
     // We will use the $lookup operator to join the two collections in order to use data from two collections/models
-    const returnProducts = await Transaction.aggregate([
+    const orders = await Transaction.aggregate([
         { $match: { user_id: new mongoose.Types.ObjectId(user_id) } },
         { $sort: { purchase_date: 1 } },
         {
-            $lookup: {
-                from: "products",
-                localField: "product_id",
-                foreignField: "_id",
-                as: "product"
+            $project: {
+                _id: 1,
+                order_status: 1,
+                purchase_date: 1,
+                products: 1
             }
         },
-        { $unwind: { path: "$product", preserveNullAndEmptyArrays: true } },
+        { $unwind: "$products" },
+        {
+            $lookup: {
+                from: "products",
+                localField: "products.product_id",
+                foreignField: "_id",
+                as: "productInfo"
+            }
+        },
+        { $unwind: { path: "$productInfo", preserveNullAndEmptyArrays: true } },
+        {
+            $lookup: {
+                from: "stores",
+                localField: "productInfo.store_id",
+                foreignField: "_id",
+                as: "storeInfo"
+            }
+        },
+        { $unwind: { path: "$storeInfo", preserveNullAndEmptyArrays: true } },
+        {
+            $addFields: {
+                "products.name": { $ifNull: ["$productInfo.name", "Unknown"] },
+                "products.price": { $ifNull: ["$productInfo.price", 0] },
+                "products.store_name": { $ifNull: ["$storeInfo.name", "Unknown"] }
+            }
+        },
+        {
+            $group: {
+                _id: "$_id",
+                order_status: { $first: "$order_status" },
+                purchase_date: { $first: "$purchase_date" },
+                products: { $push: "$products" }
+            }
+        },
         {
             $project: {
                 id: "$_id",
-                name: { $ifNull: ["$product.name", "Unknown"] },
-                status: "$order_status",
-                price: { $ifNull: ["$product.price", 0] },
-                purchase_date: 1
+                order_status: 1,
+                purchase_date: 1,
+                products: 1,
+                _id: 0
             }
         }
     ]);
 
-
-    if (returnProducts.length > 0) {
-        res.status(200).render('user/orders', {orders: returnProducts});
+    if (orders.length > 0) {
+        res.status(200).render('user/orders', {orders});
     } else {
         res.status(404).send("No orders!");
     }

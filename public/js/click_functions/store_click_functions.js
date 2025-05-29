@@ -145,13 +145,15 @@ function seeTransactions(e) {
         $(".status-button").off("click").on("click", function (e) {
             e.preventDefault();
             const value_clicked = $(e.currentTarget).attr("value");
-            const api_link = $(e.currentTarget).parent().attr("action") + "-" + value_clicked;
+            const api_link = $(e.currentTarget).parent().attr("action") + "/" + value_clicked;
 
             if (value_clicked == "completed") {
-                if (!confirm('Please note that once you confirm, this transaction will be completed and archived. You will not be able to see it anymore. Are you sure you want to mark it as complete?')) {
+                if (!confirm('Please note that once you confirm, this transaction will be completed and archived once all products in this transaction are completed. Are you sure you want to proceed?')) {
                     return;
                 }
-            }
+            } 
+
+            console.log(api_link);
 
             $.ajax({
                 url: window.location.origin + api_link,

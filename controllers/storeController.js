@@ -114,10 +114,8 @@ async function getStores() {
 //@route GET /api/store/get-client/:id
 //@access PRIVATE
 const getClientInfo = (async (req,res) => {
-    //Find the transaction by ID and get the user_id
     //Find the user by ID and get the name, email, address, and phone number
-    const transaction = await Transaction.findOne({_id: req.params.id}, {user_id:1});
-    const customer = await User.findOne({_id: transaction.user_id}, {name:1, email:1, address:1, phone_number:1});
+    const customer = await User.findOne({_id: req.params.id}, {name:1, email:1, address:1, phone_number:1});
     
     //this most likely will NOT be needed as the store interface shows the available list of transactions.
     //additionally when people try to access the api link separately they will fail to do so since 

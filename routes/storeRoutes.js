@@ -28,7 +28,7 @@ router.post("/product/update", storeValidation, updateProduct);
 
 // Transaction related
 router.get("/transactions", storeValidation, getTransactions)
-router.post("/transaction/set-status/:id-:status", storeValidation, updateTransactionStatus)
+router.post("/transaction/set-status/:transaction_id/:product_id/:status", storeValidation, updateTransactionStatus)
 
 // Customer related
 router.get("/get-client/:id", storeValidation, getClientInfo);

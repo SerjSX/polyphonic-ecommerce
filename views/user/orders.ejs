@@ -20,37 +20,45 @@
                   <%} else {%>
                 <li class="order-item">
                   <%}%>
+                    <h5 class="text-center">Order #<%= order.id %></h5>
+
                     <div class="order-header">
-                      <div>
-                        <h3 class="order-info">
-                          <%= order.name %>
-                        </h3>
-                        <h5 class="order-price">$<%= order.price %>
-                        </h5>
-                      </div>
-                      <p class="order-status">
-                        <%= order.status %>
-                      </p>
+                      <% order.products.forEach(product=> { %>
+                        <div>
+                          <h3 class="order-info">
+                            <%= product.name %> - <span class="italic"><%= product.store_name %></span>
+                          </h3>
+
+                          <h5 class="order-price">
+                            $<%= product.price %> - <span class="italic"><%= product.single_order_status %></span>
+                          </h5>
+                        </div>
+                        <% }); %>
                     </div>
+
+
+                    <p class="order-status">
+                      <%= order.order_status %>
+                    </p>
 
                     <p class="order-date">
                       <%= order.purchase_date %>
                     </p>
 
-                    <form action="/api/user/order/<%=order.id%>" method="post" class="delete-button-form text-right">
-                      <% if (order.status=="pending" ) { %>
+
+                    <form <% if (order.order_status!="pending") {%> inert <% } %> action="/api/user/order/<%=order.id%>" method="post" class="delete-button-form text-right">
+                      <% if (order.order_status=="pending" ) { %> 
                         <button title="Cancel order" type="submit" class="cancel-button">
                           Cancel Order
                         </button>
                         <% } else { %>
-                          <button title="Your order is no longer pending. You can't cancel." type="submit"
+                          <button type="submit"
                             class="cancel-button-disabled" disabled>
                             Cancel Order
                           </button>
                           <% } %>
                     </form>
                 </li>
-
                 <% }); %>
             </ul>
           </div>

@@ -115,7 +115,8 @@
     @apply block text-sm font-medium text-gray-400;
 }
 
-.form-input,.form-textarea {
+.form-input,
+.form-textarea {
     @apply w-full rounded-lg border-none p-2.5 text-sm shadow-sm focus:border-0 focus:border-blue-500 focus:ring-blue-500;
 }
 
@@ -162,7 +163,9 @@
 }
 
 .order-header {
-    @apply mb-2 flex justify-between;
+    @apply mb-2 flex flex-wrap justify-between;
+    @apply max-h-52 overflow-x-scroll shadow-2xl shadow-blue-50;
+    @apply p-5 rounded-2xl;
 }
 
 .order-info {
@@ -221,4 +224,26 @@
 
 .store-empty {
     @apply mt-6 px-4 py-6 text-center text-sm text-gray-500;
+}
+
+
+/* For transactions sidebar product showing */
+.transaction-header {
+    @apply border-b border-gray-100 pb-3 mb-4;
+}
+
+.products-list {
+    @apply space-y-3;
+}
+
+.product-item {
+    @apply border border-gray-200 rounded-lg p-3 bg-gray-50;
+}
+
+.product-status {
+    @apply text-xs text-gray-500 italic;
+}
+
+.product-actions .status-form {
+    @apply flex gap-1;
 }

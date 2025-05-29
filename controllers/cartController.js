@@ -80,25 +80,22 @@ const confirmCart = asyncHandler(async (req, res) => {
 
     // Check if the user has any items in the cart
     // If not, send a 404 status with a message
-    const cart_items = await Cart.find({ user_id });
+    const cart_items = await Cart.find({ user_id }, {product_id: 1, store_id: 1 });
     if (cart_items.length == 0) {
         return res.status(404).send("Your cart is empty!");
     }
 
     //Add each cart item to the transactions collection and then delete the cart item
     // from the cart collection
-    for (const item of cart_items) {
-        Transaction.create({
-            product_id: item.product_id,
-            user_id: item.user_id,
+    Transaction.create({
+            user_id: req.userID,
+            products: cart_items,
             purchase_date: Date.now(),
             order_status: "pending", // Set the order status to pending by default
-            store_id: item.store_id
-        });
+    });
 
-        // Delete the cart item from the cart collection
-        await Cart.deleteOne({ _id: item._id });
-    }
+    // Delete the cart item from the cart collection
+    await Cart.deleteMany({ user_id });
 
     // Send a 200 status with a success message
     res.status(200).send("Submitted your order! The stores will contact you soon.");
